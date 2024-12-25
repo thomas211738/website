@@ -1,25 +1,35 @@
-import { useState } from 'react'
-import './App.css'
+// src/App.tsx
+import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import Brothers from './pages/Brothers';
+import Rush from './pages/Rush';
+import Contact from './pages/Contact';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(23)
-
   return (
-    <>
-      <h1>KTP Lambda Class</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 2)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      {/* Simple Nav Bar */}
+      <nav style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/brothers">Brothers</Link>
+        <Link to="/rush">Rush</Link>
+        <Link to="/contact">Contact</Link>
+      </nav>
+
+      {/* Route Definitions */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/brothers" element={<Brothers />} />
+        <Route path="/rush" element={<Rush />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </div>
+  );
 }
 
-export default App
+export default App;
