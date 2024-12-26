@@ -1,33 +1,33 @@
 // src/App.tsx
-import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Brothers from './pages/Brothers';
 import Rush from './pages/Rush';
 import Contact from './pages/Contact';
-import './App.css';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App">
-      {/* Simple Nav Bar */}
-      <nav style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/brothers">Brothers</Link>
-        <Link to="/rush">Rush</Link>
-        <Link to="/contact">Contact</Link>
-      </nav>
+    <div className="flex flex-col min-h-screen">
+      {/* Header at the top */}
+      <Header />
 
-      {/* Route Definitions */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/brothers" element={<Brothers />} />
-        <Route path="/rush" element={<Rush />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+      {/* Main content area (grow to fill) */}
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/brothers" element={<Brothers />} />
+          <Route path="/rush" element={<Rush />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </main>
+
+      {/* Footer at the bottom */}
+      <Footer />
     </div>
   );
 }
