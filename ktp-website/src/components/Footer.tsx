@@ -1,10 +1,12 @@
 // src/components/Footer.tsx
 
+import Icons from './Icons';
+
 function Footer() {
   return (
     <footer className="bg-gray-100 py-4 mt-8">
       <div className="container mx-auto text-center">
-        <p className="text-gray-700">Follow us on social media:</p>
+        <p className="text-gray-700 font-bold">Follow us on social media</p>
         <ul className="flex justify-center space-x-4 mt-2">
           <li>
             <a
@@ -13,7 +15,7 @@ function Footer() {
               rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-800"
             >
-              Instagram
+              <Icons.Instagram/>
             </a>
           </li>
           <li>
@@ -23,7 +25,7 @@ function Footer() {
               rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-800"
             >
-              Facebook
+              <Icons.Facebook/>
             </a>
           </li>
           <li>
@@ -33,7 +35,7 @@ function Footer() {
               rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-800"
             >
-              LinkedIn
+              <Icons.Linkedin/>
             </a>
           </li>
         </ul>
