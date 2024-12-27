@@ -8,32 +8,32 @@ function Footer() {
         <ul className="flex justify-center space-x-4 mt-2">
           <li>
             <a
-              href="https://twitter.com/ktp"
+              href="https://instagram.com/ktpbostonu"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:text-blue-700"
-            >
-              Twitter
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://instagram.com/ktp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-pink-600 hover:text-pink-800"
+              className="text-blue-600 hover:text-blue-800"
             >
               Instagram
             </a>
           </li>
           <li>
             <a
-              href="https://facebook.com/ktp"
+              href="https://facebook.com/ktpbostonu"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-800"
             >
               Facebook
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.linkedin.com/company/kappa-theta-pi-lambda-chapter/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800"
+            >
+              LinkedIn
             </a>
           </li>
         </ul>
