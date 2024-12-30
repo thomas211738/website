@@ -1,0 +1,50 @@
+[
+    {
+        "id": "accomplishments",
+        "sources": [
+            "Nearly half of our brothers have previous experience completing internships or research. Example companies for our internships Amazon, JP Morgan Chase, PwC, Comcast, John Hancock, Viasat, General Dynamics, Tiffany & Co, Textron, Lberty Mutual, Bank of New York Mellon, and the MBTA. We've completed research at Boston University, MIT, Carnegie Mellon University, and many private labs.",
+            "The app committee has completed various projects, including this website and the Boston KTP app."
+        ],
+        "metadata": { "topic": "accomplishments" }
+    },
+    {
+        "id": "events",
+        "sources": [
+            "Example past social events include formal, an organized salsa class, paint night, pumpkin carving, secret santa, golfing, study hours, potlucks, parties, and mixers. Example past professional events include an early careers panel, internship and research panels, networking events with other organizations on campus, hackathons, and various guest speakers such as BU alumna Jenny Grubber, current Chief of the Operations Integration Branch at NASA. Example past philantropic events include the cleanup of Revere Beach and a fundraiser for breast cancer awareness. Example past workshop topics include DEI, LinkedIn, resume, machine learning, website development, robotics, and Figma."
+        ],
+        "metadata": { "topic": "events" }
+    },
+    {
+        "id": "general",
+        "sources": [
+            "Kappa Theta Pi maintains upholds equal opportunity for all persons and does not discriminate on the basis of gender, race, color, national origin, age, martial status, sex, sexual orientation, gender expression, disability, religion, height, weight, or veteran status in its membership or activities.",
+
+            "Kappa Theta Pi's Lambda Chapter is a co-ed professional fraternity at Boston University. It is the first and only professional technology fraternity in the country. Kappa Theta Pi works to build an active community of students with a shared interest in technology. It sponsors events and activities aimed toward intellectual, social, and professional development. It provides academic and professional resources to members. It fosters relationships among the local community, and with corporations. It provides service and philanthropy to the local community. It works to maintain lifelong cooperation and friendship among its members. The core pillars of KTP are professional development, alumni connections, social growth, technological advancement, and academic support. Together these pillars form the acronym PASTA.",
+
+            "Anyone with a passion for technology can join KTP. There are no limitations on majors. Students should join KTP because it will provide them with opportunities to pursue personal and academic goals, enable them to form social and professional connections with peers pursuing similar interests, and allow them to explore multiple areas/majors involved with technology to gain an interdisciplinary approach. Brothers will receive both academic and professional guidance and become part of an ever-expanding network.",
+
+            "If you want to join or stay in contact, follow @ktpbostonu on instagram and download the Boston KTP app (currently not available on android). Reach out to a member of the eboard if you have any further questions.",
+
+            "We have an extremely diverse group of brothers on campus. We have brothers majoring in nearly every college at Boston University, from CAS, CDS, and ENG to COM and CGS. We have brothers participating in both varsity and club sports, including swimming, golf, sailing, triathalon, and rugby. Additionally, we have several accomplished members of the BU powerlifting team. We have brothers who are also members and leadership in other organizations, including Women in Computer Science (WiCS), Society of Women Engineers (SWE), BU Finance & Investment Club, and various dance teams."
+        ],
+        "metadata": { "topic": "general" }
+    },
+    {
+        "id": "history",
+        "sources": [
+            "Kappa Theta Pi (KTP) was conceived in December 2011 by Louise Vongphrachanh and Jing Guo at the University of Michigan. It was officially founded on January 10, 2012 with the mission to create a community for students enthusiastic about technology. It is the first and only professional technology fraternity in the country.",
+
+            "The Lambda chapter of Kappa Theta Pi (KTP) was founded at Boston University by Paul Lee and Tye Robison on October 10, 2022. The first rush for the Alpha Pledge Class was compled on February 16, 2023."
+        ],
+        "metadata": { "topic": "history" }
+    },
+    {
+        "id": "leadership",
+        "sources": [
+            "The leadership hierarchical structure starts with the eboard at the top, followed by directors, then followed by committees.",
+
+            "The eboard in the spring 2025 semester is as follows. Co-Presidents: Yana Pathak, Ryan Chase. VP of Membership: Makayla Tajalle. VP of Engagement: Darren Leong. VP of Technical Development: John Kim. VP of Professional Development: Cooper Hassman. VP of Internal Affairs: Julianna Perucci. VP of External Affairs: Aaliyah Aman. VP of Finance: Fynn Buesnel. VP of Marketing: Jennifer Ji. VP of Recruitment: Obi Eke."
+        ],
+        "metadata": { "topic": "leadership" }
+    }
+]
