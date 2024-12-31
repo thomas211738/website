@@ -60,7 +60,7 @@ function Brothers() {
         const pictureResponse = await axios.get(`${backendUrl}/websitePics`);
   
         let users = userResponse.data.data;
-        users = users.filter((user) => user.Position === 2 || user.Position === 3);
+        users = users.filter((user) => user.Position === 2 || user.Position === 3 || user.Position ===5);
         const pictures = pictureResponse.data.data;
   
         // Join users with pictures based on `_id` and `websitePic`
@@ -88,7 +88,7 @@ function Brothers() {
           };
         });
         // Categorize into brothers and e-board members
-        const brothers = brothersWithPictures.filter((user) => user.Position === 2);
+        const brothers = brothersWithPictures.filter((user) => user.Position === 2 || user.Position ===5);
         const eboardMembers = brothersWithPictures.filter((user) => user.Position === 3);
   
         // Update state
