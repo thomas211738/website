@@ -1,11 +1,32 @@
-// src/components/Header.tsx
 import { Link } from 'react-router-dom';
+import ktplogo from '../img/KTPLogo.jpeg';
+import { useState, useEffect } from 'react';
 
 function Header() {
+const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   return (
-    <header className="flex items-center justify-between px-6 py-4 bg-gray-100">
-      {/* Left: KTP logo/text */}
-      <h1 className="text-2xl font-bold text-gray-800">KTP</h1>
+    <header
+      className={`sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-white ${
+        isScrolled ? 'shadow-md' : ''
+      } transition-shadow duration-300`}
+    >
+      {/* Left: KTP logo as an image */}
+      <img
+        src={ktplogo}
+        alt="KTP Logo"
+        className="h-10"
+      />
 
       {/* Right: Navigation */}
       <nav className="space-x-4">
