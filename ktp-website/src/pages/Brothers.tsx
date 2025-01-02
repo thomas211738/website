@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import fallbackImage from "../img/KTPLogo.jpeg";
-import LinkedinIcon from '../assets/linkedin-icon';
 import Icons from '../components/Icons';
 
 
