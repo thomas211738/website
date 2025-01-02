@@ -1,3 +1,6 @@
 node_modules
 .env
+/assistant/venv
+/assistant/functions/__pycache__
+/assistant/functions/venv
 /assistant/functions/.env
