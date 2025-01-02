@@ -7,5 +7,5 @@ services:
     volumes:
       - ./:/assistant
     env_file:
-      - ../.env
+      - ./functions/.env
     restart: unless-stopped
