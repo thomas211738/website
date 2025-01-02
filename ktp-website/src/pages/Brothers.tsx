@@ -11,6 +11,7 @@ function Brothers() {
   const [activeTab, setActiveTab] = useState("Actives");
   const [brotherName, setBrotherName] = useState([]);
   const [eboardName, setEboardName] = useState([]);
+  const [alumniName,setAlumniName] = useState([]);
 
 
   //TypeWriter Functions
@@ -76,6 +77,8 @@ function Brothers() {
         const pictureResponse = await axios.get(`${backendUrl}/websitePics`);
         console.log("Loaded Data")
         let users = userResponse.data.data;
+        let alumni = users.filter((user) => user.Position === 4);
+        setAlumniName(alumni)
         users = users.filter((user) => user.Position === 2 || user.Position === 3 || user.Position ===5);
         const pictures = pictureResponse.data.data;
   
@@ -156,12 +159,20 @@ function Brothers() {
         >
           E-Board
         </button>
+        <button
+          className={`font-bold ${
+            activeTab === "Alumni" ? "text-black border-b-2 border-black" : "text-gray-400"
+          }`}
+          onClick={() => setActiveTab("Alumni")}
+        >
+          Alumni
+        </button>
       </div>
 
 
       {/* Conditional Rendering Based on Active Tab */}
       <div className="mt-6 w-full text-center">
-        {activeTab === "Actives" ? (
+        {activeTab === "Actives" && (
           // Show Brothers grouped and sorted by Custom Order
           <div>
             {brotherName.length === 0 ? ( // Check if brothers are still loading
@@ -183,8 +194,17 @@ function Brothers() {
                     <ul className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-5 mx-auto max-w-7xl text-gray-700">
                       {brothers.map((brother, index) => (
                         <li key={index} className="flex flex-col items-center justify-between text-center space-y-2 group">
-                          {/* Profile Image */}
-                          <div className="relative w-56 h-56">
+                          {/* Profile Image and linkedIn */}
+                          <a
+                            href={
+                              brother.LinkedIn 
+                                ? `https://www.linkedin.com/in/${brother.LinkedIn}` 
+                                : "https://www.linkedin.com/company/kappa-theta-pi-lambda-chapter/"
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="relative w-56 h-56"
+                          >
                             <img
                               src={brother.pictureUrl}
                               alt={`${brother.FirstName || "Unknown"} ${brother.LastName || "Brother"}`}
@@ -194,7 +214,7 @@ function Brothers() {
                             <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                               <Icons.Linkedin/>
                             </div>
-                          </div>
+                          </a>
                           <span>
                             {brother.FirstName} {brother.LastName}
                           </span>
@@ -205,7 +225,8 @@ function Brothers() {
                 ))
             )}
           </div>
-        ) : (
+        )}
+        {activeTab === "E-Board" && (
           // Show E-Board Members
           <div className="mt-6">
           {/* Header */}
@@ -220,7 +241,17 @@ function Brothers() {
                   className="flex flex-col items-center justify-between text-center space-y-1 group"
                 >
                   {/* Profile Image */}
-                  <div className="relative w-56 h-56">
+                  {/* Profile Image and linkedIn */}
+                  <a
+                    href={
+                      member.LinkedIn 
+                        ? `https://www.linkedin.com/in/${member.LinkedIn}` 
+                        : "https://www.linkedin.com/company/kappa-theta-pi-lambda-chapter/"
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative w-56 h-56"
+                    >
                     <img
                       src={member.pictureUrl}
                       alt={`${member.FirstName || "Unknown"} ${member.LastName || "Member"}`}
@@ -230,7 +261,7 @@ function Brothers() {
                     <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <Icons.Linkedin />
                     </div>
-                  </div>
+                  </a>
                   <span>
                     {member.FirstName} {member.LastName}
                   </span>
@@ -244,7 +275,31 @@ function Brothers() {
           </ul>
         </div>
         )}
-      </div>
+        {activeTab === "Alumni" && (
+          <div className="mt-6">
+            <h2 className="text-xl items-center text-center font-semibold mb-12">
+              Kappa Theta Pi Alumni
+            </h2>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 mx-auto max-w-6xl text-gray-700">
+              {alumniName.length > 0 ? (
+                alumniName.map((alumnus, index) => (
+                  <li
+                    key={index}
+                    className="text-lg text-center"
+                  >
+                    {alumnus.FirstName} {alumnus.LastName}
+                  </li>
+                ))
+              ) : (
+                <p>Loading alumni...</p>
+              )}
+            </ul>
+          </div>
+        )}
+      </div> {/* Last Div for the brothers/eboard/alumni*/}
+
+
+    {/* Last Div for the brothers/eboard/alumni*/}
     </div>
   );
 }
