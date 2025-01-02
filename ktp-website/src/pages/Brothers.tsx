@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import fallbackImage from "../img/KTPLogo.jpeg";
+import LinkedinIcon from '../assets/linkedin-icon';
+import Icons from '../components/Icons';
 
 
 function Brothers() {
@@ -120,9 +122,10 @@ function Brothers() {
 
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
+    <div className="w-full py-8 px-4">
       {/* Typewriter Effect */}
-      <div className="text-center">
+      {/* Centered Header */}
+      <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-3xl font-bold mb-4">
           Our Brothers Are{" "}
           <span className="underline decoration-2 underline-offset-2">
@@ -158,7 +161,7 @@ function Brothers() {
 
 
       {/* Conditional Rendering Based on Active Tab */}
-      <div className="mt-6">
+      <div className="mt-6 w-full text-center">
         {activeTab === "Actives" ? (
           // Show Brothers grouped and sorted by Custom Order
           <div>
@@ -173,20 +176,26 @@ function Brothers() {
                   return indexA - indexB; // Compare indices
                 })
                 .map(([className, brothers]) => (
-                  <div key={className} className="mb-20">
+                  <div key={className} className="mb-12">
                     {/* Class Section Header */}
-                    <h2 className="text-xl items-center text-center font-semibold mb-8">
+                    <h2 className="text-xl items-center text-center font-semibold mb-12">
                       {className === "Co-founder" ? "Founding" : className} Class
                     </h2>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-8 max-w-fit mx-auto text-gray-700">
+                    <ul className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-5 mx-auto max-w-7xl text-gray-700">
                       {brothers.map((brother, index) => (
-                        <li key={index} className="flex flex-col items-center text-center space-y-2">
-                          {/* Render the Base64 image */}
-                          <img
-                            src={brother.pictureUrl}
-                            alt={`${brother.FirstName || "Unknown"} ${brother.LastName || "Brother"}`}
-                            className="w-40 h-40 object-cover object-top"
-                          />
+                        <li key={index} className="flex flex-col items-center justify-between text-center space-y-2 group">
+                          {/* Profile Image */}
+                          <div className="relative w-56 h-56">
+                            <img
+                              src={brother.pictureUrl}
+                              alt={`${brother.FirstName || "Unknown"} ${brother.LastName || "Brother"}`}
+                              className="w-56 h-56 object-cover object-top rounded-md"
+                            />
+                            {/* LinkedIn Icon - Appears on Hover */}
+                            <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <Icons.Linkedin/>
+                            </div>
+                          </div>
                           <span>
                             {brother.FirstName} {brother.LastName}
                           </span>
@@ -199,27 +208,42 @@ function Brothers() {
           </div>
         ) : (
           // Show E-Board Members
-          <div className="mt-12">
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-4 mx-auto text-gray-700 items-start">
-              {eboardName.length > 0 ? (
-                eboardName.map((member, index) => (
-                  <li key={index} className="flex flex-col items-center text-center space-y-1 w-40">
-                    {/* Render the Base64 image */}
+          <div className="mt-6">
+          {/* Header */}
+          <h2 className="text-xl items-center text-center font-semibold mb-12">
+            Kappa Theta Pi Executive Board
+          </h2>
+          <ul className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-5 mx-auto max-w-6xl text-gray-700">
+            {eboardName.length > 0 ? (
+              eboardName.map((member, index) => (
+                <li
+                  key={index}
+                  className="flex flex-col items-center justify-between text-center space-y-1 group"
+                >
+                  {/* Profile Image */}
+                  <div className="relative w-56 h-56">
                     <img
-                      src={member.pictureUrl} // Use pictureUrl as-is
+                      src={member.pictureUrl}
                       alt={`${member.FirstName || "Unknown"} ${member.LastName || "Member"}`}
-                      className="w-40 h-40 object-cover object-top"
+                      className="w-56 h-56 object-cover object-top rounded-md"
                     />
-                    <span style={{ marginBottom: '-5px' }}>{member.FirstName} {member.LastName}</span>
-                    {/* Display E-Board Position */}
-                    <span className="text-sm text-gray-500">{member.Eboard_Position}</span>
-                  </li>
-                ))
-              ) : (
-                <p>Loading e-board members...</p>
-              )}
-            </ul>
-          </div>
+                    {/* LinkedIn Icon - Appears on Hover */}
+                    <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <Icons.Linkedin />
+                    </div>
+                  </div>
+                  <span>
+                    {member.FirstName} {member.LastName}
+                  </span>
+                  {/* Display E-Board Position */}
+                  <span className="text-sm text-gray-500">{member.Eboard_Position}</span>
+                </li>
+              ))
+            ) : (
+              <p>Loading e-board members...</p>
+            )}
+          </ul>
+        </div>
         )}
       </div>
     </div>
