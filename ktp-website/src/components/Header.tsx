@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import ktplogo from '../img/KTPLogo.png';
+import ktplogo from '../img/KTPLogo.jpeg';
 import { useState, useEffect } from 'react';
 
 function Header() {
