@@ -9,3 +9,13 @@ services:
     env_file:
       - ./functions/.env
     restart: unless-stopped
+  local_chatbot:
+    build:
+      context: .
+    working_dir: /assistant
+    command: ["python", "local_chatbot.py"]
+    volumes:
+      - ./:/assistant
+    env_file:
+      - ./functions/.env
+    restart: unless-stopped
