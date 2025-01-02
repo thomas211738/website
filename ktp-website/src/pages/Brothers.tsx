@@ -175,8 +175,10 @@ function Brothers() {
                 .map(([className, brothers]) => (
                   <div key={className} className="mb-20">
                     {/* Class Section Header */}
-                    <h2 className="text-xl items-center text-center font-semibold mb-8">{className} Class</h2>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-4 max-w-fit mx-auto text-gray-700">
+                    <h2 className="text-xl items-center text-center font-semibold mb-8">
+                      {className === "Co-founder" ? "Founding" : className} Class
+                    </h2>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-8 max-w-fit mx-auto text-gray-700">
                       {brothers.map((brother, index) => (
                         <li key={index} className="flex flex-col items-center text-center space-y-2">
                           {/* Render the Base64 image */}
@@ -198,18 +200,19 @@ function Brothers() {
         ) : (
           // Show E-Board Members
           <div className="mt-12">
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-4 max-w-fit mx-auto text-gray-700">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-4 mx-auto text-gray-700 items-start">
               {eboardName.length > 0 ? (
                 eboardName.map((member, index) => (
-                  <li key={index} className="flex flex-col items-center text-center space-y-2">
+                  <li key={index} className="flex flex-col items-center text-center space-y-1 w-40">
                     {/* Render the Base64 image */}
                     <img
                       src={member.pictureUrl} // Use pictureUrl as-is
                       alt={`${member.FirstName || "Unknown"} ${member.LastName || "Member"}`}
                       className="w-40 h-40 object-cover object-top"
                     />
-                    <span>{member.FirstName} {member.LastName}</span>
-                    <span>{member.Eboard_Position}</span>
+                    <span style={{ marginBottom: '-5px' }}>{member.FirstName} {member.LastName}</span>
+                    {/* Display E-Board Position */}
+                    <span className="text-sm text-gray-500">{member.Eboard_Position}</span>
                   </li>
                 ))
               ) : (
