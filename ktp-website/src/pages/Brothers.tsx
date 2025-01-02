@@ -7,7 +7,6 @@ import fallbackImage from "../img/KTPLogo.jpeg";
 
 function Brothers() {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
   const [activeTab, setActiveTab] = useState("Actives");
   const [brotherName, setBrotherName] = useState([]);
   const [eboardName, setEboardName] = useState([]);
@@ -43,14 +42,30 @@ function Brothers() {
     return () => clearTimeout(typingTimeout);
   }, [charIndex, currentSentenceIndex]);
 
-
-
   const filterAndCategorizeNames = (data) => {
-    const brothers = data.filter((brother) => brother.Position === 2);
-    const eboardMembers = data.filter((brother) => brother.Position === 3);
+    const brothers = data.filter((brother) => !brother.Eboard_Position);
+    const eboardMembers = data.filter((brother) => !!brother.Eboard_Position); // Handles truthy values
   
     return { brothers, eboardMembers };
   };
+
+
+  const groupByClass = (brothers) => {
+    return brothers.reduce((classMap, brother) => {
+      const className = brother.Class || "Unknown"; // Default to "Unknown" if Class is missing
+      if (!classMap[className]) {
+        classMap[className] = [];
+      }
+      classMap[className].push(brother);
+      return classMap;
+    }, {});
+  };
+
+  const letters = [
+    "Omega", "Psi", "Chi", "Phi", "Upsilon", "Tau", "Sigma", "Rho",
+    "Pi", "Omicron", "Xi", "Nu", "Mu", "Lambda", "Kappa", "Iota",
+    "Theta", "Eta", "Zeta", "Epsilon", "Delta", "Gamma", "Beta", "Alpha", "Co-founder"
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +73,7 @@ function Brothers() {
         // Fetch users and pictures
         const userResponse = await axios.get(`${backendUrl}/users`);
         const pictureResponse = await axios.get(`${backendUrl}/websitePics`);
-  
+        console.log("Loaded Data")
         let users = userResponse.data.data;
         users = users.filter((user) => user.Position === 2 || user.Position === 3 || user.Position ===5);
         const pictures = pictureResponse.data.data;
@@ -88,8 +103,7 @@ function Brothers() {
           };
         });
         // Categorize into brothers and e-board members
-        const brothers = brothersWithPictures.filter((user) => user.Position === 2 || user.Position ===5);
-        const eboardMembers = brothersWithPictures.filter((user) => user.Position === 3);
+        const { brothers, eboardMembers } = filterAndCategorizeNames(brothersWithPictures);
   
         // Update state
         setBrotherName(brothers);
@@ -145,76 +159,68 @@ function Brothers() {
 
       {/* Conditional Rendering Based on Active Tab */}
       <div className="mt-6">
-          {activeTab === "Actives" ? (
-            // Show Brothers
-            <ul className="grid grid-cols-2 gap-4 mt-4 text-gray-700">
-              {brotherName.length > 0 ? (
-                brotherName.map((brother, index) => (
-                  <li key={index} className="flex items-center space-x-4">
-                    {/* Render the Base64 image */}
-                    <img
-                      src={brother.pictureUrl} // Use pictureUrl as-is
-                      alt={`${brother.FirstName} ${brother.LastName}`}
-                      className="w-16 h-16 rounded-full"
-                    />
-                    <span>{brother.FirstName} {brother.LastName}</span>
-                  </li>
+        {activeTab === "Actives" ? (
+          // Show Brothers grouped and sorted by Custom Order
+          <div>
+            {brotherName.length === 0 ? ( // Check if brothers are still loading
+              <p>Loading brothers...</p>
+            ) : (
+              Object.entries(groupByClass(brotherName))
+                .sort(([classA], [classB]) => {
+                  // Sort using the custom order defined in `letters`
+                  const indexA = letters.indexOf(classA);
+                  const indexB = letters.indexOf(classB);
+                  return indexA - indexB; // Compare indices
+                })
+                .map(([className, brothers]) => (
+                  <div key={className} className="mb-20">
+                    {/* Class Section Header */}
+                    <h2 className="text-xl items-center text-center font-semibold mb-8">{className} Class</h2>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-4 max-w-fit mx-auto text-gray-700">
+                      {brothers.map((brother, index) => (
+                        <li key={index} className="flex flex-col items-center text-center space-y-2">
+                          {/* Render the Base64 image */}
+                          <img
+                            src={brother.pictureUrl}
+                            alt={`${brother.FirstName || "Unknown"} ${brother.LastName || "Brother"}`}
+                            className="w-40 h-40 object-cover object-top"
+                          />
+                          <span>
+                            {brother.FirstName} {brother.LastName}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))
-              ) : (
-                <p>Loading brothers...</p>
-              )}
-            </ul>
-          ) : (
-            // Show E-Board Members
-            <ul className="grid grid-cols-2 gap-4 mt-4 text-gray-700">
+            )}
+          </div>
+        ) : (
+          // Show E-Board Members
+          <div className="mt-12">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-4 gap-x-4 max-w-fit mx-auto text-gray-700">
               {eboardName.length > 0 ? (
                 eboardName.map((member, index) => (
-                  <li key={index} className="flex items-center space-x-4">
+                  <li key={index} className="flex flex-col items-center text-center space-y-2">
                     {/* Render the Base64 image */}
                     <img
                       src={member.pictureUrl} // Use pictureUrl as-is
-                      alt={`${member.FirstName} ${member.LastName}`}
-                      className="w-16 h-16 rounded-full"
+                      alt={`${member.FirstName || "Unknown"} ${member.LastName || "Member"}`}
+                      className="w-40 h-40 object-cover object-top"
                     />
                     <span>{member.FirstName} {member.LastName}</span>
+                    <span>{member.Eboard_Position}</span>
                   </li>
                 ))
               ) : (
                 <p>Loading e-board members...</p>
               )}
             </ul>
-          )}
-        </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 export default Brothers;
-
-
-
-
-
-  // useEffect(() => {
-  //   axios.get(`${backendUrl}/users`)
-  //     .then((response) => {
-  //       const { brothers, eboardMembers } = filterAndCategorizeNames(response.data.data);
-  //       setBrotherName(brothers);
-  //       setEboardName(eboardMembers);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`${backendUrl}/websitePics`)
-  //     .then((response) => {
-  //       setBrotherPicture(response.data.data);
-  //       console.error("Count", response.data.count);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching brother pictures:", error);
-  //     });
-  // }, []);
