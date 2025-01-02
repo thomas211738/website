@@ -85,7 +85,7 @@ def update_mongodb(data: list):
 
     try:
         # Connects to MongoDB
-        with MongoClient(host=os.environ["assistant_mongoDBURL"]) as mongo_client:
+        with MongoClient(host=os.environ["ASSISTANT_MONGODBURL"]) as mongo_client:
             database = mongo_client["assistant"]
             rag_documents = database["rag_documents"]
 
@@ -114,7 +114,7 @@ def update_pinecone(records: list, pc: Pinecone):
 
     try:
         # Connects to Pinecone
-        index = pc.Index(host=os.environ["pinecone_host"])
+        index = pc.Index(host=os.environ["PINECONE_HOST"])
 
         # Deletes the old vector embeddings in Pinecone
         index.delete(delete_all=True)
@@ -136,11 +136,11 @@ if __name__ == "__main__":
     info = get_info()
 
     # Reformats the RAG source data for MongoDB and creates vector embeddings for Pinecone
-    pc = Pinecone(api_key=os.environ["pinecone_api_key"])
-    data, records = create_document_embeddings(info=info, pinecone=pc)
+    pc = Pinecone(api_key=os.environ["PINECONE_API_KEY"])
+    data, records = create_document_embeddings(info=info, pc=pc)
 
     # Updates the RAG documents in MongoDB
     update_mongodb(data=data)
 
     # Updates the RAG vector embeddings in Pinecone
-    update_pinecone(records=records, pinecone=pc)
+    update_pinecone(records=records, pc=pc)
