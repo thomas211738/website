@@ -19,7 +19,7 @@ dnspython==2.7.0
 exceptiongroup==1.2.2
 filelock==3.16.1
 firebase-admin==6.6.0
-firebase-functions==0.4.2
+firebase-functions==0.1.2
 Flask==3.1.0
 Flask-Cors==5.0.0
 frozenlist==1.5.0
@@ -50,10 +50,6 @@ itsdangerous==2.2.0
 Jinja2==3.1.5
 jsonpatch==1.33
 jsonpointer==3.0.0
-langchain==0.3.13
-langchain-core==0.3.28
-langchain-text-splitters==0.3.4
-langsmith==0.2.6
 MarkupSafe==3.0.2
 msgpack==1.1.0
 multidict==6.1.0
