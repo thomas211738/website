@@ -1,5 +1,4 @@
 from dotenv import load_dotenv
-from firebase_admin import initialize_app
 from firebase_functions import https_fn, options
 from huggingface_hub import InferenceClient
 import json
@@ -9,24 +8,27 @@ from pymongo import MongoClient
 
 
 load_dotenv()
-initialize_app()
 
 
 class KTPaul:
 
     def __init__(
         self,
-        huggingface_token: str = os.environ["huggingface_token"],
-        pinecone_api_key: str = os.environ["pinecone_api_key"],
-        pinecone_host: str = os.environ["pinecone_host"],
+        huggingface_token: str = None,
+        pinecone_api_key: str = None,
+        pinecone_host: str = None,
         history: list = None,
     ):
-
-        self.pc = Pinecone(api_key=pinecone_api_key)
+        self.huggingface_token = huggingface_token or os.environ.get(
+            "HUGGINGFACE_TOKEN"
+        )
+        self.pinecone_api_key = pinecone_api_key or os.environ.get("PINECONE_API_KEY")
+        self.pinecone_host = pinecone_host or os.environ.get("PINECONE_HOST")
+        self.pc = Pinecone(api_key=self.pinecone_api_key)
         self.embedding_model = "multilingual-e5-large"
-        self.index = self.pc.Index(host=pinecone_host)
+        self.index = self.pc.Index(host=self.pinecone_host)
         self.chat_client = InferenceClient(
-            token=huggingface_token, model="meta-llama/Meta-Llama-3-8B-Instruct"
+            token=self.huggingface_token, model="meta-llama/Meta-Llama-3-8B-Instruct"
         )
         self.history = history[-10:] if history else []
 
@@ -45,7 +47,7 @@ class KTPaul:
 
         context_document_ids = [i["id"] for i in results["matches"]]
         try:
-            with MongoClient(host=os.environ["assistant_mongoDBURL"]) as mongo_client:
+            with MongoClient(host=os.environ["ASSISTANT_MONGODBURL"]) as mongo_client:
                 database = mongo_client["assistant"]
                 rag_documents = database["rag_documents"]
                 context_documents = rag_documents.find(
@@ -86,32 +88,33 @@ class KTPaul:
 
 @https_fn.on_request(
     cors=options.CorsOptions(
-        cors_origins="*",
+        cors_origins=["*"],
         cors_methods=["get", "post"],
-    )
+    ),
 )
 def firebase_handler(req: https_fn.Request) -> https_fn.Response:
 
-    query = req.args.get("query")
-    if query is None:
-        return https_fn.Response("No query parameter provided", status=400)
+    try:
+        if req.method == "POST":
+            body = req.get_json()
+            query = body.get("query")
+            history = body.get("history", [])
+        else:
+            query = req.args.get("query")
+            history = req.args.get("history", [])
 
-    chatbot = KTPaul(history=req.args.get("history", []))
-    response = chatbot.query_chatbot(query=query)
+        if query is None:
+            return https_fn.Response("No query parameter provided", status=400)
 
-    return https_fn.Response(
-        json.dumps({"response": response, "history": chatbot.history}),
-        content_type="application/json",
-        status=200,
-    )
-
-
-if __name__ == "__main__":
-
-    chatbot = KTPaul()
-    query = input("\nHi, I'm KTPaul! How can I help you?\n\n")
-
-    while True:
+        chatbot = KTPaul(history=history)
         response = chatbot.query_chatbot(query=query)
-        print(response)
-        query = input("\n")
+
+        return https_fn.Response(
+            json.dumps({"response": response, "history": chatbot.history}),
+            content_type="application/json",
+            status=200,
+        )
+    except Exception as e:
+        return https_fn.Response(
+            json.dumps({"error": str(e)}), status=500, content_type="application/json"
+        )
