@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import ktplogo from '../img/KTPLogo.jpeg';
+import ktplogo from '../img/KTPLogo.png';
 import { useState, useEffect } from 'react';
 
 function Header() {
@@ -25,7 +25,7 @@ const [isScrolled, setIsScrolled] = useState(false);
       <img
         src={ktplogo}
         alt="KTP Logo"
-        className="h-10"
+        className="h-12"
       />
 
       {/* Right: Navigation */}
