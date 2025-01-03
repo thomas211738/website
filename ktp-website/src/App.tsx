@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import Error from "./pages/Error";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ChatWidget from "./components/ChatWidget";
 
 import ChatbotProvider from "./contexts/ChatbotContext";
 
@@ -17,18 +18,20 @@ function App() {
         <div className="flex flex-col min-h-screen">
             {/* Header at the top */}
             <Header />
+            {/* Main content area (grow to fill) */}
+            <main className="flex-grow">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/brothers" element={<Brothers />} />
+                    <Route path="/rush" element={<Rush />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/*" element={<Error />} />
+                </Routes>
+            </main>
+            {/* Chatbot */}
             <ChatbotProvider>
-                {/* Main content area (grow to fill) */}
-                <main className="flex-grow">
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path="/brothers" element={<Brothers />} />
-                        <Route path="/rush" element={<Rush />} />
-                        <Route path="/contact" element={<Contact />} />
-                        <Route path="/*" element={<Error />} />
-                    </Routes>
-                </main>
+                <ChatWidget />
             </ChatbotProvider>
             {/* Footer at the bottom */}
             <Footer />

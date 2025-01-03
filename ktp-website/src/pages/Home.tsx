@@ -1,5 +1,4 @@
 // src/pages/Home.tsx
-import ChatWidget from "../components/ChatWidget";
 
 function Home() {
     return (
@@ -9,7 +8,6 @@ function Home() {
                 Welcome to the Home page! This is where you can put any kind of
                 intro or main content.
             </p>
-            <ChatWidget />
         </div>
     );
 }
