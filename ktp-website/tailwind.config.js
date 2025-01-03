@@ -10,6 +10,14 @@ export default {
             "2xl": "1536px",
         },
         extend: {
+            colors: {
+                "ktp-darkblue": "#234c8b",
+                "ktp-blue": "#458eff",
+                "ktp-lightblue": "#8bb9ff",
+                "ktp-darkgreen": "#538b52",
+                "ktp-green": "#8dddd8",
+                "ktp-lightgreen": "#baecab",
+            },
             maxWidth: {
                 "4/5": "80%",
             },
