@@ -14,7 +14,7 @@ const ChatWidget = () => {
     return (
         <div className="w-fit">
             <button
-                className="p-1 border-2 rounded-xl border-[#234c8b] bg-[#234c8b] fixed bottom-8 right-8 z-10 hover:scale-105 hover:shadow-md"
+                className="p-1 border-2 rounded-xl border-ktp-darkblue bg-ktp-darkblue fixed bottom-8 right-8 z-10 hover:scale-105 hover:shadow-md"
                 onClick={() =>
                     dispatch({
                         type: "openDrawer",

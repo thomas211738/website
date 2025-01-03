@@ -87,7 +87,7 @@ const Chatbot = () => {
 
     return (
         <div>
-            <div className="p-2 flex justify-between align-middle sticky top-0 z-10 bg-[#234c8b]">
+            <div className="p-2 flex justify-between align-middle sticky top-0 z-10 bg-ktp-darkblue">
                 <button
                     onClick={() =>
                         dispatch({
@@ -107,7 +107,7 @@ const Chatbot = () => {
                         key={index}
                         className={`w-fit max-w-4/5 my-1 py-1 flex ${
                             message.role === "user" &&
-                            "ml-auto px-2 justify-end rounded-md bg-[#8bb9ff]"
+                            "ml-auto px-2 justify-end rounded-md bg-ktp-lightblue"
                         }`}
                     >
                         {message.role === "assistant" && (
@@ -178,7 +178,7 @@ const Chatbot = () => {
                 </div>
             ) : (
                 <div className="mx-8 mb-4">
-                    <div className="w-fit max-w-sm ml-auto my-1 px-2 py-1 flex justify-end rounded-md bg-[#8bb9ff]">
+                    <div className="w-fit max-w-sm ml-auto my-1 px-2 py-1 flex justify-end rounded-md bg-ktp-lightblue">
                         {query}
                     </div>
                     <div className="w-fit max-w-sm my-1 py-1 flex align-top">
