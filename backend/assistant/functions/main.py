@@ -58,6 +58,7 @@ class KTPaul:
                     context += f'\n{c["text"]}\n'
         except Exception as e:
             print(f"Failed to retrieve contextual documents from MongoDB: {e}")
+            raise e
 
         return context
 
@@ -65,25 +66,31 @@ class KTPaul:
 
         enhanced_query = f"""Only answer the query as related to Kappa Theta Pi (KTP), the professional technology fraternity. No need to cite the context.\nQUERY:\n {query}\n\nCONTEXT:\n {context}"""
 
-        self.history.append({"role": "user", "content": enhanced_query})
+        prompt_history = self.history.copy()
+        prompt_history.append({"role": "user", "content": enhanced_query})
+        response = self.chat_client.chat_completion(prompt_history, max_tokens=250)
 
-        response = self.chat_client.chat_completion(self.history, max_tokens=250)
-
-        self.history.append(
-            {
-                "role": "assistant",
-                "content": response.choices[0].message.content,
-            }
+        self.history.extend(
+            [
+                {"role": "user", "content": query},
+                {
+                    "role": "assistant",
+                    "content": response.choices[0].message.content,
+                },
+            ]
         )
 
         return response.choices[0].message.content
 
     def query_chatbot(self, query: str) -> str:
 
-        context = self.retrieve_context(query=query)
-        response = self.generate_response(query=query, context=context)
+        try:
+            context = self.retrieve_context(query=query)
+            response = self.generate_response(query=query, context=context)
 
-        return response
+            return response
+        except Exception as e:
+            raise e
 
 
 @https_fn.on_request(
@@ -110,7 +117,12 @@ def firebase_handler(req: https_fn.Request) -> https_fn.Response:
         response = chatbot.query_chatbot(query=query)
 
         return https_fn.Response(
-            json.dumps({"response": response, "history": chatbot.history}),
+            json.dumps(
+                {
+                    "response": response,
+                    "history": chatbot.history,
+                }
+            ),
             content_type="application/json",
             status=200,
         )

@@ -13,8 +13,8 @@ if ! command -v docker-compose &> /dev/null; then
     exit 1
 fi
 
-# Builds the document store container
+# Builds the local chatbot container
 docker-compose -f ./docker-compose.yaml build local_chatbot
 
-# Runs the document store script
+# Runs the local chatbot script
 docker-compose -f ./docker-compose.yaml run --rm local_chatbot python local_chatbot.py
