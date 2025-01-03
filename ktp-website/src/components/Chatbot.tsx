@@ -2,7 +2,7 @@ import { useContext, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CloseIcon from "@mui/icons-material/Close";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import Popover from "@mui/material/Popover";
@@ -53,6 +53,14 @@ const Chatbot = () => {
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set height to content's scrollHeight
         }
     }, [query]);
+
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [state.history]);
+
     const handleKeyDown = async (e: React.KeyboardEvent) => {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
@@ -79,7 +87,7 @@ const Chatbot = () => {
 
     return (
         <div>
-            <div className="p-2 flex justify-between align-middle bg-[#234c8b]">
+            <div className="p-2 flex justify-between align-middle sticky top-0 z-10 bg-[#234c8b]">
                 <button
                     onClick={() =>
                         dispatch({
@@ -87,20 +95,20 @@ const Chatbot = () => {
                         })
                     }
                 >
-                    <ArrowBackIcon sx={{ color: "white" }} />
+                    <CloseIcon fontSize="large" sx={{ color: "white" }} />
                 </button>
-                <h2 className="text-xl text-white">KTPaul</h2>
-                <SmartToyIcon sx={{ color: "white" }} />
+                <h2 className="text-3xl text-white">KTPaul</h2>
+                <SmartToyIcon fontSize="large" sx={{ color: "white" }} />
             </div>
 
             <div className={`mx-8 ${loading ? "mt-4" : "my-4"}`}>
                 {state.history.map((message, index) => (
                     <div
                         key={index}
-                        className={`w-fit max-w-sm my-1 py-1 flex ${
+                        className={`w-fit max-w-4/5 my-1 py-1 flex ${
                             message.role === "user" &&
                             "ml-auto px-2 justify-end rounded-md bg-[#8bb9ff]"
-                        } columns-1`}
+                        }`}
                     >
                         {message.role === "assistant" && (
                             <SmartToyIcon className="mr-2" />
@@ -111,7 +119,7 @@ const Chatbot = () => {
             </div>
 
             {!loading ? (
-                <div className="mx-8 my-4 flex flex-col rounded-md bg-gray-100">
+                <div className="mx-8 my-4 flex flex-col sticky bottom-4 z-10 rounded-md bg-gray-100">
                     <textarea
                         ref={textareaRef}
                         id="chatbot-query"
@@ -148,7 +156,7 @@ const Chatbot = () => {
                             anchorEl={anchorEl}
                             anchorOrigin={{
                                 vertical: "bottom",
-                                horizontal: "left",
+                                horizontal: "right",
                             }}
                             transformOrigin={{
                                 vertical: "top",
@@ -186,6 +194,7 @@ const Chatbot = () => {
                     </div>
                 </div>
             )}
+            <div ref={messagesEndRef} />
         </div>
     );
 };

@@ -65,7 +65,6 @@ interface ChatbotProviderProps {
 
 const ChatbotProvider = ({ children }: ChatbotProviderProps) => {
     const [state, dispatch] = useReducer(ChatbotReducer, initialState);
-    console.log(state.history);
 
     return (
         <ChatbotContext.Provider value={[state, dispatch]}>
