@@ -7,6 +7,8 @@ import ryanc from "../img/ryanc.jpeg";
 import ryanch from "../img/ryanch.jpeg";
 import seth from "../img/seth.png";
 import yana from "../img/yana.jpeg";
+import trio from "../img/Brandon Eric and Rohan.jpg";
+import patrick from "../img/Pat 2.jpeg";
 
 /**
  * Home Component
@@ -26,14 +28,14 @@ function Home() {
         {/* LEFT: Image Collage */}
         <div className="relative w-[800px] h-[800px] md:mr-8 mb-8 md:mb-0">
           {/* Individual images positioned absolutely within the collage container */}
-          <div className="absolute top-[390px] left-[500px] w-[166px] h-[166px] shape-big rounded-br-[80px] overflow-hidden shadow-lg">
-            <img src={josh} alt="Josh" className="object-cover w-full h-full" />
+          <div className="absolute top-[390px] left-[500px] w-[240px] h-[166px] shape-big rounded-br-[80px] overflow-hidden shadow-lg">
+            <img src={ktp2} alt="KTP 2" className="object-cover w-full h-full" />
           </div>
           <div className="absolute top-[236px] left-[288px] w-[182px] h-[182px] shape-big rounded-tr-[80px] overflow-hidden shadow-lg">
             <img src={ktp1} alt="KTP 1" className="object-cover w-full h-full" />
           </div>
-          <div className="absolute top-[527px] left-[34px] w-[145px] h-[142px] shape-big rounded-bl-[80px] overflow-hidden shadow-md">
-            <img src={ktp2} alt="KTP 2" className="object-cover w-full h-full" />
+          <div className="absolute top-[527px] left-[34px] w-[170px] h-[142px] shape-big rounded-bl-[80px] overflow-hidden shadow-md">
+            <img src={trio} alt="trio" className="object-cover w-full h-full" />
           </div>
           <div className="absolute top-[92px] left-[30px] w-[220px] h-[220px] shape-big rounded-tl-[80px] overflow-hidden shadow-md">
             <img src={paul} alt="Paul & Tye" className="object-cover w-full h-full" />
@@ -44,8 +46,8 @@ function Home() {
           <div className="absolute top-[370px] left-[140px] w-[114px] h-[114px] shape-big rounded-bl-[80px] overflow-hidden shadow-md">
             <img src={ryanch} alt="Ryan Ch" className="object-cover w-full h-full" />
           </div>
-          <div className="absolute top-[92px] left-[428px] w-[106px] h-[106px] shape-big rounded-tr-[80px] overflow-hidden shadow-md">
-            <img src={seth} alt="Seth" className="object-cover w-full h-full" />
+          <div className="absolute top-[80px] left-[435px] w-[106px] h-[150px] shape-big rounded-tr-[80px] overflow-hidden shadow-md">
+            <img src={patrick} alt="Patrick" className="object-cover w-full h-full" />
           </div>
           <div className="absolute top-[462px] left-[298px] w-[130px] h-[130px] shape-big rounded-br-[80px] overflow-hidden shadow-md">
             <img src={yana} alt="Yana" className="object-cover w-full h-full" />
