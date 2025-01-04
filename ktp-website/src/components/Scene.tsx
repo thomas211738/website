@@ -87,18 +87,9 @@ function Scene() {
       />
 
       <ambientLight intensity={0.9} />
-      <directionalLight position={[10, 50, 10]} intensity={0.3} color="#FFA07A" />
 
       <group ref={buildingRef} position={[-50, 0, 50]}>
         <Model />
-        <pointLight
-          color="#FFD700"
-          intensity={2}
-          distance={400}
-          decay={2}
-          position={[0, 30, 0]}
-          castShadow
-        />
       </group>
 
       {/* Ground plane */}
