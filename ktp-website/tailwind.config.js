@@ -11,6 +11,9 @@ export default {
             custom: "1220px", 
         },
         extend: {
+            fontFamily: {
+                sfpro: ['SF Pro', 'sans-serif'],
+            },
             colors: {
                 ktp: {
                     darkblue: "#234c8b",
