@@ -98,7 +98,7 @@ function Home() {
 
       {/* NETWORK SECTION */}
       <section className="py-12 px-4 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-6">Our Network</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-[#134b91]">Our Network</h2>
         
         <div className="max-w-screen-lg mx-auto grid grid-cols-5 gap-4 place-items-center">
 
