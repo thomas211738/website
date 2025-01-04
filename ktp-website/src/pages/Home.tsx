@@ -1,33 +1,36 @@
 import { Link } from "react-router-dom";
-import josh from "../img/josh.jpeg"; 
 import ktp1 from "../img/ktp1.jpeg";
 import ktp2 from "../img/ktp2.jpeg";
 import paul from "../img/paul_tye.jpeg";
 import ryanc from "../img/ryanc.jpeg";
 import ryanch from "../img/ryanch.jpeg";
-import seth from "../img/seth.png";
 import yana from "../img/yana.jpeg";
 import trio from "../img/Brandon Eric and Rohan.jpg";
 import patrick from "../img/Pat 2.jpeg";
 
-/**
- * Home Component
- * Displays the homepage with a collage of images and a description of Kappa Theta Pi.
- * Includes responsive layouts for desktop/tablet and mobile screens.
- */
+/* NETWORK IMAGES */
+import amazon from "../img/amazon.png";
+import bh from "../img/bh.png";          
+import bny from "../img/bny.png";     
+import comcast from "../img/comcast.png";
+import gd from "../img/gd.png";        
+import hancock from "../img/hancock.png"; 
+import jp from "../img/jp.png";         
+import liberty from "../img/liberty.jpg"; 
+import microsoft from "../img/microsoft.png";
+import pwc from "../img/pwc.png";       
+import redhat from "../img/redhat.png";
+import spark from "../img/spark.png";   
+import stryker from "../img/stryker.png";
+import tiffany from "../img/Tiffany.png"; 
+import textron from "../img/textron.png"; 
+
 function Home() {
   return (
     <div className="min-h-screen">
-      {/*
-        Desktop/Tablet Layout (Visible on screens with custom breakpoint and larger)
-        Contains:
-        - Left: Image collage (positioned absolutely for custom layout)
-        - Right: Text content with a title, description, and button linking to the "About" page
-      */}
+      {/* Desktop/Tablet Layout */}
       <div className="hidden custom:flex items-center justify-center px-4">
-        {/* LEFT: Image Collage */}
         <div className="relative w-[800px] h-[800px] md:mr-8 mb-8 md:mb-0">
-          {/* Individual images positioned absolutely within the collage container */}
           <div className="absolute top-[390px] left-[500px] w-[240px] h-[166px] shape-big rounded-br-[80px] overflow-hidden shadow-lg">
             <img src={ktp2} alt="KTP 2" className="object-cover w-full h-full" />
           </div>
@@ -35,7 +38,7 @@ function Home() {
             <img src={ktp1} alt="KTP 1" className="object-cover w-full h-full" />
           </div>
           <div className="absolute top-[527px] left-[34px] w-[170px] h-[142px] shape-big rounded-bl-[80px] overflow-hidden shadow-md">
-            <img src={trio} alt="trio" className="object-cover w-full h-full" />
+            <img src={trio} alt="Trio" className="object-cover w-full h-full" />
           </div>
           <div className="absolute top-[92px] left-[30px] w-[220px] h-[220px] shape-big rounded-tl-[80px] overflow-hidden shadow-md">
             <img src={paul} alt="Paul & Tye" className="object-cover w-full h-full" />
@@ -53,20 +56,15 @@ function Home() {
             <img src={yana} alt="Yana" className="object-cover w-full h-full" />
           </div>
         </div>
-
-        {/* RIGHT: Kappa Theta Pi text/content */}
         <div className="max-w-lg text-left">
-          {/* Title */}
           <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-[#134b91]">
             Kappa Theta Pi
           </h1>
-          {/* Description */}
           <p className="text-gray-600 mb-6">
             As the only professional technology fraternity in the nation,
             we strive to shape the future of technology and foster innovation
             through our strong community
           </p>
-          {/* Button linking to the About page */}
           <div className="space-x-4">
             <Link to="/About">
               <button className="bg-[#134b91] text-white px-6 py-2 rounded hover:bg-gray-800 transition">
@@ -77,24 +75,17 @@ function Home() {
         </div>
       </div>
 
-      {/*
-        Mobile Layout (Visible on screens below custom breakpoint)
-        Contains:
-        - Text content only (no image collage)
-      */}
+      {/* Mobile Layout */}
       <div className="custom:hidden flex flex-col items-center justify-center px-4">
         <div className="max-w-lg text-left pt-8 pb-16">
-          {/* Title */}
           <h1 className="text-4xl font-bold mb-4 text-[#134b91]">
             Kappa Theta Pi
           </h1>
-          {/* Description */}
           <p className="text-gray-600 mb-6">
             As the only professional technology fraternity in the nation,
             we strive to shape the future of technology and foster innovation
             through our strong community
           </p>
-          {/* Button linking to the About page */}
           <div className="space-x-4">
             <Link to="/About">
               <button className="bg-[#134b91] text-white px-6 py-2 rounded hover:bg-gray-800 transition">
@@ -104,6 +95,31 @@ function Home() {
           </div>
         </div>
       </div>
+
+      {/* NETWORK SECTION */}
+      <section className="py-12 px-4 text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-6">Our Network</h2>
+        
+        <div className="max-w-screen-lg mx-auto grid grid-cols-5 gap-4 place-items-center">
+
+          {/* Modify heights or styles as desired */}
+          <img src={amazon} alt="Amazon" className="h-8" />
+          <img src={bh} alt="Boston Hacks" className="h-8" />
+          <img src={bny} alt="BNY Mellon" className="h-8" />
+          <img src={comcast} alt="Comcast" className="h-8" />
+          <img src={gd} alt="General Dynamics" className="h-6" />
+          <img src={hancock} alt="John Hancock" className="h-8" />
+          <img src={jp} alt="JP Morgan" className="h-10" />
+          <img src={liberty} alt="Liberty Mutual" className="h-10" />
+          <img src={microsoft} alt="Microsoft" className="h-8" />
+          <img src={pwc} alt="PwC" className="h-8" />
+          <img src={redhat} alt="Red Hat" className="h-14" />
+          <img src={spark} alt="BU Spark" className="h-8" />
+          <img src={stryker} alt="Stryker" className="h-8" />
+          <img src={tiffany} alt="Tiffany & Co" className="h-14" />
+          <img src={textron} alt="Textron" className="h-14" />
+        </div>
+      </section>
     </div>
   );
 }
