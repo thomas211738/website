@@ -16,6 +16,7 @@ export default {
                     darkblue: "#234c8b",
                     blue: "#458eff",
                     lightblue: "#8bb9ff",
+                    appblue: "#134b91",
                     darkgreen: "#538b52",
                     green: "#8dddd8",
                     lightgreen: "#baecab",
