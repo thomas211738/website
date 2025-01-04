@@ -5,8 +5,14 @@ import { useState } from "react";
 import fallbackImage from "../img/KTPLogo.jpeg";
 import Icons from '../components/Icons';
 
+import { useContext } from "react";
+import { DataBaseDataContext } from "../contexts/DataBaseDataContext";
+
 
 function Brothers() {
+  //DB DATA
+  const { userData, pictureData } = useContext(DataBaseDataContext);
+
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [activeTab, setActiveTab] = useState("Actives");
   const [brotherName, setBrotherName] = useState([]);
@@ -87,17 +93,14 @@ function Brothers() {
   
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
+    if (userData && pictureData) { 
         // Fetch users and pictures
-        const userResponse = await axios.get(`${backendUrl}/users`);
-        const pictureResponse = await axios.get(`${backendUrl}/websitePics`);
-        console.log("Loaded Data")
-        let users = userResponse.data.data;
+        let users = userData;
         let alumni = users.filter((user) => user.Position === 4);
         setAlumniName(alumni)
         users = users.filter((user) => user.Position === 2 || user.Position === 3 || user.Position ===5);
-        const pictures = pictureResponse.data.data;
+        const pictures = pictureData;
+
   
         // Join users with pictures based on `_id` and `websitePic`
         const brothersWithPictures = users.map((user) => {
@@ -129,15 +132,9 @@ function Brothers() {
         // Update state
         setBrotherName(brothers);
         setEboardName(eboardMembers);
-
-
-      } catch (error) {
-        console.error("Error fetching and joining data:", error);
-      }
+      
     };
-  
-    fetchData();
-  }, [backendUrl]);
+  }, [userData, pictureData]); 
 
 
   return (

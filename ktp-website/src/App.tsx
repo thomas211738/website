@@ -13,22 +13,55 @@ import ChatWidget from "./components/ChatWidget";
 
 import ChatbotProvider from "./contexts/ChatbotContext";
 
+import { useState, useEffect } from "react";
+import axios from "axios";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+import { DataBaseDataContext } from "./contexts/DataBaseDataContext";
+
 function App() {
+
+    //DB access for entire app
+    const [userData, setUserData] = useState(null);
+    const [pictureData, setPictureData] = useState(null);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log("Started Loading Data")
+                const userResponse = await axios.get(`${backendUrl}/users`);
+                const pictureResponse = await axios.get(`${backendUrl}/websitePics`);
+                
+                setUserData(userResponse.data.data);
+                setPictureData(pictureResponse.data.data);
+                console.log("Ended Loading Data")
+            } catch (error) {
+                console.error("Error fetching data in App:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <div className="flex flex-col min-h-screen">
             {/* Header at the top */}
             <Header />
             {/* Main content area (grow to fill) */}
+            {/* Main content area (grow to fill) */}
             <main className="flex-grow">
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/brothers" element={<Brothers />} />
-                    <Route path="/rush" element={<Rush />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/*" element={<Error />} />
-                </Routes>
+                {/* Wrap Routes with DataBaseDataContext.Provider */}
+                <DataBaseDataContext.Provider value={{ userData, pictureData }}>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/brothers" element={<Brothers />} />
+                        <Route path="/rush" element={<Rush />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/*" element={<Error />} />
+                    </Routes>
+                </DataBaseDataContext.Provider>
             </main>
+
+
             {/* Chatbot */}
             <ChatbotProvider>
                 <ChatWidget />
