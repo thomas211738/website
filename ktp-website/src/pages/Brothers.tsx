@@ -68,6 +68,23 @@ function Brothers() {
     "Pi", "Omicron", "Xi", "Nu", "Mu", "Lambda", "Kappa", "Iota",
     "Theta", "Eta", "Zeta", "Epsilon", "Delta", "Gamma", "Beta", "Alpha", "Co-founder"
   ];
+  const errorHandlingLinkedIn = (linkedIn) => {
+    if (!linkedIn) {
+      // If LinkedIn is empty, return the default company page
+      return "https://www.linkedin.com/company/kappa-theta-pi-lambda-chapter/";
+    }
+    if (linkedIn.startsWith("https://")) {
+      // If it already starts with https://, return as is
+      return linkedIn;
+    }
+    if (linkedIn.startsWith("www.linkedin.com")) {
+      // If it starts with www.linkedin.com, prepend https://
+      return `https://${linkedIn}`;
+    }
+    // Otherwise, assume it's just the username and construct the full URL
+    return `https://www.linkedin.com/in/${linkedIn}`;
+  };
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -196,10 +213,7 @@ function Brothers() {
                         <li key={index} className="flex flex-col items-center justify-between text-center space-y-2 group">
                           {/* Profile Image and linkedIn */}
                           <a
-                            href={
-                              brother.LinkedIn 
-                                ? `https://www.linkedin.com/in/${brother.LinkedIn}` 
-                                : "https://www.linkedin.com/company/kappa-theta-pi-lambda-chapter/"
+                            href={errorHandlingLinkedIn(brother.LinkedIn)
                             }
                             target="_blank"
                             rel="noopener noreferrer"
@@ -244,9 +258,7 @@ function Brothers() {
                   {/* Profile Image and linkedIn */}
                   <a
                     href={
-                      member.LinkedIn 
-                        ? `https://www.linkedin.com/in/${member.LinkedIn}` 
-                        : "https://www.linkedin.com/company/kappa-theta-pi-lambda-chapter/"
+                      errorHandlingLinkedIn(member.LinkedIn)
                     }
                     target="_blank"
                     rel="noopener noreferrer"
