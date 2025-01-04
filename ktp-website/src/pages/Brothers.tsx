@@ -205,7 +205,7 @@ function Brothers() {
                 .map(([className, brothers]) => (
                   <div key={className} className="mb-12">
                     {/* Class Section Header */}
-                    <h2 className="text-xl items-center text-center font-semibold mb-12">
+                    <h2 className="text-xl items-center text-center font-semibold mb-12 underline decoration-2 underline-offset-4">
                       {className === "Co-founder" ? "Founding" : className} Class
                     </h2>
                     <ul className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-5 mx-auto max-w-7xl text-gray-700">
@@ -244,7 +244,7 @@ function Brothers() {
           // Show E-Board Members
           <div className="mt-6">
           {/* Header */}
-          <h2 className="text-xl items-center text-center font-semibold mb-12">
+          <h2 className="text-xl items-center text-center font-semibold mb-12 underline decoration-2 underline-offset-4">
             Kappa Theta Pi Executive Board
           </h2>
           <ul className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-5 mx-auto max-w-6xl text-gray-700">
@@ -289,10 +289,10 @@ function Brothers() {
         )}
         {activeTab === "Alumni" && (
           <div className="mt-6">
-            <h2 className="text-xl items-center text-center font-semibold mb-12">
+            <h2 className="text-xl items-center text-center font-semibold mb-12 underline decoration-2 underline-offset-4">
               Kappa Theta Pi Alumni
             </h2>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 mx-auto max-w-6xl text-gray-700">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-4 mx-auto max-w-6xl text-gray-700">
               {alumniName.length > 0 ? (
                 alumniName.map((alumnus, index) => (
                   <li
