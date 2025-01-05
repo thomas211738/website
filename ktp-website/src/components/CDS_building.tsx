@@ -42,21 +42,21 @@ type GLTFResult = GLTF & {
 export function Model(props: JSX.IntrinsicElements['group']) {
   const { nodes, materials } = useGLTF('src/img/CDS_building.glb') as GLTFResult
 
-  // Modify emissive property of the glass material
-  // Set the base color to yellow
-materials['clear thick glass'].color = new THREE.Color(0xffff00); // Bright yellow
+    // Modify emissive property of the glass material
+    // Set the base color to yellow
+  materials['clear thick glass'].color = new THREE.Color(0xffff00); // Bright yellow
 
-// Add a yellow glow
-materials['clear thick glass'].emissive = new THREE.Color(0xffff00); // Yellow glow
-materials['clear thick glass'].emissiveIntensity = 2.0; // Adjust intensity to your liking
+  // Add a yellow glow
+  materials['clear thick glass'].emissive = new THREE.Color(0xffff00); // Yellow glow
+  materials['clear thick glass'].emissiveIntensity = 2.0; // Adjust intensity to your liking
 
-// Adjust the roughness and metalness for a shiny appearance
-materials['clear thick glass'].roughness = 0.1; // Lower roughness for a smoother surface
-materials['clear thick glass'].metalness = 0.4; // Adjust metalness for reflective properties
+  // Adjust the roughness and metalness for a shiny appearance
+  materials['clear thick glass'].roughness = 0.1; // Lower roughness for a smoother surface
+  materials['clear thick glass'].metalness = 0.4; // Adjust metalness for reflective properties
 
-// Ensure the material is transparent
-materials['clear thick glass'].transparent = true;
-materials['clear thick glass'].opacity = 0.5; // Adjust transparency as needed
+  // Ensure the material is transparent
+  materials['clear thick glass'].transparent = true;
+  materials['clear thick glass'].opacity = 0.5; // Adjust transparency as needed
 
 
   return (

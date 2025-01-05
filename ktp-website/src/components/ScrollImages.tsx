@@ -1,59 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import alpha_professional from '../img/2023 Spring 1.jpg';
-import delta_initiation from '../img/delta initiation.jpeg';
-import alpha_initiation from '../img/Alpha Initiation.jpg';
-import YouTubeVideo from './YoutubeVideo';
+import React, { useState, useEffect } from "react";
+import alpha_professional from "../img/2023 Spring 1.jpg";
+import delta_initiation from "../img/delta initiation.jpeg";
+import alpha_initiation from "../img/Alpha Initiation.jpg";
+// import YouTubeVideo from "./YoutubeVideo";
 
 const ScrollImages = () => {
-    const [scrollY, setScrollY] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrollY(window.scrollY);
-        };
-        window.addEventListener('scroll', handleScroll);
-
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
-
-    const secondImageOffset = Math.max(0, scrollY - windowHeight);
-    const thirdImageOffset = Math.max(0, scrollY - 2 * windowHeight);
-
-    const secondImageStyle = {
-        transform: `translateY(${Math.max(windowHeight - secondImageOffset, 0)}px)`,
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
     };
 
-    const thirdImageStyle = {
-        transform: `translateY(${Math.max(windowHeight - thirdImageOffset, 0)}px)`,
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
     };
+  }, []);
 
-    return (
-        <div className="relative flex justify-center items-center">
-            <img
-                src={alpha_professional}
-                alt="First"
-                className="absolute w-auto h-60 object-cover"
-            />
+  const windowHeight = typeof window !== "undefined" ? window.innerHeight : 0;
 
-            <img
-                src={delta_initiation}
-                alt="Second"
-                className="absolute w-auto h-60 object-cover transition-transform duration-300"
-                style={secondImageStyle}
-            />
+  const calculateTransform = (offset, index) => {
+    const imageOffset = Math.max(0, scrollY - index * windowHeight);
+    return `translateY(${Math.max(windowHeight - imageOffset, 0)}px)`;
+  };
 
-            <img
-                src={alpha_initiation}
-                alt="Third"
-                className="absolute w-auto h-60 object-cover transition-transform duration-300"
-                style={thirdImageStyle}
-            />
+  const images = [
+    { src: alpha_professional, alt: "Alpha Professional" },
+    { src: delta_initiation, alt: "Delta Initiation" },
+    { src: alpha_initiation, alt: "Alpha Initiation" },
+  ];
 
-            <YouTubeVideo />
-        </div>
-    );
+  return (
+    <div className="relative h-[300vh] flex justify-center items-center">
+      {images.map((image, index) => (
+        <img
+          key={index}
+          src={image.src}
+          alt={image.alt}
+          className={`absolute w-auto h-60 object-cover transition-transform duration-500 ease-in-out ${
+            index === 0 ? "z-30" : "z-10"
+          }`}
+          style={{
+            transform: calculateTransform(scrollY, index),
+          }}
+        />
+      ))}
+
+      {/* Position the YouTubeVideo below the images */}
+      {/* <div className="absolute bottom-10 w-full">
+        <YouTubeVideo />
+      </div> */}
+    </div>
+  );
 };
 
 export default ScrollImages;

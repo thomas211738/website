@@ -17,6 +17,7 @@
         "@mui/material": "^6.3.0",
         "@react-three/drei": "^9.120.5",
         "@react-three/fiber": "^8.17.10",
+        "@studio-freight/lenis": "^1.0.42",
         "axios": "^1.7.9",
         "dompurify": "^3.2.3",
         "dotenv": "^16.4.7",
