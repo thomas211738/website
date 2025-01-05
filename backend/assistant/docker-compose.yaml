@@ -2,20 +2,18 @@ services:
   document_store:
     build:
       context: .
+      dockerfile: Dockerfile.document_store
     working_dir: /assistant
     command: ["python", "document_store.py"]
-    volumes:
-      - ./:/assistant
     env_file:
       - ./functions/.env
     restart: unless-stopped
   local_chatbot:
     build:
       context: .
+      dockerfile: Dockerfile.local_chatbot
     working_dir: /assistant
     command: ["python", "local_chatbot.py"]
-    volumes:
-      - ./:/assistant
     env_file:
       - ./functions/.env
     restart: unless-stopped
