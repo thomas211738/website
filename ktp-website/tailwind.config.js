@@ -13,6 +13,8 @@ export default {
         extend: {
             fontFamily: {
                 sfpro: ['SF Pro', 'sans-serif'],
+                monospace: ['Monaco', 'Courier New', 'monospace'],
+                bebasneue: ['Bebas Neue']
             },
             colors: {
                 ktp: {

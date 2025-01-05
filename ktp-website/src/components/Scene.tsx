@@ -72,7 +72,7 @@ function Scene() {
   return (
     <>
       {/* Starry sky with a large radius */}
-      <Stars radius={300} depth={60} count={15000} factor={7} fade />
+      <Stars radius={300} depth={-50} count={25000} factor={15} fade />
 
       {/* Subtle sky gradient; tweak turbidity, rayleigh, etc. */}
       <Sky
