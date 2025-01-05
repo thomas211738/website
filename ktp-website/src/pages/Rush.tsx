@@ -1,57 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import Scene from '../components/Scene';
-import Lenis from '@studio-freight/lenis';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap from 'gsap';
+import { ReactLenis } from 'lenis/react';
 
 function Rush() {
+  const lenisRef = useRef();
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    function update(time) {
+      lenisRef.current?.lenis?.raf(time * 1000);
+    }
 
-    const lenis = new Lenis({
-      duration: 1,
-      smooth: true,
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-    });
-
-    // Update the scroll position state on Lenis scroll
-    lenis.on('scroll', ({ scroll }) => {
-      setScrollY(scroll); // Sync Lenis scroll position to state
-      ScrollTrigger.update();
-    });
-
-    // Add Lenis to GSAP's ticker
-    const lenisRaf = (time) => {
-      lenis.raf(time * 1000);
+    const handleScroll = (e) => {
+      setScrollY(e.scroll); // Update scroll position
     };
-    gsap.ticker.add(lenisRaf);
 
-    // Prevent GSAP lag smoothing
-    gsap.ticker.lagSmoothing(0);
+    lenisRef.current?.lenis?.on('scroll', handleScroll);
+    gsap.ticker.add(update);
 
-    return () => {
-      gsap.ticker.remove(lenisRaf);
-      lenis.destroy();
-    };
+
   }, []);
 
-  const textStyle = {
-    transform: `translateY(${scrollY * 0.7}px)`,
-  };
-  const headerStyle = {
-    transform: `translateY(${scrollY * 0.65}px)`,
-  };
 
   return (
-    <>
-      <link
-        rel="stylesheet"
-        href="https://unpkg.com/lenis@1.1.18/dist/lenis.css"
-      ></link>
+    <ReactLenis root>
       <div className="w-full h-[300vh] relative">
         <Canvas>
           <Scene />
@@ -60,26 +34,23 @@ function Rush() {
         {window.innerWidth >= 1024 && (
           <>
             <div
-              className="absolute top-[10%] left-[3%] transform -translate-x-1/2 text-white text-[13rem] font-sfpro"
-              style={headerStyle}
+              className="absolute top-[9.5%] left-[50%] transform -translate-x-1/2 text-white text-[13rem] font-sfpro"
+              
             >
               RUSH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KTP
             </div>
             <div
-              className="absolute top-[20%] left-[4.25%] transform -translate-x-1/2 text-white text-[0.8rem] font-sfpro"
-              style={textStyle}
+              className="absolute top-[19%] left-[6.5%] transform -translate-x-1/2 text-white text-[0.8rem] font-sfpro"
             >
               EST 2012
             </div>
             <div
-              className="absolute top-[20%] left-[39.1%] transform -translate-x-1/2 text-white text-[0.8rem] font-sfpro"
-              style={textStyle}
+              className="absolute top-[19%] left-[41.5%] transform -translate-x-1/2 text-white text-[0.8rem] font-sfpro"
             >
               BOSTON
             </div>
             <div
-              className="absolute top-[20%] right-[27.3%] transform translate-x-1/2 text-white text-[0.8rem] font-sfpro"
-              style={textStyle}
+              className="absolute top-[19%] right-[28.75%] transform translate-x-1/2 text-white text-[0.8rem] font-sfpro"
             >
               LAMBDA
             </div>
@@ -105,7 +76,7 @@ function Rush() {
           </button>
         </div>
       </div>
-    </>
+    </ReactLenis>
   );
 }
 

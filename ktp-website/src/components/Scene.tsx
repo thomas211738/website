@@ -46,7 +46,7 @@ function Scene() {
         const startY = 20;
         const startZ = 350;
 
-        const endX = 0;
+        const endX = 30;
         const endY = 100;
         const endZ = 350;
 
@@ -58,7 +58,8 @@ function Scene() {
         camera.position.set(x, y, z);
 
         const cameray = -200 + (progress * 600);
-        camera.lookAt(0, cameray, 0);
+        const camerax = (progress * 30);
+        camera.lookAt(camerax, cameray, 0);
 
       },
     });
@@ -89,7 +90,7 @@ function Scene() {
       <ambientLight intensity={0.9} />
 
       <group ref={buildingRef} position={[-50, 0, 50]}>
-        <Model />
+        <Model position={[30,0,0]} />
       </group>
 
       {/* Ground plane */}
