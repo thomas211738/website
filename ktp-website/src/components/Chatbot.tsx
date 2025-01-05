@@ -4,8 +4,8 @@ import { ThreeDots } from "react-loader-spinner";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
-import Popover from "@mui/material/Popover";
+import { Popover } from "@mui/material";
+import ChatbotDialog from "./ChatbotDialog";
 
 import { ChatbotContext } from "../contexts/ChatbotContext";
 
@@ -19,18 +19,23 @@ const Chatbot = () => {
     const [state, dispatch] = context;
     const [loading, setLoading] = useState(false);
 
+    /* Queries the chatbot */
     const queryChatbot = async () => {
         try {
-            if (query.trim() === "") {
+            if (state.query.trim() === "") {
                 return;
             }
+            setSubmitAnchorEl(null);
             setLoading(true);
             const response = await axios.post(`${chatbot_backend}`, {
-                query: query,
+                query: state.query,
                 history: state.history,
             });
             console.log(response);
-            setQuery("");
+            dispatch({
+                type: "setQuery",
+                payload: { query: "" },
+            });
             setLoading(false);
 
             dispatch({
@@ -44,16 +49,16 @@ const Chatbot = () => {
         }
     };
 
-    const [query, setQuery] = useState("");
-
+    /* Adjusts query input textbox sizing */
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = "auto";
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set height to content's scrollHeight
         }
-    }, [query]);
+    }, [state.query]);
 
+    /* Adjusts auto-scroll to end of conversation */
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -61,6 +66,7 @@ const Chatbot = () => {
         }
     }, [state.history]);
 
+    /* Return key to submit, shift key + return key to go to new line */
     const handleKeyDown = async (e: React.KeyboardEvent) => {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
@@ -68,25 +74,24 @@ const Chatbot = () => {
         }
     };
 
-    const clearConversation = () => {
-        dispatch({
-            type: "clearConversation",
-        });
-        setQuery("");
-        console.log("Cleared chatbot conversation");
+    /* Handles submit button popover */
+    const [submitAnchorEl, setSubmitAnchorEl] = useState<HTMLElement | null>(
+        null
+    );
+    const handleSubmitPopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
+        if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
+            return;
+        }
+        setSubmitAnchorEl(event.currentTarget);
     };
-
-    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+    const handleSubmitPopoverClose = () => {
+        setSubmitAnchorEl(null);
     };
-    const handlePopoverClose = () => {
-        setAnchorEl(null);
-    };
-    const clearConversationPopover = Boolean(anchorEl);
+    const submitPopover = Boolean(submitAnchorEl);
 
     return (
         <div>
+            {/* Chatbot window header */}
             <div className="p-2 flex justify-between align-middle sticky top-0 z-10 bg-ktp-darkblue">
                 <button
                     onClick={() =>
@@ -101,6 +106,7 @@ const Chatbot = () => {
                 <SmartToyIcon fontSize="large" sx={{ color: "white" }} />
             </div>
 
+            {/* Chatbot window conversation history */}
             <div className={`mx-8 ${loading ? "mt-4" : "my-4"}`}>
                 {state.history.map((message, index) => (
                     <div
@@ -119,67 +125,78 @@ const Chatbot = () => {
             </div>
 
             {!loading ? (
+                /* Displays query input textbox and chatbot actions if not loading response */
                 <div className="mx-8 my-4 flex flex-col sticky bottom-4 z-10 rounded-md bg-gray-100">
+                    {/* Query input textbox */}
                     <textarea
                         ref={textareaRef}
                         id="chatbot-query"
                         className="w-full px-3 py-2 resize-none overflow-hidden border-top rounded-md focus:outline-none focus:border-none bg-gray-100"
                         placeholder="Message KTPaul"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
+                        value={state.query}
+                        onChange={(e) =>
+                            dispatch({
+                                type: "setQuery",
+                                payload: { query: e.target.value },
+                            })
+                        }
                         onKeyDown={handleKeyDown}
                         rows={1}
-                    >
-                        <ArrowUpwardIcon />
-                    </textarea>
+                    />
 
+                    {/* Chatbot actions */}
                     <div className="px-2 flex justify-between">
-                        <button
-                            className="w-fit m-1 rounded-md hover:bg-gray-300"
-                            type="reset"
-                            onClick={clearConversation}
-                            aria-owns={
-                                clearConversationPopover
-                                    ? "mouse-over-popover"
-                                    : undefined
-                            }
-                            aria-haspopup="true"
-                            onMouseEnter={handlePopoverOpen}
-                            onMouseLeave={handlePopoverClose}
-                        >
-                            <DeleteSweepIcon />
-                        </button>
-                        <Popover
-                            id="mouse-over-popover"
-                            sx={{ pointerEvents: "none" }}
-                            open={clearConversationPopover}
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "right",
-                            }}
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "left",
-                            }}
-                            onClose={handlePopoverClose}
-                            disableRestoreFocus
-                        >
-                            <p className="p-2">Clear conversation</p>
-                        </Popover>
-                        <button
-                            className="w-fit m-1 rounded-md hover:bg-gray-300"
-                            type="submit"
-                            onClick={queryChatbot}
-                        >
-                            <ArrowUpwardIcon />
-                        </button>
+                        <div className="flex">
+                            <ChatbotDialog action="clearConversation" />
+                            <ChatbotDialog action="downloadTranscript" />
+                        </div>
+
+                        {/* Displays submit action if query present */}
+                        {state.query !== "" && (
+                            <>
+                                <button
+                                    className="w-fit m-1 rounded-md hover:bg-gray-300"
+                                    type="submit"
+                                    onClick={queryChatbot}
+                                    aria-owns={
+                                        submitPopover
+                                            ? "mouse-over-popover"
+                                            : undefined
+                                    }
+                                    aria-haspopup="true"
+                                    onMouseEnter={handleSubmitPopoverOpen}
+                                    onMouseLeave={handleSubmitPopoverClose}
+                                    onTouchStart={(e) => e.preventDefault()}
+                                >
+                                    <ArrowUpwardIcon />
+                                </button>
+                                <Popover
+                                    id="mouse-over-popover"
+                                    sx={{ pointerEvents: "none" }}
+                                    open={submitPopover}
+                                    anchorEl={submitAnchorEl}
+                                    anchorOrigin={{
+                                        vertical: "bottom",
+                                        horizontal: "left",
+                                    }}
+                                    transformOrigin={{
+                                        vertical: "top",
+                                        horizontal: "right",
+                                    }}
+                                    onClose={handleSubmitPopoverClose}
+                                    disableRestoreFocus
+                                >
+                                    <p className="p-2">Submit</p>
+                                </Popover>
+                            </>
+                        )}
                     </div>
                 </div>
             ) : (
+                /* Displays loading icon if loading response */
                 <div className="mx-8 mb-4">
                     <div className="w-fit max-w-sm ml-auto my-1 px-2 py-1 flex justify-end rounded-md bg-ktp-lightblue">
-                        {query}
+                        {state.query}
                     </div>
                     <div className="w-fit max-w-sm my-1 py-1 flex align-top">
                         <SmartToyIcon className="mr-2" />
@@ -194,6 +211,7 @@ const Chatbot = () => {
                     </div>
                 </div>
             )}
+
             <div ref={messagesEndRef} />
         </div>
     );

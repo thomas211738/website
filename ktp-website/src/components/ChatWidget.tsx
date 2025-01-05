@@ -13,6 +13,7 @@ const ChatWidget = () => {
     const [state, dispatch] = context;
     return (
         <div className="w-fit">
+            {/* Button to open chatbot window */}
             <button
                 className="p-1 border-2 rounded-xl border-ktp-darkblue bg-ktp-darkblue fixed bottom-8 right-8 z-10 hover:scale-105 hover:shadow-md"
                 onClick={() =>
@@ -28,6 +29,8 @@ const ChatWidget = () => {
                     </p>
                 </div>
             </button>
+
+            {/* Chatbot window */}
             <Drawer
                 anchor="right"
                 open={state.openDrawer}

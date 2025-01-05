@@ -7,6 +7,7 @@ export const ChatbotContext = createContext<ChatbotContext | undefined>(
 );
 
 const initialState = {
+    query: "",
     history: [
         { role: "assistant", content: "Hi, I'm KTPaul! How can I help you?" },
     ],
@@ -19,11 +20,13 @@ type Message = {
 };
 
 type State = {
+    query: string;
     history: Message[];
     openDrawer: boolean;
 };
 
 type Action =
+    | { type: "setQuery"; payload: { query: string } }
     | { type: "setHistory"; payload: { history: Message[] } }
     | { type: "openDrawer" }
     | { type: "closeDrawer" }
@@ -32,6 +35,11 @@ type Action =
 
 function ChatbotReducer(state: State, action: Action) {
     switch (action.type) {
+        case "setQuery":
+            return {
+                ...state,
+                query: action.payload.query,
+            };
         case "setHistory":
             return {
                 ...state,
@@ -50,6 +58,7 @@ function ChatbotReducer(state: State, action: Action) {
         case "clearConversation":
             return {
                 ...initialState,
+                query: "",
                 openDrawer: true,
             };
         case "reset":
