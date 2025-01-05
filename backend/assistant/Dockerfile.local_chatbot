@@ -1,0 +1,16 @@
+FROM python:3.10.7-slim
+
+# Sets working directory
+WORKDIR /assistant
+
+# Copies files and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copies the local chatbot service files
+COPY local_chatbot.py /assistant/
+COPY functions/main.py /assistant/functions/
+COPY functions/.env /assistant/functions/
+
+# Sets the default command for the service
+CMD ["python", "local_chatbot.py"]
