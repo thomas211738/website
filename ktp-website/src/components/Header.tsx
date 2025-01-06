@@ -96,7 +96,7 @@ const Header = () => {
                 {pages.map((page, index) => (
                     <Link
                         key={index}
-                        className="block my-2 text-xl text-black hover:text-ktp-appblue"
+                        className="block my-2 text-lg text-black hover:text-ktp-appblue"
                         to={page.path}
                     >
                         {page.name}

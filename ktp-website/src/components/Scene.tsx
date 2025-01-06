@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import { Model } from './CDS_building';
 import { Sky, Stars } from '@react-three/drei';
@@ -58,7 +58,7 @@ function Scene() {
         camera.position.set(x, y, z);
 
         const cameray = -200 + (progress * 600);
-        const camerax = (progress * 30);
+        const camerax = (progress * 50);
         camera.lookAt(camerax, cameray, 0);
 
       },
