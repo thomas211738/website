@@ -27,14 +27,14 @@ export default function StairsTransition({
     enter: (custom: number) => ({
       top: "-100%", // Animate into place
       transition: {
-        duration: 0.5,
+        duration: 0.4,
         delay: 0.05 * custom, // Add stagger effect
       },
     }),
     exit: (custom: number) => ({
       top: "0%", // Exit downward
       transition: {
-        duration: 0.5,
+        duration: 0.4,
         delay: 0.05 * custom, // Add stagger effect
       },
     }),

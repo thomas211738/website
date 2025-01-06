@@ -53,7 +53,7 @@ const Header = () => {
         >
             {/* KTP Logo */}
             <Link to="/">
-                <img src={ktplogo} alt="KTP Logo" className="w-16" />
+                <img src={ktplogo} alt="KTP Logo" className="w-14" />
             </Link>
 
             {/* Collapsed menu on small screens */}
@@ -96,7 +96,7 @@ const Header = () => {
                 {pages.map((page, index) => (
                     <Link
                         key={index}
-                        className="block my-2 text-lg text-black hover:text-ktp-appblue"
+                        className="block my-2 text-base text-black hover:text-ktp-appblue"
                         to={page.path}
                     >
                         {page.name}
