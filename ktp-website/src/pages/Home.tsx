@@ -39,34 +39,39 @@ function Home() {
     <div className="min-h-screen">
       {/* Desktop/Tablet Layout */}
       <div className="hidden custom:flex items-center justify-center px-4">
-        <div className="relative w-[800px] h-[800px] md:mr-8 mb-8 md:mb-0">
-          <div className="absolute top-[390px] left-[500px] w-[240px] h-[166px] shape-big rounded-br-[80px] overflow-hidden shadow-lg">
-            <img src={ktp2} alt="KTP 2" className="object-cover w-full h-full" />
-          </div>
-          <div className="absolute top-[236px] left-[288px] w-[182px] h-[182px] shape-big rounded-tr-[80px] overflow-hidden shadow-lg">
-            <img src={ktp1} alt="KTP 1" className="object-cover w-full h-full" />
-          </div>
-          <div className="absolute top-[527px] left-[34px] w-[170px] h-[142px] shape-big rounded-bl-[80px] overflow-hidden shadow-md">
-            <img src={trio} alt="Trio" className="object-cover w-full h-full" />
-          </div>
-          <div className="absolute top-[92px] left-[30px] w-[220px] h-[220px] shape-big rounded-tl-[80px] overflow-hidden shadow-md">
-            <img src={paul} alt="Paul & Tye" className="object-cover w-full h-full" />
-          </div>
-          <div className="absolute top-[126px] left-[288px] w-[76px] h-[76px] shape-big rounded-[20px] overflow-hidden shadow-md">
-            <img src={ryanc} alt="Ryan C" className="object-cover w-full h-full" />
-          </div>
-          <div className="absolute top-[370px] left-[140px] w-[114px] h-[114px] shape-big rounded-bl-[80px] overflow-hidden shadow-md">
-            <img src={ryanch} alt="Ryan Ch" className="object-cover w-full h-full" />
-          </div>
-          <div className="absolute top-[80px] left-[435px] w-[106px] h-[150px] shape-big rounded-tr-[80px] overflow-hidden shadow-md">
-            <img src={patrick} alt="Patrick" className="object-cover w-full h-full" />
-          </div>
-          <div className="absolute top-[462px] left-[298px] w-[130px] h-[130px] shape-big rounded-br-[80px] overflow-hidden shadow-md">
-            <img src={yana} alt="Yana" className="object-cover w-full h-full" />
-          </div>
-        </div>
+        <div className="hidden custom:flex items-center justify-center px-4">
+  <div className="relative w-[800px] h-[800px] md:mr-8 mb-8 md:mb-0">
+    {[
+      { src: ryanc, alt: "Ryan C", styles: "top-[126px] left-[288px] w-[76px] h-[76px] rounded-[20px]" },
+      { src: ktp2, alt: "KTP 2", styles: "top-[390px] left-[500px] w-[240px] h-[166px] rounded-br-[80px]" },
+      { src: trio, alt: "Trio", styles: "top-[527px] left-[34px] w-[170px] h-[142px] rounded-bl-[80px]" },
+      { src: paul, alt: "Paul & Tye", styles: "top-[92px] left-[30px] w-[220px] h-[220px] rounded-tl-[80px]" },
+      { src: ryanch, alt: "Ryan Ch", styles: "top-[370px] left-[140px] w-[114px] h-[114px] rounded-bl-[80px]" },
+      { src: patrick, alt: "Patrick", styles: "top-[80px] left-[435px] w-[106px] h-[150px] rounded-tr-[80px]" },
+      { src: yana, alt: "Yana", styles: "top-[462px] left-[298px] w-[130px] h-[130px] rounded-br-[80px]" },
+      { src: ktp1, alt: "KTP 1", styles: "top-[236px] left-[288px] w-[182px] h-[182px] rounded-tr-[80px]" },
+    ].map(({ src, alt, styles }, index) => (
+      <div
+        key={index}
+        className={`absolute ${styles} shape-big overflow-hidden shadow-lg bg-ktp-appblue transition-all`}
+      >
+        <img
+          src={src}
+          alt={alt}
+          className="object-cover w-full h-full opacity-0 transition-opacity duration-1000"
+          onLoad={(e) => {
+            setTimeout(() => {
+              (e.target as HTMLImageElement).style.opacity = '1';
+            }, index * 200); // Delay increases with index
+          }}
+        />
+      </div>
+    ))}
+  </div>
+</div>
+
         <div className="max-w-lg text-left">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-[#134b91]">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-ktp-appblue">
             Kappa Theta Pi
           </h1>
           <p className="text-gray-600 mb-6">
@@ -75,10 +80,11 @@ function Home() {
             through our strong community
           </p>
           <div className="space-x-4">
-            <Link to="/About">
-              <button className="bg-[#134b91] text-white px-6 py-2 rounded hover:bg-gray-800 transition">
-                About us &#8250;
-              </button>
+            <Link to="/rush">
+            <button className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded hover:bg-ktp-appblue hover:text-white transition duration-300 relative group">
+              Join Now <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">&#8250;</span>
+            </button>
+
             </Link>
           </div>
         </div>
@@ -87,7 +93,7 @@ function Home() {
       {/* Mobile Layout */}
       <div className="custom:hidden flex flex-col items-center justify-center px-4">
         <div className="max-w-lg text-left pt-8 pb-16">
-          <h1 className="text-4xl font-bold mb-4 text-[#134b91]">
+          <h1 className="text-4xl font-bold mb-4 text-ktp-appblue">
             Kappa Theta Pi
           </h1>
           <p className="text-gray-600 mb-6">
@@ -97,7 +103,7 @@ function Home() {
           </p>
           <div className="space-x-4">
             <Link to="/About">
-              <button className="bg-[#134b91] text-white px-6 py-2 rounded hover:bg-gray-800 transition">
+              <button className="bg-ktp-appblue text-white px-6 py-2 rounded hover:bg-gray-800 transition">
                 About us &#8250;
               </button>
             </Link>
@@ -107,7 +113,7 @@ function Home() {
 
       {/* NETWORK SECTION */}
       <section className="py-12 px-4 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-[#134b91]">Our Network</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-ktp-appblue">Our Network</h2>
         
         <div className="max-w-screen-lg mx-auto grid grid-cols-6 gap-8 place-items-center">
 
@@ -134,7 +140,7 @@ function Home() {
           <img src={savvas} alt="Savvas Learning" className="h-11" />
           <img src={scotiabank} alt="Scotiabank" className="h-6" />
           <img src={mit} alt="MIT" className="h-8" />
-          <img src={mbta} alt="MBTA" className="h-8" />
+          <img src={mbta} alt="MBTA" className="h-7" />
           <img src={fresenius} alt="Fresenius" className="h-8" />
         </div>
       </section>

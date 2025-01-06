@@ -5,15 +5,15 @@ import gsap from 'gsap';
 import { ReactLenis } from 'lenis/react';
 
 function Rush() {
-  const lenisRef = useRef();
-  const [scrollY, setScrollY] = useState(0);
+  const lenisRef = useRef<{ lenis?: { on: (event: string, handler: (e: any) => void) => void, raf: (time: number) => void } } | null>(null);
+  const [, setScrollY] = useState(0);
 
   useEffect(() => {
-    function update(time) {
+    function update(time: number) {
       lenisRef.current?.lenis?.raf(time * 1000);
     }
 
-    const handleScroll = (e) => {
+    const handleScroll = (e: { scroll: React.SetStateAction<number>; }) => {
       setScrollY(e.scroll); // Update scroll position
     };
 

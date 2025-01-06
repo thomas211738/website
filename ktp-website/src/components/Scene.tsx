@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import { Model } from './CDS_building';
 import { Sky, Stars } from '@react-three/drei';

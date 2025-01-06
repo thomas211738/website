@@ -1,3 +1,9 @@
 import { createContext } from "react";
 
-export const DataBaseDataContext = createContext(null);
+interface DataBaseDataContextType {
+    userData: any;
+    pictureData: any;
+}
+
+export const DataBaseDataContext = createContext<DataBaseDataContextType | null>(null);
+
