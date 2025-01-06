@@ -24,6 +24,15 @@ import spark from "../img/spark.png";
 import stryker from "../img/stryker.png";
 import tiffany from "../img/Tiffany.png"; 
 import textron from "../img/textron.png"; 
+import nomura from "../img/Nomura.png";
+import capitalOne from "../img/CapitalOne.png";
+import citizens from "../img/Citizens.png";
+import ey from "../img/EY.png";
+import savvas from "../img/Savvas.png";
+import scotiabank from "../img/Scotia.png";
+import mit from "../img/MIT.png";
+import mbta from "../img/MBTA.png";
+import fresenius from "../img/Fresenius.png";
 
 function Home() {
   return (
@@ -100,24 +109,33 @@ function Home() {
       <section className="py-12 px-4 text-center">
         <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-[#134b91]">Our Network</h2>
         
-        <div className="max-w-screen-lg mx-auto grid grid-cols-5 gap-4 place-items-center">
+        <div className="max-w-screen-lg mx-auto grid grid-cols-6 gap-8 place-items-center">
 
           {/* Modify heights or styles as desired */}
-          <img src={amazon} alt="Amazon" className="h-8" />
+          <img src={amazon} alt="Amazon" className="h-12" />
           <img src={bh} alt="Boston Hacks" className="h-8" />
-          <img src={bny} alt="BNY Mellon" className="h-8" />
+          <img src={bny} alt="BNY Mellon" className="h-10" />
           <img src={comcast} alt="Comcast" className="h-8" />
           <img src={gd} alt="General Dynamics" className="h-6" />
           <img src={hancock} alt="John Hancock" className="h-8" />
-          <img src={jp} alt="JP Morgan" className="h-10" />
-          <img src={liberty} alt="Liberty Mutual" className="h-10" />
-          <img src={microsoft} alt="Microsoft" className="h-8" />
-          <img src={pwc} alt="PwC" className="h-8" />
+          <img src={jp} alt="JP Morgan" className="h-12" />
+          <img src={liberty} alt="Liberty Mutual" className="h-12" />
+          <img src={microsoft} alt="Microsoft" className="h-6" />
+          <img src={pwc} alt="PwC" className="h-10" />
           <img src={redhat} alt="Red Hat" className="h-14" />
-          <img src={spark} alt="BU Spark" className="h-8" />
+          <img src={spark} alt="BU Spark" className="h-12" />
           <img src={stryker} alt="Stryker" className="h-8" />
-          <img src={tiffany} alt="Tiffany & Co" className="h-14" />
-          <img src={textron} alt="Textron" className="h-14" />
+          <img src={tiffany} alt="Tiffany & Co" className="h-15" />
+          <img src={textron} alt="Textron" className="h-15" />
+          <img src={nomura} alt="Nomura" className="h-5" />
+          <img src={capitalOne} alt="Capital One" className="h-13" />
+          <img src={citizens} alt="Citizens" className="h-5" />
+          <img src={ey} alt="EY" className="h-10" />
+          <img src={savvas} alt="Savvas Learning" className="h-11" />
+          <img src={scotiabank} alt="Scotiabank" className="h-6" />
+          <img src={mit} alt="MIT" className="h-8" />
+          <img src={mbta} alt="MBTA" className="h-8" />
+          <img src={fresenius} alt="Fresenius" className="h-8" />
         </div>
       </section>
     </div>

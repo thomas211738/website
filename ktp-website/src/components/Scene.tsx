@@ -58,7 +58,7 @@ function Scene() {
         camera.position.set(x, y, z);
 
         const cameray = -200 + (progress * 600);
-        const camerax = (progress * 30);
+        const camerax = (progress * 50);
         camera.lookAt(camerax, cameray, 0);
 
       },
