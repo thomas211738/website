@@ -11,10 +11,14 @@ import socialIcon from "../img/socIcon.png";
 import techIcon from "../img/techIcon.png";
 import academicIcon from "../img/acadIcon.png";
 
+import StairsTransition from "../components/StairsTransition"
+import { useLocation } from "react-router-dom";
+
 function About() {
   const slides = [heroImg1, heroImg2, heroImg3];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [manualOverride, setManualOverride] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (manualOverride) return;

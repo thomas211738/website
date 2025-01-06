@@ -1,3 +1,5 @@
+
+/* INTRO IMAGES */
 import { Link } from "react-router-dom";
 import ktp1 from "../img/ktp1.jpeg";
 import ktp2 from "../img/ktp2.jpeg";
@@ -40,36 +42,35 @@ function Home() {
       {/* Desktop/Tablet Layout */}
       <div className="hidden custom:flex items-center justify-center px-4">
         <div className="hidden custom:flex items-center justify-center px-4">
-  <div className="relative w-[800px] h-[800px] md:mr-8 mb-8 md:mb-0">
-    {[
-      { src: ryanc, alt: "Ryan C", styles: "top-[126px] left-[288px] w-[76px] h-[76px] rounded-[20px]" },
-      { src: ktp2, alt: "KTP 2", styles: "top-[390px] left-[500px] w-[240px] h-[166px] rounded-br-[80px]" },
-      { src: trio, alt: "Trio", styles: "top-[527px] left-[34px] w-[170px] h-[142px] rounded-bl-[80px]" },
-      { src: paul, alt: "Paul & Tye", styles: "top-[92px] left-[30px] w-[220px] h-[220px] rounded-tl-[80px]" },
-      { src: ryanch, alt: "Ryan Ch", styles: "top-[370px] left-[140px] w-[114px] h-[114px] rounded-bl-[80px]" },
-      { src: patrick, alt: "Patrick", styles: "top-[80px] left-[435px] w-[106px] h-[150px] rounded-tr-[80px]" },
-      { src: yana, alt: "Yana", styles: "top-[462px] left-[298px] w-[130px] h-[130px] rounded-br-[80px]" },
-      { src: ktp1, alt: "KTP 1", styles: "top-[236px] left-[288px] w-[182px] h-[182px] rounded-tr-[80px]" },
-    ].map(({ src, alt, styles }, index) => (
-      <div
-        key={index}
-        className={`absolute ${styles} shape-big overflow-hidden shadow-lg bg-ktp-appblue transition-all`}
-      >
-        <img
-          src={src}
-          alt={alt}
-          className="object-cover w-full h-full opacity-0 transition-opacity duration-1000"
-          onLoad={(e) => {
-            setTimeout(() => {
-              (e.target as HTMLImageElement).style.opacity = '1';
-            }, index * 200); // Delay increases with index
-          }}
-        />
-      </div>
-    ))}
-  </div>
-</div>
-
+          <div className="relative w-[800px] h-[800px] md:mr-8 mb-8 md:mb-0">
+            {[
+              { src: ryanc, alt: "Ryan C", styles: "top-[126px] left-[288px] w-[76px] h-[76px] rounded-[20px]" },
+              { src: ktp2, alt: "KTP 2", styles: "top-[390px] left-[500px] w-[240px] h-[166px] rounded-br-[80px]" },
+              { src: trio, alt: "Trio", styles: "top-[527px] left-[34px] w-[170px] h-[142px] rounded-bl-[80px]" },
+              { src: paul, alt: "Paul & Tye", styles: "top-[92px] left-[30px] w-[220px] h-[220px] rounded-tl-[80px]" },
+              { src: ryanch, alt: "Ryan Ch", styles: "top-[370px] left-[140px] w-[114px] h-[114px] rounded-bl-[80px]" },
+              { src: patrick, alt: "Patrick", styles: "top-[80px] left-[435px] w-[106px] h-[150px] rounded-tr-[80px]" },
+              { src: yana, alt: "Yana", styles: "top-[462px] left-[298px] w-[130px] h-[130px] rounded-br-[80px]" },
+              { src: ktp1, alt: "KTP 1", styles: "top-[236px] left-[288px] w-[182px] h-[182px] rounded-tr-[80px]" },
+            ].map(({ src, alt, styles }, index) => (
+              <div
+                key={index}
+                className={`absolute ${styles} shape-big overflow-hidden shadow-lg bg-ktp-appblue transition-all`}
+              >
+                <img
+                  src={src}
+                  alt={alt}
+                  className="object-cover w-full h-full opacity-0 transition-opacity duration-1000"
+                  onLoad={(e) => {
+                    setTimeout(() => {
+                      (e.target as HTMLImageElement).style.opacity = '1';
+                    }, index * 200); // Delay increases with index
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="max-w-lg text-left">
           <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-ktp-appblue">
             Kappa Theta Pi

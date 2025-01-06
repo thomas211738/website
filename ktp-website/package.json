@@ -21,6 +21,7 @@
         "axios": "^1.7.9",
         "dompurify": "^3.2.3",
         "dotenv": "^16.4.7",
+        "framer-motion": "^11.15.0",
         "jspdf": "^2.5.2",
         "lenis": "^1.1.18",
         "marked": "^15.0.5",

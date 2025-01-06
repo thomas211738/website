@@ -10,18 +10,20 @@ import Error from "./pages/Error";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ChatWidget from "./components/ChatWidget";
-
 import ChatbotProvider from "./contexts/ChatbotContext";
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import { DataBaseDataContext } from "./contexts/DataBaseDataContext";
+import { AnimatePresence } from "framer-motion";
+import { useLocation } from "react-router-dom";
+import StairsTransition from "./components/StairsTransition";
 
 function App() {
     //DB access for entire app
     const [userData, setUserData] = useState(null);
     const [pictureData, setPictureData] = useState(null);
+    const location = useLocation();
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -44,14 +46,16 @@ function App() {
 
     return (
         <div className="flex flex-col min-h-screen">
+            <StairsTransition routeKey={location.pathname}>
+
             {/* Header at the top */}
             <Header />
-
             {/* Main content area (grow to fill) */}
             <main className="flex-grow">
                 {/* Wrap Routes with DataBaseDataContext.Provider */}
                 <DataBaseDataContext.Provider value={{ userData, pictureData }}>
-                    <Routes>
+                <AnimatePresence mode="wait">
+                    <Routes location={location} key={location.pathname}>
                         <Route path="/" element={<Home />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/brothers" element={<Brothers />} />
@@ -59,6 +63,7 @@ function App() {
                         <Route path="/contact" element={<Contact />} />
                         <Route path="*" element={<Error />} />
                     </Routes>
+                  </AnimatePresence>
                 </DataBaseDataContext.Provider>
             </main>
 
@@ -68,6 +73,7 @@ function App() {
             </ChatbotProvider>
             {/* Footer at the bottom */}
             <Footer />
+            </StairsTransition>
         </div>
     );
 }

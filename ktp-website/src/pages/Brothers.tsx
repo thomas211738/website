@@ -7,7 +7,7 @@ import Icons from '../components/Icons';
 
 import { useContext } from "react";
 import { DataBaseDataContext } from "../contexts/DataBaseDataContext";
-
+import StairsTransition from "../components/StairsTransition";
 
 function Brothers() {
   //DB DATA
