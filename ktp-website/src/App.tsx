@@ -46,8 +46,6 @@ function App() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <StairsTransition routeKey={location.pathname}>
-
             {/* Header at the top */}
             <Header />
             {/* Main content area (grow to fill) */}
@@ -73,7 +71,6 @@ function App() {
             </ChatbotProvider>
             {/* Footer at the bottom */}
             <Footer />
-            </StairsTransition>
         </div>
     );
 }
