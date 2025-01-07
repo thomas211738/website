@@ -105,9 +105,9 @@ function Home() {
             through our strong community
           </p>
           <div className="space-x-4">
-            <Link to="/About">
+            <Link to="/rush">
               <button className="bg-ktp-appblue text-white px-6 py-2 rounded hover:bg-gray-800 transition">
-                About us &#8250;
+                Join Now &#8250;
               </button>
             </Link>
           </div>
