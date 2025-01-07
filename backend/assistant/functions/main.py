@@ -64,7 +64,11 @@ class KTPaul:
 
     def generate_response(self, query: str, context: str) -> str:
 
-        enhanced_query = f"""Only answer the query as related to Kappa Theta Pi (KTP), the professional technology fraternity. No need to cite the context.\nQUERY:\n {query}\n\nCONTEXT:\n {context}"""
+        enhanced_query = f"""Only answer the query as related to Kappa Theta Pi (KTP), \
+                            the professional technology fraternity. No need to cite the \
+                            context. Do not use any special formatting like bullets or \
+                            markdown. Provide the response as plain text only. \
+                            \nQUERY:\n {query}\n\nCONTEXT:\n {context}"""
 
         prompt_history = self.history.copy()
         prompt_history.append({"role": "user", "content": enhanced_query})
