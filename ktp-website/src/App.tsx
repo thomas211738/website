@@ -18,6 +18,7 @@ import { DataBaseDataContext } from "./contexts/DataBaseDataContext";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import StairsTransition from "./components/StairsTransition";
+import BackToTop from "./components/ScrollTop";
 
 function App() {
     //DB access for entire app
@@ -53,6 +54,7 @@ function App() {
                 {/* Wrap Routes with DataBaseDataContext.Provider */}
                 <DataBaseDataContext.Provider value={{ userData, pictureData }}>
                 <AnimatePresence mode="wait">
+                    <BackToTop/>
                     <Routes location={location} key={location.pathname}>
                         <Route path="/" element={<Home />} />
                         <Route path="/about" element={<About />} />
