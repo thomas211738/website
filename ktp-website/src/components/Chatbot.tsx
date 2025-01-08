@@ -102,8 +102,10 @@ const Chatbot = () => {
                 >
                     <CloseIcon fontSize="large" sx={{ color: "white" }} />
                 </button>
-                <h2 className="text-3xl text-white">KTPaul</h2>
-                <SmartToyIcon fontSize="large" sx={{ color: "white" }} />
+                <h2 className="my-auto text-3xl text-white">KTPaul</h2>
+                <span className="my-auto px-2 text-lg text-ktp-lightgreen font-semibold uppercase rounded-lg">
+                    Beta
+                </span>
             </div>
 
             {/* Chatbot window conversation history */}
