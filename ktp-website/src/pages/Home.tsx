@@ -10,33 +10,18 @@ import yana from "../img/yana.jpeg";
 import trio from "../img/Brandon Eric and Rohan.jpeg";
 import patrick from "../img/Pat 2.jpeg";
 
-/* NETWORK IMAGES */
-// import amazon from "../img/amazon.png";
-// import bh from "../img/bh.png";          
-// import bny from "../img/bny.png";     
-// import comcast from "../img/comcast.png";
-// import gd from "../img/gd.png";        
-// import hancock from "../img/hancock.png"; 
-// import jp from "../img/jp.png";         
-// import liberty from "../img/liberty.jpg"; 
-// import microsoft from "../img/microsoft.png";
-// import pwc from "../img/pwc.png";       
-// import redhat from "../img/redhat.png";
-// import spark from "../img/spark.png";   
-// import stryker from "../img/stryker.png";
-// import tiffany from "../img/Tiffany.png"; 
-// import textron from "../img/textron.png"; 
-// import nomura from "../img/Nomura.png";
-// import capitalOne from "../img/CapitalOne.png";
-// import citizens from "../img/Citizens.png";
-// import ey from "../img/EY.png";
-// import savvas from "../img/Savvas.png";
-// import scotiabank from "../img/Scotia.png";
-// import mit from "../img/MIT.png";
-// import mbta from "../img/MBTA.png";
-// import fresenius from "../img/Fresenius.png";
+/* KTP App IMAGES */
+import ImageCarousel from '../components/ImageCarousel'
+import people from "../img/App/people.jpeg";
+import alerts from "../img/App/alerts.jpeg";
+import events from "../img/App/events.jpeg";
+import profile from "../img/App/profile.jpeg";
+import download from "../img/App/download.jpeg";
+import downloadonappstore from "../img/App/Download on App Store.png";
+const images = [events, people, alerts, profile, download]
 
-import network from "../img/Network.png";
+/* Network IMAGES */
+import network from "../img/Network/Network.png";
 
 function Home() {
   return (
@@ -118,8 +103,55 @@ function Home() {
       <section className="py-12 px-4 text-center">
         <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-ktp-appblue">Our Network</h2>
         
-        <img src={network} alt="network" />
+        <img src={network} alt="network" className="mb-10" />
       </section>
+
+      {/* KTP APP SECTION */}
+      <section className="py-12 px-4">
+  <div className="max-w-6xl mx-auto">
+
+
+    <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-8">
+      <div>
+      <h2 className="text-3xl sm:text-4xl font-bold mb-1 text-ktp-appblue">
+      Boston Kappa Theta Pi
+    </h2>
+    <div className="mt-1 text-3xl text-gray-400 font-bold mb-5">
+    Your one-stop shop for everything KTP!
+    </div>
+      {/* Text Column */}
+      <div className="px-4 md:px-0 text-center md:text-left space-y-4">
+        <div className="bg-gray-100 p-6 rounded-md">
+          <h1 className="text-xl text-ktp-appblue font-bold mb-5">
+          This app will help you through our rush process!
+          </h1>
+          <p className="text-base mb-4 max-w-prose">
+            <ul className="list-disc list-inside space-y-2">
+              <li className="text-left">Provide a calendar with all our rush events times and locations</li>
+              <li className="text-left">Receive important rush updates and announcements</li>
+              <li className="text-left">Network with our brothers and E-Board</li>
+              <li className="text-left">Build a rush profile and share your interests and goals</li>
+            </ul>
+            <br />
+            Download Today. Rush Kappa Theta Pi.
+            <img src={downloadonappstore} alt="App Store" className="mt-5 h-[50px]" />
+          </p>
+
+        </div>
+      </div>
+
+      </div>
+
+      {/* Carousel Column */}
+      <div className="md:w-1/2 flex justify-center">
+        <div className="w-full max-w-[250px]">
+          <ImageCarousel images={images} />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
     </div>
   );
 }

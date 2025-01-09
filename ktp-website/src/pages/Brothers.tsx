@@ -1,19 +1,17 @@
 // src/pages/Brothers.tsx
 import { useEffect } from "react";
-import axios from "axios";
 import { useState } from "react";
 import fallbackImage from "../img/KTPLogo.jpeg";
 import Icons from '../components/Icons';
 
 import { useContext } from "react";
 import { DataBaseDataContext } from "../contexts/DataBaseDataContext";
-import StairsTransition from "../components/StairsTransition";
 
 function Brothers() {
   //DB DATA
   const { userData, pictureData } = useContext(DataBaseDataContext);
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  // const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [activeTab, setActiveTab] = useState("Actives");
   const [brotherName, setBrotherName] = useState([]);
   const [eboardName, setEboardName] = useState([]);

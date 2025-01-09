@@ -11,7 +11,6 @@ import socialIcon from "../img/socIcon.png";
 import techIcon from "../img/techIcon.png";
 import academicIcon from "../img/acadIcon.png";
 
-import StairsTransition from "../components/StairsTransition"
 import { useLocation } from "react-router-dom";
 
 function About() {

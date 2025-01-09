@@ -24,6 +24,7 @@
         "framer-motion": "^11.15.0",
         "jspdf": "^2.5.2",
         "lenis": "^1.1.18",
+        "lucide-react": "^0.469.0",
         "marked": "^15.0.5",
         "pdfjs-dist": "^4.10.38",
         "puppeteer": "^23.11.1",
