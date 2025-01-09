@@ -108,6 +108,10 @@ const Chatbot = () => {
                 </span>
             </div>
 
+            <p className="w-fit mx-auto mt-4 text-red-500">
+                Experimental - please double check responses.
+            </p>
+
             {/* Chatbot window conversation history */}
             <div className={`mx-8 ${loading ? "mt-4" : "my-4"}`}>
                 {state.history.map((message, index) => (
