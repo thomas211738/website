@@ -5,6 +5,9 @@ import sys
 backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if backend_path not in sys.path:
     sys.path.append(backend_path)
+function_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "./functions"))
+if function_path not in sys.path:
+    sys.path.append(function_path)
 
 from assistant.functions.main import KTPaul
 
