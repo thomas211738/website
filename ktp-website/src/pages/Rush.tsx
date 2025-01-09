@@ -33,13 +33,13 @@ function Rush() {
 
   return (
     <ReactLenis root>
-      <div className="w-full h-[300vh] relative">
-        <Canvas>
-          <Scene />
-        </Canvas>
+      
 
         {window.innerWidth >= 1024 && (
-          <>
+          <div className="w-full h-[300vh] relative">
+          <Canvas>
+            <Scene />
+          </Canvas>
             <div
               className="absolute top-[9.5%] left-[50%] transform -translate-x-1/2 text-white text-[13rem] font-sfpro"
               
@@ -61,9 +61,8 @@ function Rush() {
             >
               LAMBDA
             </div>
-          </>
+            </div>
         )}
-      </div>
 
       <div className="w-full">
   {/* Title Section */}

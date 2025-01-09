@@ -1,5 +1,5 @@
 import Icons from "./Icons";
-import downloadonappstore from "../img/Download on App Store.png";
+import downloadonappstore from "../img/App/Download on App Store.png";
 
 function Footer() {
     const menuItems = [
