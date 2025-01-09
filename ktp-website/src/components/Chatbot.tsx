@@ -102,9 +102,15 @@ const Chatbot = () => {
                 >
                     <CloseIcon fontSize="large" sx={{ color: "white" }} />
                 </button>
-                <h2 className="text-3xl text-white">KTPaul</h2>
-                <SmartToyIcon fontSize="large" sx={{ color: "white" }} />
+                <h2 className="my-auto text-3xl text-white">KTPaul</h2>
+                <span className="my-auto px-2 text-lg text-ktp-lightgreen font-semibold uppercase rounded-lg">
+                    Beta
+                </span>
             </div>
+
+            <p className="w-fit mx-auto mt-4 text-red-500">
+                Experimental - please double check responses.
+            </p>
 
             {/* Chatbot window conversation history */}
             <div className={`mx-8 ${loading ? "mt-4" : "my-4"}`}>
