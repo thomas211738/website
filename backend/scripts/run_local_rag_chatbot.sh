@@ -17,4 +17,4 @@ fi
 docker-compose -f ./docker-compose.yaml build local_chatbot
 
 # Runs the local chatbot script
-docker-compose -f ./docker-compose.yaml run --rm local_chatbot python local_chatbot.py
+docker-compose -f ./docker-compose.yaml run --rm local_chatbot python local_chatbot.py --mode rag
