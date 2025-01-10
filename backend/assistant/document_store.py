@@ -33,7 +33,7 @@ def create_document_embeddings(info: pd.DataFrame, pc: Pinecone) -> tuple[list, 
 
     # Chunks the source data
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1024,
+        chunk_size=512,
         chunk_overlap=20,
     )
 

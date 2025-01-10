@@ -17,7 +17,6 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import { DataBaseDataContext } from "./contexts/DataBaseDataContext";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import StairsTransition from "./components/StairsTransition";
 import BackToTop from "./components/ScrollTop";
 
 function App() {
@@ -53,17 +52,17 @@ function App() {
             <main className="flex-grow">
                 {/* Wrap Routes with DataBaseDataContext.Provider */}
                 <DataBaseDataContext.Provider value={{ userData, pictureData }}>
-                <AnimatePresence mode="wait">
-                    <BackToTop/>
-                    <Routes location={location} key={location.pathname}>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path="/brothers" element={<Brothers />} />
-                        <Route path="/rush" element={<Rush />} />
-                        <Route path="/contact" element={<Contact />} />
-                        <Route path="*" element={<Error />} />
-                    </Routes>
-                  </AnimatePresence>
+                    <AnimatePresence mode="wait">
+                        <BackToTop />
+                        <Routes location={location} key={location.pathname}>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/about" element={<About />} />
+                            <Route path="/brothers" element={<Brothers />} />
+                            <Route path="/rush" element={<Rush />} />
+                            <Route path="/contact" element={<Contact />} />
+                            <Route path="*" element={<Error />} />
+                        </Routes>
+                    </AnimatePresence>
                 </DataBaseDataContext.Provider>
             </main>
 

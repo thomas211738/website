@@ -34,6 +34,7 @@
         "react-loading-dot": "^1.0.6",
         "react-markdown": "^9.0.1",
         "react-router-dom": "^7.1.1",
+        "react-select": "^5.9.0",
         "three": "^0.172.0",
         "three-stdlib": "^2.35.2",
         "uuid": "^11.0.3"

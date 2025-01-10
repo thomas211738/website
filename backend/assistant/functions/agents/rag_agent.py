@@ -89,6 +89,7 @@ class CustomRAGAgent:
                 },
             ]
         )
+        self.history = self.history[-10:]
 
         return response.choices[0].message.content
 

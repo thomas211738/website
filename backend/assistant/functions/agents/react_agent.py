@@ -49,20 +49,17 @@ class CustomReActAgent:
         self.query_index = VectorStoreIndex.from_vector_store(
             vector_store=self.vector_store, embed_model=self.embed_model
         )
-        self.top_k = top_k or 4
+        self.top_k = top_k or 5
 
         self.history = (
             history[-10:]
             if history
             else [
-                ChatMessage(
-                    role=MessageRole.SYSTEM,
-                    content="You are a helpful chatbot assistant. Answer questions as related to Kappa Theta Pi (KTP) using the given tools. Do not answer questions that you do not have information about.",
-                ),
-                ChatMessage(
-                    role=MessageRole.CHATBOT,
-                    content="Hi, I'm KTPaul! How can I help you?",
-                ),
+                {
+                    "role": "system",
+                    "content": "You are a helpful chatbot assistant. Answer questions as related to Kappa Theta Pi (KTP) using the given tools. Do not answer questions that you do not have information about.",
+                },
+                {"role": "assistant", "content": "Hi, I'm KTPaul! How can I help you?"},
             ]
         )
 
@@ -148,21 +145,43 @@ class CustomReActAgent:
     def query_agent(self, query: str) -> str:
 
         try:
+
             agent = self.create_react_agent(tools=self.tools, llm=self.llm)
-            response = agent.chat(chat_history=self.history, message=query)
+
+            history = [
+                (
+                    ChatMessage(
+                        role=MessageRole.SYSTEM,
+                        content=message["content"],
+                    )
+                    if message["role"] == "system"
+                    else (
+                        ChatMessage(
+                            role=MessageRole.USER,
+                            content=message["content"],
+                        )
+                        if message["role"] == "user"
+                        else ChatMessage(
+                            role=MessageRole.CHATBOT,
+                            content=message["content"],
+                        )
+                    )
+                )
+                for message in self.history
+            ]
+
+            response = agent.chat(chat_history=history, message=query)
 
             self.history.extend(
                 [
-                    ChatMessage(
-                        role=MessageRole.USER,
-                        content=query,
-                    ),
-                    ChatMessage(
-                        role=MessageRole.CHATBOT,
-                        content=response,
-                    ),
+                    {"role": "user", "content": query},
+                    {
+                        "role": "assistant",
+                        "content": response,
+                    },
                 ]
             )
+            self.history = self.history[-10:]
 
             return response, self.history
         except Exception as e:
