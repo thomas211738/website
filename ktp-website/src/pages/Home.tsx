@@ -135,11 +135,11 @@ function Home() {
             <br />
             Download Today. Rush Kappa Theta Pi.
             <a
-                            href="https://apps.apple.com/us/app/boston-ktp/id6654894541?platform=iphone"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-gray-300"
-                        >
+            href="https://apps.apple.com/us/app/boston-ktp/id6654894541?platform=iphone"
+            target="_blank"
+            rel="noopener noreferrer"
+            className=" flex justify-center hover:text-gray-300"
+            >
             <img src={downloadonappstore} alt="App Store" className="mt-5 h-[50px]" />
             </a>
           </p>
