@@ -6,14 +6,6 @@ export const ChatbotContext = createContext<ChatbotContext | undefined>(
     undefined
 );
 
-const initialState = {
-    query: "",
-    history: [
-        { role: "assistant", content: "Hi, I'm KTPaul! How can I help you?" },
-    ],
-    openDrawer: false,
-};
-
 type Message = {
     role: string;
     content: string;
@@ -21,15 +13,36 @@ type Message = {
 
 type State = {
     query: string;
-    history: Message[];
-    openDrawer: boolean;
+    agent: "rag" | "react";
+    rag_history: Message[];
+    react_history: Message[];
+    openChatbotDrawer: boolean;
+};
+
+const initialState: State = {
+    query: "",
+    agent: "rag",
+    rag_history: [
+        { role: "assistant", content: "Hi, I'm KTPaul! How can I help you?" },
+    ],
+    react_history: [
+        {
+            role: "system",
+            content:
+                "You are a helpful chatbot assistant. Answer questions as related to Kappa Theta Pi (KTP) using the given tools. Do not answer questions that you do not have information about.",
+        },
+        { role: "assistant", content: "Hi, I'm KTPaul! How can I help you?" },
+    ],
+    openChatbotDrawer: false,
 };
 
 type Action =
     | { type: "setQuery"; payload: { query: string } }
-    | { type: "setHistory"; payload: { history: Message[] } }
-    | { type: "openDrawer" }
-    | { type: "closeDrawer" }
+    | { type: "setAgent"; payload: { agent: "rag" | "react" } }
+    | { type: "setRAGHistory"; payload: { history: Message[] } }
+    | { type: "setReActHistory"; payload: { history: Message[] } }
+    | { type: "openChatbotDrawer" }
+    | { type: "closeChatbotDrawer" }
     | { type: "clearConversation" }
     | { type: "reset" };
 
@@ -40,26 +53,36 @@ function ChatbotReducer(state: State, action: Action) {
                 ...state,
                 query: action.payload.query,
             };
-        case "setHistory":
+        case "setAgent":
             return {
                 ...state,
-                history: action.payload.history,
+                agent: action.payload.agent,
             };
-        case "openDrawer":
+        case "setRAGHistory":
             return {
                 ...state,
-                openDrawer: true,
+                rag_history: action.payload.history,
             };
-        case "closeDrawer":
+        case "setReActHistory":
             return {
                 ...state,
-                openDrawer: false,
+                react_history: action.payload.history,
+            };
+        case "openChatbotDrawer":
+            return {
+                ...state,
+                openChatbotDrawer: true,
+            };
+        case "closeChatbotDrawer":
+            return {
+                ...state,
+                openChatbotDrawer: false,
             };
         case "clearConversation":
             return {
                 ...initialState,
                 query: "",
-                openDrawer: true,
+                openChatbotDrawer: true,
             };
         case "reset":
             return initialState;

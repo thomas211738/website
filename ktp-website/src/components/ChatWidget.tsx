@@ -13,12 +13,12 @@ const ChatWidget = () => {
     const [state, dispatch] = context;
     return (
         <div className="w-fit">
-            {/* Button to open chatbot window */}
+            {/* Button to open chatbot drawer */}
             <button
                 className="p-1 border-2 rounded-xl border-ktp-darkblue bg-ktp-darkblue fixed bottom-8 right-8 z-10 hover:scale-105 hover:shadow-md"
                 onClick={() =>
                     dispatch({
-                        type: "openDrawer",
+                        type: "openChatbotDrawer",
                     })
                 }
             >
@@ -30,13 +30,13 @@ const ChatWidget = () => {
                 </div>
             </button>
 
-            {/* Chatbot window */}
+            {/* Chatbot drawer */}
             <Drawer
                 anchor="right"
-                open={state.openDrawer}
+                open={state.openChatbotDrawer}
                 onClose={() =>
                     dispatch({
-                        type: "closeDrawer",
+                        type: "closeChatbotDrawer",
                     })
                 }
             >

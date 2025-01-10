@@ -4,12 +4,20 @@ import { ThreeDots } from "react-loader-spinner";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { Popover } from "@mui/material";
+import { DialogActions, Popover } from "@mui/material";
 import ChatbotDialog from "./ChatbotDialog";
+import SettingsIcon from "@mui/icons-material/Settings";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 import { ChatbotContext } from "../contexts/ChatbotContext";
 
-const chatbot_backend = import.meta.env.VITE_CHATBOT_FUNCTION_URL;
+const rag_agent_url = import.meta.env.VITE_RAG_AGENT_FUNCTION_URL;
+const react_agent_url = import.meta.env.VITE_REACT_AGENT_FUNCTION_URL;
 
 const Chatbot = () => {
     const context = useContext(ChatbotContext);
@@ -19,6 +27,32 @@ const Chatbot = () => {
     const [state, dispatch] = context;
     const [loading, setLoading] = useState(false);
 
+    /* Handles the settings menu */
+    const [settingsMenuAnchorEl, setSettingsMenuAnchorEl] =
+        useState<null | HTMLElement>(null);
+    const settingsOpen = Boolean(settingsMenuAnchorEl);
+    const handleSettingsMenuOpen = (
+        event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+        setSettingsMenuAnchorEl(event.currentTarget);
+    };
+    const handleSettingsMenuClose = () => {
+        setSettingsMenuAnchorEl(null);
+    };
+
+    /* Handles chatbot mode selection */
+    const [modeDialogOpen, setModeDialogOpen] = useState(false);
+    const setRagArchitecture = () => {
+        dispatch({ type: "setAgent", payload: { agent: "rag" } });
+        console.log("Chatbot set to RAG mode");
+        setModeDialogOpen(false);
+    };
+    const setReactArchitecture = () => {
+        dispatch({ type: "setAgent", payload: { agent: "react" } });
+        console.log("Chatbot set to ReAct mode");
+        setModeDialogOpen(false);
+    };
+
     /* Queries the chatbot */
     const queryChatbot = async () => {
         try {
@@ -27,22 +61,39 @@ const Chatbot = () => {
             }
             setSubmitAnchorEl(null);
             setLoading(true);
-            const response = await axios.post(`${chatbot_backend}`, {
-                query: state.query,
-                history: state.history,
-            });
-            console.log(response);
-            dispatch({
-                type: "setQuery",
-                payload: { query: "" },
-            });
-            setLoading(false);
-
-            dispatch({
-                type: "setHistory",
-                payload: { history: response.data.history },
-            });
-            console.log(state.history);
+            if (state.agent === "rag") {
+                const response = await axios.post(`${rag_agent_url}`, {
+                    query: state.query,
+                    history: state.rag_history,
+                });
+                console.log(response);
+                dispatch({
+                    type: "setQuery",
+                    payload: { query: "" },
+                });
+                setLoading(false);
+                dispatch({
+                    type: "setRAGHistory",
+                    payload: { history: response.data.history },
+                });
+                console.log(state.rag_history);
+            } else if (state.agent === "react") {
+                const response = await axios.post(`${react_agent_url}`, {
+                    query: state.query,
+                    history: state.react_history,
+                });
+                console.log(response);
+                dispatch({
+                    type: "setQuery",
+                    payload: { query: "" },
+                });
+                setLoading(false);
+                dispatch({
+                    type: "setReActHistory",
+                    payload: { history: response.data.history },
+                });
+                console.log(state.react_history);
+            }
         } catch (error) {
             setLoading(false);
             console.error("Error querying the chatbot:", error);
@@ -64,7 +115,7 @@ const Chatbot = () => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
-    }, [state.history]);
+    }, [state.rag_history, state.react_history]);
 
     /* Return key to submit, shift key + return key to go to new line */
     const handleKeyDown = async (e: React.KeyboardEvent) => {
@@ -91,43 +142,135 @@ const Chatbot = () => {
 
     return (
         <div>
-            {/* Chatbot window header */}
+            {/* Chatbot drawer header */}
             <div className="p-2 flex justify-between align-middle sticky top-0 z-10 bg-ktp-darkblue">
                 <button
                     onClick={() =>
                         dispatch({
-                            type: "closeDrawer",
+                            type: "closeChatbotDrawer",
                         })
                     }
                 >
-                    <CloseIcon fontSize="large" sx={{ color: "white" }} />
+                    <CloseIcon
+                        className="my-auto text-white"
+                        fontSize="large"
+                    />
                 </button>
-                <h2 className="my-auto text-3xl text-white">KTPaul</h2>
-                <span className="my-auto px-2 text-lg text-ktp-lightgreen font-semibold uppercase rounded-lg">
-                    Beta
-                </span>
+                <div className="flex">
+                    <h2 className="my-auto px-1 text-3xl text-white">KTPaul</h2>
+                    <span className="mt-auto px-1 text-lg text-ktp-lightgreen font-semibold uppercase rounded-lg">
+                        Beta
+                    </span>
+                </div>
+
+                {/* Chatbot settings menu */}
+                <button onClick={handleSettingsMenuOpen}>
+                    <SettingsIcon
+                        className="my-auto text-white"
+                        fontSize="large"
+                    />
+                </button>
+                <Menu
+                    id="settings-menu"
+                    anchorEl={settingsMenuAnchorEl}
+                    open={settingsOpen}
+                    onClose={handleSettingsMenuClose}
+                    MenuListProps={{
+                        "aria-labelledby": "settings-button",
+                    }}
+                >
+                    <MenuItem
+                        onClick={() => {
+                            handleSettingsMenuClose();
+                            setModeDialogOpen(true);
+                        }}
+                    >
+                        Architecture
+                    </MenuItem>
+                    <MenuItem onClick={handleSettingsMenuClose}>
+                        Overview
+                    </MenuItem>
+                </Menu>
+
+                {/* Chatbot architecture settings dialog */}
+                <Dialog
+                    open={modeDialogOpen}
+                    onClose={() => setModeDialogOpen(false)}
+                    aria-labelledby="mode-dialog-title"
+                    aria-describedby="mode-dialog-description"
+                >
+                    <DialogTitle id="mode-dialog-title">
+                        Architecture
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="mode-dialog-description">
+                            Configure the chatbot with either the RAG or ReAct
+                            agent architecture.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <div className="w-fit m-auto flex flex-wrap justify-around">
+                            <button
+                                className={`w-36 sm:w-48 mx-1 sm:mx-2 my-1 p-1 rounded-md border-2 border-gray-200 ${
+                                    state.agent === "rag" && "bg-gray-200"
+                                } hover:bg-ktp-lightgreen`}
+                                onClick={setRagArchitecture}
+                                autoFocus
+                            >
+                                Retrieval Augmented Generation (RAG)
+                            </button>
+                            <button
+                                className={`w-36 sm:w-48 mx-1 sm:mx-2 my-1 p-1 rounded-md border-2 border-gray-200 ${
+                                    state.agent === "react" && "bg-gray-200"
+                                } hover:bg-ktp-lightgreen`}
+                                onClick={setReactArchitecture}
+                                autoFocus
+                            >
+                                Synergizing Reasoning and Acting (ReAct)
+                            </button>
+                        </div>
+                    </DialogActions>
+                </Dialog>
             </div>
 
             <p className="w-fit mx-auto mt-4 text-red-500">
                 Experimental - please double check responses.
             </p>
 
-            {/* Chatbot window conversation history */}
+            {/* Chatbot drawer conversation history */}
             <div className={`mx-8 ${loading ? "mt-4" : "my-4"}`}>
-                {state.history.map((message, index) => (
-                    <div
-                        key={index}
-                        className={`w-fit max-w-4/5 my-1 py-1 flex ${
-                            message.role === "user" &&
-                            "ml-auto px-2 justify-end rounded-md bg-ktp-lightblue"
-                        }`}
-                    >
-                        {message.role === "assistant" && (
-                            <SmartToyIcon className="mr-2" />
-                        )}
-                        {message.content}
-                    </div>
-                ))}
+                {state.agent === "rag" &&
+                    state.rag_history.map((message, index) => (
+                        <div
+                            key={index}
+                            className={`w-fit max-w-4/5 my-1 py-1 flex ${
+                                message.role === "user" &&
+                                "ml-auto px-2 justify-end rounded-md bg-ktp-lightblue"
+                            }`}
+                        >
+                            {message.role === "assistant" && (
+                                <SmartToyIcon className="mr-2" />
+                            )}
+                            {message.content}
+                        </div>
+                    ))}
+                {state.agent === "react" &&
+                    state.react_history
+                        .filter((message) => message.role !== "system")
+                        .map((message, index) => (
+                            <div
+                                key={index}
+                                className={`w-fit max-w-4/5 my-1 py-1 flex ${
+                                    message.role === "user" &&
+                                    "ml-auto px-2 justify-end rounded-md bg-ktp-lightblue"
+                                }`}
+                            >
+                                {message.role === "assistant" && (
+                                    <SmartToyIcon className="mr-2" />
+                                )}
+                                {message.content}
+                            </div>
+                        ))}
             </div>
 
             {!loading ? (
