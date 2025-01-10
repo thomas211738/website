@@ -4,12 +4,20 @@
             "source": "functions",
             "runtime": "python310",
             "codebase": "default",
+            "entryPoint": "main.py",
             "ignore": [
                 "venv",
+                "*__pycache__",
                 ".git",
                 "firebase-debug.log",
                 "firebase-debug.*.log",
-                "*.local"
+                "*.local",
+                "docker-compose.yaml",
+                "Dockerfile.document_store",
+                "Dockerfile.local_chatbot",
+                "info.json",
+                "local_chatbot.py",
+                "README.md"
             ]
         }
     ]
