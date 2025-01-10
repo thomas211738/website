@@ -11,13 +11,10 @@ import socialIcon from "../img/socIcon.png";
 import techIcon from "../img/techIcon.png";
 import academicIcon from "../img/acadIcon.png";
 
-import { useLocation } from "react-router-dom";
-
 function About() {
   const slides = [heroImg1, heroImg2, heroImg3];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [manualOverride, setManualOverride] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     if (manualOverride) return;
@@ -45,28 +42,19 @@ function About() {
       {/* HERO CAROUSEL */}
       <section className="relative w-full h-[60vh] overflow-hidden">
         {slides.map((imgSrc, i) => (
-          <div
+            <div
             key={i}
             className={`absolute w-full h-full top-0 left-0 transition-opacity duration-700 ${
               currentIndex === i ? "opacity-100 z-10" : "opacity-0"
             }`}
-          >
+            >
             <img
               src={imgSrc}
               alt={`Hero slide ${i + 1}`}
               className="w-full h-full object-cover"
             />
-          </div>
+            </div>
         ))}
-
-        <div
-          className="relative z-20 w-full h-full flex items-center justify-center"
-          style={{ paddingTop: "150px" }}
-        >
-          <div className="bg-white bg-opacity-60 px-8 py-4 rounded shadow-md max-w-xl text-center">
-            <h1 className="text-5xl font-bold text-[#134b91] mb-4">About Us</h1>
-          </div>
-        </div>
 
         {/* Dots (manual nav) */}
         <div className="absolute bottom-4 w-full flex justify-center z-30">
@@ -83,8 +71,8 @@ function About() {
       </section>
 
       {/* ABOUT TEXT */}
-      <section className="max-w-4xl mx-auto py-8 px-4 -mt-200 relative bg-white shadow-md rounded">
-        <h2 className="text-3xl font-bold mb-4 text-[#134b91]">Our Story</h2>
+      <section className="mt-10 max-w-4xl mx-auto py-8 px-4 -mt-200 relative bg-gray-100 rounded-md">
+        <h2 className="text-center text-4xl font-bold mb-4 text-ktp-appblue">Our Story</h2>
         <p className="text-gray-700 leading-relaxed mb-6">
           Kappa Theta Pi takes pride in being the first professional technology fraternity
           in the country. Our members learn a plethora of skills needed to stay knowledgeable
@@ -113,13 +101,13 @@ function About() {
 
       {/* FIVE PILLARS */}
       <section className="mt-16 px-4 pb-12">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-[#134b91]">
-          Our Five Pillars
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-ktp-appblue">
+          Five Pillars
         </h2>
 
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Pillar 1 */}
-          <div className="bg-[#234c8b] text-white p-6 rounded shadow relative">
+            <div className="bg-ktp-appblue text-white p-6 rounded-lg shadow-lg relative transform transition-transform hover:scale-105 hover:shadow-2xl">
             {/* Icon in top-left */}
             <img
               src={devIcon}
@@ -133,7 +121,7 @@ function About() {
           </div>
 
           {/* Pillar 2 */}
-          <div className="bg-[#234c8b] text-white p-6 rounded shadow relative">
+          <div className="bg-ktp-appblue text-white p-6 rounded-lg shadow-lg relative transform transition-transform hover:scale-105 hover:shadow-2xl">
             <img
               src={alumniIcon}
               alt="Alumni Icon"
@@ -147,7 +135,7 @@ function About() {
           </div>
 
           {/* Pillar 3 */}
-          <div className="bg-[#234c8b] text-white p-6 rounded shadow relative">
+          <div className="bg-ktp-appblue text-white p-6 rounded-lg shadow-lg relative transform transition-transform hover:scale-105 hover:shadow-2xl">
             <img
               src={socialIcon}
               alt="Social Icon"
@@ -161,7 +149,7 @@ function About() {
           </div>
 
           {/* Pillar 4 */}
-          <div className="bg-[#234c8b] text-white p-6 rounded shadow relative">
+          <div className="bg-ktp-appblue text-white p-6 rounded-lg shadow-lg relative transform transition-transform hover:scale-105 hover:shadow-2xl">
             <img
               src={techIcon}
               alt="Tech Icon"
@@ -174,7 +162,7 @@ function About() {
           </div>
 
           {/* Pillar 5 */}
-          <div className="bg-[#234c8b] text-white p-6 rounded shadow relative">
+          <div className="bg-ktp-appblue text-white p-6 rounded-lg shadow-lg relative transform transition-transform hover:scale-105 hover:shadow-2xl">
             <img
               src={academicIcon}
               alt="Academic Icon"
@@ -191,14 +179,14 @@ function About() {
       {/* HISTORY OF KTP - TIMELINE */}
       <section className="py-12 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-[#134b91]">
-            History of KTP
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-ktp-appblue">
+            KTP History
           </h2>
           <div className="relative border-l-2 border-gray-300 ml-6">
 
             {/* 2011  */}
             <div className="mb-12 ml-6 relative">
-              <div className="w-4 h-4 bg-[#134b91] rounded-full absolute -left-[10px] top-1"></div>
+              <div className="w-4 h-4 bg-ktp-appblue rounded-full absolute -left-[10px] top-1"></div>
               <h3 className="text-xl font-bold mb-2 px-4">2011: Inception at UMich</h3>
               <p className="text-gray-700">
               In December 2011, at the University of Michigan, two students (Louise Vongphrachanh and Jing Guo)
@@ -209,7 +197,7 @@ function About() {
 
             {/* 2014  */}
             <div className="mb-12 ml-6 relative">
-              <div className="w-4 h-4 bg-[#134b91] rounded-full absolute -left-[10px] top-1"></div>
+              <div className="w-4 h-4 bg-ktp-appblue rounded-full absolute -left-[10px] top-1"></div>
               <h3 className="text-xl font-bold mb-2 px-4">2014: Expansion & Sponsorship</h3>
               <p className="text-gray-700">
               Approaching 2014 the fraternity broadened its focus to encompass many technology-related majors
@@ -219,7 +207,7 @@ function About() {
 
             {/* 2015-2017  */}
             <div className="mb-12 ml-6 relative">
-              <div className="w-4 h-4 bg-[#134b91] rounded-full absolute -left-[10px] top-1"></div>
+              <div className="w-4 h-4 bg-ktp-appblue rounded-full absolute -left-[10px] top-1"></div>
               <h3 className="text-xl font-bold mb-2 px-4">2015–2017: Beyond Michigan</h3>
               <p className="text-gray-700">
               From 2015-2017 the Beta, Gamma, Delta, and Epsilon chapters were established at the University of Pittsburgh, the Rose-Hulman Institute of Technology,
@@ -229,7 +217,7 @@ function About() {
 
             {/* 2019-2022 Timeline Item */}
             <div className="mb-12 ml-6 relative">
-              <div className="w-4 h-4 bg-[#134b91] rounded-full absolute -left-[10px] top-1"></div>
+              <div className="w-4 h-4 bg-ktp-appblue rounded-full absolute -left-[10px] top-1"></div>
               <h3 className="text-xl font-bold mb-2 px-4">2019–2022: Nationwide Growth</h3>
               <p className="text-gray-700">
               From late-2019 to mid-2022 we see the next few chapters pop up all across the country with the addition of Zeta, Eta, Theta,
@@ -239,7 +227,7 @@ function About() {
 
             {/* 2022: Lambda at BU */}
             <div className="mb-12 ml-6 relative">
-              <div className="w-4 h-4 bg-[#134b91] rounded-full absolute -left-[10px] top-1"></div>
+              <div className="w-4 h-4 bg-ktp-appblue rounded-full absolute -left-[10px] top-1"></div>
               <h3 className="text-xl font-bold mb-2 px-4">2022: Establishment of Lambda Chapter</h3>
               <p className="text-gray-700">
               On October 27th, 2022, the Lambda Chapter was officially founded here at Boston University. Presidents Paul Lee and Tye Robison
@@ -251,7 +239,7 @@ function About() {
 
             {/* 2023 & Beyond */}
             <div className="mb-12 ml-6 relative">
-              <div className="w-4 h-4 bg-[#134b91] rounded-full absolute -left-[10px] top-1"></div>
+              <div className="w-4 h-4 bg-ktp-appblue rounded-full absolute -left-[10px] top-1"></div>
               <h3 className="text-xl font-bold mb-2 px-4">2023 & Beyond</h3>
               <p className="text-gray-700">
               In the spring of 2023, Lambda held its inaugural rush and warmly embraced an Alpha class consisting of around 30 students. As we speak,
@@ -267,25 +255,25 @@ function About() {
       {/* DEI COMMITMENT SECTION */}
       <section className="bg-white py-12 px-4">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-[#134b91] text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-ktp-appblue text-center">
             DEI Commitment
           </h2>
-          <p className="text-gray-700 leading-relaxed mb-6">
-          The world of technology is unique, diverse, and multi-faceted. We believe
+            <p className="text-gray-700 leading-relaxed mb-6 max-w-4xl mx-auto">
+            The world of technology is unique, diverse, and multi-faceted. We believe
             that our brothers should be too. In Kappa Theta Pi, we’re passionate about
             cultivating an inclusive community that promotes and values diversity. Our
             dedication to diversity, equity, and inclusion is unwavering; these values
             are central to our mission and to our impact. We know that having heterogeneous
             perspectives helps generate better ideas to solve the nuanced problems of
             a changing — and increasingly diverse — world.
-          </p>
-          <p className="text-gray-700 leading-relaxed">
-          In KTP, we have a responsibility to address structural inequality in our
+            </p>
+            <p className="text-gray-700 leading-relaxed max-w-4xl mx-auto">
+            In KTP, we have a responsibility to address structural inequality in our
             communities as well as the social and cultural dimensions of technology.
             We are committed to harnessing the best of KTP — our people, platform, and
             technical innovation — to make lasting change inside and outside of our
             organization.
-          </p>
+            </p>
           <img
             src={walkingImg}
             alt="Walking"
