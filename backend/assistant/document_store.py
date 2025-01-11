@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
 import pandas as pd
@@ -19,55 +20,59 @@ def get_info() -> pd.DataFrame:
     return info
 
 
-def create_document_embeddings(info: pd.DataFrame, pc: Pinecone) -> tuple[list, list]:
+def create_document_embeddings(info: pd.DataFrame) -> list[dict]:
     """Converts the source data into vector embeddings for Pinecone.
 
     Args:
         info (pd.DataFrame): the source data, formatted as a dataframe with columns "id", "sources", and "metadata".
-        pc (Pinecone): an instance of the Pinecone class.
 
     Returns:
         tuple: A tuple containing two elements:
-            - records (list): the vector embeddings of the source data.
+            - records (list[dict]): the vector embeddings of the source data.
     """
 
     # Chunks the source data
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=512,
+        chunk_size=1024,
         chunk_overlap=20,
     )
 
     # Reformats the source data
-    data = []
-    for _, row in info.iterrows():
-        docs = text_splitter.create_documents(texts=row["sources"])
-        for index, doc in enumerate(docs):
-            data.append(
-                {
-                    "name": f'{row["id"]}_{index}',
-                    "text": doc.page_content,
-                    "metadata": row["metadata"],
-                }
-            )
+    data = [
+        {
+            "name": f'{row["id"]}_{index}',
+            "text": doc.page_content,
+            "metadata": {
+                **row["metadata"],
+                "text": doc.page_content,
+            },
+        }
+        for _, row in info.iterrows()
+        for index, doc in enumerate(
+            text_splitter.create_documents(texts=row["sources"])
+        )
+    ]
 
-    # Creates vector embeddings of the source data
-    embeddings = pc.inference.embed(
-        model="multilingual-e5-large",
-        inputs=[d["text"] for d in data],
-        parameters={"input_type": "passage", "truncate": "END"},
+    embeddings_model = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-mpnet-base-v2"
     )
+    embeddings = embeddings_model.embed_documents([d["text"] for d in data])
 
     # Reformats the embeddings for Pinecone
     records = []
     for d, e in zip(data, embeddings):
-        d["metadata"].update({"text": d["text"]})
+
+        d["metadata"]["text"] = d["text"]
         records.append(
             {
                 "id": d["name"],
-                "values": e["values"],
+                "values": e,
                 "metadata": d["metadata"],
             }
         )
+    for record in records:
+        print("\n")
+        print(record["id"], record["metadata"])
 
     return records
 
@@ -108,7 +113,7 @@ if __name__ == "__main__":
 
     # Creates vector embeddings for Pinecone
     pc = Pinecone(api_key=os.environ["PINECONE_API_KEY"])
-    records = create_document_embeddings(info=info, pc=pc)
+    records = create_document_embeddings(info=info)
 
     # Updates the vector embeddings in Pinecone
     update_pinecone(records=records, pc=pc)
