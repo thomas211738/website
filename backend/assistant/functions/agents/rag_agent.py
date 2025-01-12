@@ -1,5 +1,7 @@
 from dotenv import load_dotenv
+import gc
 from huggingface_hub import InferenceClient
+from langchain_huggingface import HuggingFaceEmbeddings
 import os
 from pinecone import Pinecone
 
@@ -17,19 +19,19 @@ class CustomRAGAgent:
         history: list = None,
     ):
 
-        self.huggingface_token = huggingface_token or os.environ.get(
-            "HUGGINGFACE_TOKEN"
-        )
-        self.pinecone_api_key = pinecone_api_key or os.environ.get("PINECONE_API_KEY")
-        self.pc = Pinecone(api_key=self.pinecone_api_key)
-        self.pinecone_host = pinecone_host or os.environ.get("PINECONE_HOST")
-        self.index = self.pc.Index(host=self.pinecone_host)
-        self.chat_client = InferenceClient(
-            token=self.huggingface_token, model="meta-llama/Meta-Llama-3-8B-Instruct"
-        )
-        self.embed_model = "multilingual-e5-large"
-        self.top_k = top_k or 5
-        self.history = (
+        self.huggingface_token = huggingface_token or os.getenv("HUGGINGFACE_TOKEN")
+        self.pinecone_api_key = pinecone_api_key or os.getenv("PINECONE_API_KEY")
+        self.pinecone_host = pinecone_host or os.getenv("PINECONE_HOST")
+
+        self.pc = None
+        self.index = None
+        self.chat_client = None
+        self.embeddings_model = None
+
+        self.embed_model = "sentence-transformers/all-mpnet-base-v2"
+        self.top_k = top_k or 4
+
+        self.history = tuple(
             history[-10:]
             if history
             else [
@@ -37,67 +39,101 @@ class CustomRAGAgent:
             ]
         )
 
+    def get_pc(self):
+
+        if self.pc is None:
+            self.pc = Pinecone(api_key=self.pinecone_api_key)
+
+        return self.pc
+
+    def get_index(self):
+
+        if self.index is None:
+            self.index = self.get_pc().Index(host=self.pinecone_host)
+
+        return self.index
+
+    def get_chat_client(self):
+
+        if self.chat_client is None:
+            self.chat_client = InferenceClient(
+                token=self.huggingface_token,
+                model="meta-llama/Meta-Llama-3-8B-Instruct",
+            )
+
+        return self.chat_client
+
+    def get_embeddings_model(self):
+
+        if self.embeddings_model is None:
+            self.embeddings_model = HuggingFaceEmbeddings(model_name=self.embed_model)
+
+        return self.embeddings_model
+
     def retrieve_context(self, query: str) -> str:
 
         try:
-            query_embedding = self.pc.inference.embed(
-                model=self.embed_model,
-                inputs=[query],
-                parameters={"input_type": "query"},
-            )
-            results = self.index.query(
-                vector=query_embedding[0].values,
+            query_embedding = self.get_embeddings_model().embed_query(text=query)
+
+            results = self.get_index().query(
+                vector=query_embedding,
                 top_k=self.top_k,
                 include_metadata=True,
             )
 
-            context_documents = [
+            context = "\n".join(
                 document["metadata"]["text"] for document in results["matches"]
-            ]
-            context = ""
-            for c in context_documents:
-                context += f"\n{c}\n"
+            )
+
+            del results, query_embedding
+            gc.collect()
+
+            return context
         except Exception as e:
             print(f"Failed to retrieve contextual documents from Pinecone: {e}")
             raise e
 
-        return context
-
     def generate_response(self, query: str, context: str) -> str:
 
-        enhanced_query = f"""Only answer the query as related to Kappa Theta Pi (KTP), \
-                            the professional technology fraternity, based on the included \
-                            context if possible. Do not include information that is not \
-                            related to KTP. No need to cite the context. Do not use any \
-                            special formatting like bullets or markdown. Provide the \
-                            response as plain text only.\n \
+        enhanced_query = f"""Answer the following query as related to Kappa Theta Pi (KTP), \
+                            the professional technology fraternity. DO NOT INCLUDE \
+                            INFORMATION THAT IS NOT PRESENT IN THE GIVEN CONTEXT. DO NOT \
+                            INCLUDE INFORMATION NOT RELATED TO KTP. No need to cite the \
+                            context. Do not use any special formatting like bullets or \
+                            markdown. Provide the response as plain text only. PROVIDE
+                            AS MUCH DETAIL AS POSSIBLE FROM THE CONTEXT.\n \
                             \nQUERY:\n{query}\n\nCONTEXT:\n{context}"""
 
-        prompt_history = self.history.copy()
+        prompt_history = list(self.history)
         prompt_history.append({"role": "user", "content": enhanced_query})
 
-        response = self.chat_client.chat_completion(
+        response = self.get_chat_client().chat_completion(
             messages=prompt_history, max_tokens=200
         )
 
-        self.history.extend(
-            [
+        self.history = tuple(
+            list(self.history)
+            + [
                 {"role": "user", "content": query},
-                {
-                    "role": "assistant",
-                    "content": response.choices[0].message.content,
-                },
+                {"role": "assistant", "content": response.choices[0].message.content},
             ]
-        )
-        self.history = self.history[-10:]
+        )[-10:]
 
-        return response.choices[0].message.content
+        response = response.choices[0].message.content
+
+        del prompt_history
+        gc.collect()
+
+        return response
 
     def query_agent(self, query: str) -> str:
 
         try:
             context = self.retrieve_context(query=query)
             response = self.generate_response(query=query, context=context)
+
+            del context
+            gc.collect()
 
             return response, self.history
         except Exception as e:

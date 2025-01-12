@@ -24,9 +24,9 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--top_k",
-        choices=[i for i in range(1, 11)],
-        default=5,
-        help="Choose the top k similarity vectors (1-10)",
+        choices=[i for i in range(1, 9)],
+        default=4,
+        help="Choose the top k similarity vectors (1-8)",
     )
     parser.add_argument(
         "-v", "--verbose", help="Increase chatbot verbosity", action="store_true"

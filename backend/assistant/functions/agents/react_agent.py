@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
-from llama_index.core import VectorStoreIndex
+import gc
+from llama_index.core import Settings, VectorStoreIndex
 from llama_index.core.agent import ReActAgent
 from llama_index.core.llms import ChatMessage, MessageRole
 from llama_index.core.tools import ToolMetadata, QueryEngineTool
@@ -30,28 +31,21 @@ class CustomReActAgent:
         verbose: bool = False,
     ):
 
-        self.huggingface_token = huggingface_token or os.environ.get(
-            "HUGGINGFACE_TOKEN"
-        )
-        self.llm = HuggingFaceInferenceAPI(
-            model_name="meta-llama/Meta-Llama-3-8B-Instruct",
-            token=os.environ.get("HUGGINGFACE_TOKEN"),
-        )
+        self.huggingface_token = huggingface_token or os.getenv("HUGGINGFACE_TOKEN")
+        self.pinecone_api_key = pinecone_api_key or os.getenv("PINECONE_API_KEY")
+        self.pinecone_host = pinecone_host or os.getenv("PINECONE_HOST")
 
-        self.pinecone_api_key = pinecone_api_key or os.environ.get("PINECONE_API_KEY")
-        self.pc = Pinecone(api_key=self.pinecone_api_key)
-        self.pinecone_host = pinecone_host or os.environ.get("PINECONE_HOST")
-        self.index = self.pc.Index(host=self.pinecone_host)
-        self.vector_store = PineconeVectorStore(pinecone_index=self.index)
-        self.embed_model = HuggingFaceEmbedding(
-            model_name="intfloat/multilingual-e5-large"
-        )
-        self.query_index = VectorStoreIndex.from_vector_store(
-            vector_store=self.vector_store, embed_model=self.embed_model
-        )
-        self.top_k = top_k or 5
+        self.llm = None
+        self.pc = None
+        self.index = None
+        self.vector_store = None
+        self.embed_model = None
+        self.query_index = None
 
-        self.history = (
+        self.top_k = top_k or 4
+        self.verbose = verbose
+
+        self.history = tuple(
             history[-10:]
             if history
             else [
@@ -63,50 +57,88 @@ class CustomReActAgent:
             ]
         )
 
-        self.verbose = verbose
+        self.fraternity_info_query_tool = None
+        self.recruitment_query_tool = None
+        self.tools = None
 
-        self.accomplishments_query_tool = self.create_query_tool(
-            name="accomplishments_tool",
-            description=(
-                "Provides detailed information about KTP accomplishments"
-                "Use this tool for queries about KTP accomplishments."
-                "Use a detailed plain text question as input to the tool, based on the user query."
-            ),
-            filter_params=[{"key": "topic", "value": "accomplishments_info"}],
-        )
-        self.events_query_tool = self.create_query_tool(
-            name="events_tool",
-            description=(
-                "Provides detailed information about KTP events"
-                "Use this tool for queries about KTP events."
-                "Use a detailed plain text question as input to the tool, based on the user query."
-            ),
-            filter_params=[{"key": "topic", "value": "events_info"}],
-        )
-        self.fraternity_info_query_tool = self.create_query_tool(
-            name="fraternity_info_tool",
-            description=(
-                "Provides general information about Kappa Theta Pi (KTP)."
-                "Use this tool for general queries about KTP."
-                "Use a detailed plain text question as input to the tool, based on the user query."
-            ),
-            filter_params=[{"key": "topic", "value": "fraternity_info"}],
-        )
-        self.recruitment_query_tool = self.create_query_tool(
-            name="recruitment_tool",
-            description=(
-                "Provides detailed information about KTP recruitment"
-                "Use this tool for queries about KTP recruitment."
-                "Use a detailed plain text question as input to the tool, based on the user query."
-            ),
-            filter_params=[{"key": "topic", "value": "recruitment_info"}],
-        )
-        self.tools = [
-            self.accomplishments_query_tool,
-            self.events_query_tool,
-            self.fraternity_info_query_tool,
-            self.recruitment_query_tool,
-        ]
+    def get_llm(self):
+
+        if self.llm is None:
+            self.llm = HuggingFaceInferenceAPI(
+                model_name="meta-llama/Meta-Llama-3-8B-Instruct",
+                token=self.huggingface_token,
+            )
+            Settings.llm = self.llm
+
+        return self.llm
+
+    def get_pc(self):
+
+        if self.pc is None:
+            self.pc = Pinecone(api_key=self.pinecone_api_key)
+
+        return self.pc
+
+    def get_index(self):
+
+        if self.index is None:
+            self.index = self.get_pc().Index(host=self.pinecone_host)
+
+        return self.index
+
+    def get_vector_store(self):
+
+        if self.vector_store is None:
+            self.vector_store = PineconeVectorStore(pinecone_index=self.get_index())
+
+        return self.vector_store
+
+    def get_embed_model(self):
+
+        if self.embed_model is None:
+            self.embed_model = HuggingFaceEmbedding(
+                model_name="sentence-transformers/all-mpnet-base-v2"
+            )
+
+        return self.embed_model
+
+    def get_query_index(self):
+
+        if self.query_index is None:
+            self.query_index = VectorStoreIndex.from_vector_store(
+                vector_store=self.get_vector_store(), embed_model=self.get_embed_model()
+            )
+
+        return self.query_index
+
+    def get_tools(self):
+
+        if self.tools is None:
+            self.fraternity_info_query_tool = self.create_query_tool(
+                name="fraternity_info_tool",
+                description=(
+                    "Provides general information about Kappa Theta Pi (KTP)."
+                    "Use this tool for general queries about KTP."
+                    "Use a detailed plain text as input to the tool, based on the user query."
+                ),
+                filter_params=[{"key": "topic", "value": "fraternity_info"}],
+            )
+            self.recruitment_query_tool = self.create_query_tool(
+                name="recruitment_tool",
+                description=(
+                    "Provides detailed information about KTP recruitment and rush"
+                    "Use this tool only for queries about KTP recruitment, rush, and joining the frat."
+                    "Use detailed plain text as input to the tool, based on the user query."
+                ),
+                filter_params=[{"key": "topic", "value": "recruitment_info"}],
+            )
+
+            self.tools = [
+                self.fraternity_info_query_tool,
+                self.recruitment_query_tool,
+            ]
+
+        return self.tools
 
     def create_query_tool(self, name, description, filter_params):
 
@@ -122,8 +154,8 @@ class CustomReActAgent:
             condition=FilterCondition.AND,
         )
 
-        query_engine = self.query_index.as_query_engine(
-            llm=self.llm,
+        query_engine = self.get_query_index().as_query_engine(
+            llm=self.get_llm(),
             verbose=self.verbose,
             filters=filters,
             similarity_top_k=self.top_k,
@@ -134,19 +166,18 @@ class CustomReActAgent:
             metadata=ToolMetadata(name=name, description=description),
         )
 
-    def create_react_agent(self, tools, llm):
+    def create_react_agent(self):
 
         return ReActAgent.from_tools(
-            tools=tools,
-            llm=llm,
+            tools=self.get_tools(),
+            llm=self.get_llm(),
             verbose=self.verbose,
         )
 
     def query_agent(self, query: str) -> str:
 
         try:
-
-            agent = self.create_react_agent(tools=self.tools, llm=self.llm)
+            agent = self.create_react_agent()
 
             history = [
                 (
@@ -172,16 +203,16 @@ class CustomReActAgent:
 
             response = agent.chat(chat_history=history, message=query)
 
-            self.history.extend(
-                [
+            self.history = tuple(
+                list(self.history)
+                + [
                     {"role": "user", "content": query},
-                    {
-                        "role": "assistant",
-                        "content": response,
-                    },
+                    {"role": "assistant", "content": response},
                 ]
-            )
-            self.history = self.history[-10:]
+            )[-10:]
+
+            del agent, history
+            gc.collect()
 
             return response, self.history
         except Exception as e:

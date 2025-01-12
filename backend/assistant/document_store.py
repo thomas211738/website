@@ -27,8 +27,7 @@ def create_document_embeddings(info: pd.DataFrame) -> list[dict]:
         info (pd.DataFrame): the source data, formatted as a dataframe with columns "id", "sources", and "metadata".
 
     Returns:
-        tuple: A tuple containing two elements:
-            - records (list[dict]): the vector embeddings of the source data.
+        records (list[dict]): the vector embeddings of the source data.
     """
 
     # Chunks the source data
@@ -90,7 +89,7 @@ def update_pinecone(records: list, pc: Pinecone):
 
     try:
         # Connects to Pinecone
-        index = pc.Index(host=os.environ["PINECONE_HOST"])
+        index = pc.Index(host=os.getenv("PINECONE_HOST"))
 
         # Deletes the old vector embeddings in Pinecone
         index.delete(delete_all=True)
@@ -112,7 +111,7 @@ if __name__ == "__main__":
     info = get_info()
 
     # Creates vector embeddings for Pinecone
-    pc = Pinecone(api_key=os.environ["PINECONE_API_KEY"])
+    pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
     records = create_document_embeddings(info=info)
 
     # Updates the vector embeddings in Pinecone
