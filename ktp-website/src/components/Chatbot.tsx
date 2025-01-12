@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
@@ -26,7 +25,6 @@ const Chatbot = () => {
     }
     const [state, dispatch] = context;
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
 
     /* Handles the info menu */
     const [infoMenuAnchorEl, setInfoMenuAnchorEl] =
@@ -41,12 +39,6 @@ const Chatbot = () => {
 
     /* Handles chatbot architecture dialog */
     const [architectureDialogOpen, setArchitectureDialogOpen] = useState(false);
-    const handleArchitectureNavigation = () => {
-        setArchitectureDialogOpen(false);
-        handleInfoMenuClose();
-        dispatch({ type: "closeChatbotDrawer" });
-        navigate("/chatbot-architecture");
-    };
 
     /* Handles chatbot feedback dialog */
     const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false);
@@ -134,7 +126,7 @@ const Chatbot = () => {
                     }
                 >
                     <CloseIcon
-                        className="my-auto text-white"
+                        className="my-auto text-white hover:text-ktp-lightgreen"
                         fontSize="large"
                     />
                 </button>
@@ -147,7 +139,16 @@ const Chatbot = () => {
 
                 {/* Chatbot info menu */}
                 <button onClick={handleInfoMenuOpen}>
-                    <InfoIcon className="my-auto text-white" fontSize="large" />
+                    <InfoIcon
+                        className={`my-auto ${
+                            infoOpen ||
+                            architectureDialogOpen ||
+                            feedbackDialogOpen
+                                ? "text-ktp-lightgreen"
+                                : "text-white"
+                        } hover:text-ktp-lightgreen`}
+                        fontSize="large"
+                    />
                 </button>
                 <Menu
                     id="settings-menu"
@@ -188,18 +189,31 @@ const Chatbot = () => {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="architecture-dialog-description">
-                            This chatbot was created using Retrieval Augmented
-                            Generation (RAG).
+                            <p>
+                                This chatbot was created using Retrieval
+                                Augmented Generation (RAG). At its core, the
+                                methodology follows 3 basic steps.
+                            </p>
+                            <ol className="mt-4 px-3 py-2 flex flex-col text-white bg-ktp-darkblue rounded-md">
+                                <li className="my-1">
+                                    1. KTP information is converted into vector
+                                    embeddings offline and stored in Pinecone's
+                                    vector database.
+                                </li>
+                                <li className="my-1">
+                                    2. The user query is used to retrieve
+                                    contextual information from Pinecone
+                                    utilizing cosine similarity to determine
+                                    semantic relevance.
+                                </li>
+                                <li className="my-1">
+                                    3. The retrieved context and the user query
+                                    are both passed into the Llama-3-8B-Instruct
+                                    model to generate the correct response.
+                                </li>
+                            </ol>
                         </DialogContentText>
                     </DialogContent>
-                    <DialogActions>
-                        <a
-                            className="mx-auto mb-4 p-2 rounded-md cursor-pointer bg-gray-200 hover:bg-ktp-lightgreen"
-                            onClick={handleArchitectureNavigation}
-                        >
-                            Click to learn more
-                        </a>
-                    </DialogActions>
                 </Dialog>
 
                 {/* Chatbot feedback dialog */}
@@ -221,7 +235,7 @@ const Chatbot = () => {
                     </DialogContent>
                     <DialogActions>
                         <a
-                            className="mx-auto mb-4 p-2 rounded-md bg-gray-200 hover:bg-ktp-lightgreen"
+                            className="mx-auto mb-4 p-2 text-white rounded-md bg-ktp-darkblue hover:bg-ktp-lightgreen"
                             href="https://docs.google.com/forms/d/e/1FAIpQLSenMJRjHgStxIEUa4k1C7q5sUo6osj7an06USiaAvmcpAUQDA/viewform?usp=header"
                             target="_blank"
                         >
