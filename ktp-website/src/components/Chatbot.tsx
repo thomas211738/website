@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
@@ -25,6 +26,7 @@ const Chatbot = () => {
     }
     const [state, dispatch] = context;
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     /* Handles the info menu */
     const [infoMenuAnchorEl, setInfoMenuAnchorEl] =
@@ -37,8 +39,14 @@ const Chatbot = () => {
         setInfoMenuAnchorEl(null);
     };
 
-    /* Handles chatbot mode selection */
-    const [modeDialogOpen, setModeDialogOpen] = useState(false);
+    /* Handles chatbot architecture dialog */
+    const [architectureDialogOpen, setArchitectureDialogOpen] = useState(false);
+    const handleArchitectureNavigation = () => {
+        setArchitectureDialogOpen(false);
+        handleInfoMenuClose();
+        dispatch({ type: "closeChatbotDrawer" });
+        navigate("/chatbot-architecture");
+    };
 
     /* Handles chatbot feedback dialog */
     const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false);
@@ -153,7 +161,7 @@ const Chatbot = () => {
                     <MenuItem
                         onClick={() => {
                             handleInfoMenuClose();
-                            setModeDialogOpen(true);
+                            setArchitectureDialogOpen(true);
                         }}
                     >
                         Architecture
@@ -170,20 +178,28 @@ const Chatbot = () => {
 
                 {/* Chatbot architecture dialog */}
                 <Dialog
-                    open={modeDialogOpen}
-                    onClose={() => setModeDialogOpen(false)}
-                    aria-labelledby="mode-dialog-title"
-                    aria-describedby="mode-dialog-description"
+                    open={architectureDialogOpen}
+                    onClose={() => setArchitectureDialogOpen(false)}
+                    aria-labelledby="architecture-dialog-title"
+                    aria-describedby="architecture-dialog-description"
                 >
-                    <DialogTitle id="mode-dialog-title">
+                    <DialogTitle id="architecture-dialog-title">
                         Architecture
                     </DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="mode-dialog-description">
-                            Configure the chatbot with either the RAG or ReAct
-                            agent architecture.
+                        <DialogContentText id="architecture-dialog-description">
+                            This chatbot was created using Retrieval Augmented
+                            Generation (RAG).
                         </DialogContentText>
                     </DialogContent>
+                    <DialogActions>
+                        <a
+                            className="mx-auto mb-4 p-2 rounded-md cursor-pointer bg-gray-200 hover:bg-ktp-lightgreen"
+                            onClick={handleArchitectureNavigation}
+                        >
+                            Click to learn more
+                        </a>
+                    </DialogActions>
                 </Dialog>
 
                 {/* Chatbot feedback dialog */}
