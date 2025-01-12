@@ -1,11 +1,11 @@
 from dotenv import load_dotenv
 from firebase_functions import https_fn, options
+from huggingface_hub import InferenceClient
 import json
-from llama_index.core.llms import ChatMessage, MessageRole
+from langchain_huggingface import HuggingFaceEmbeddings
 import os
-
-from agents.rag_agent import CustomRAGAgent
-from agents.react_agent import CustomReActAgent
+from pinecone import Pinecone
+import psutil
 
 
 load_dotenv()
@@ -19,62 +19,160 @@ class KTPaul:
         pinecone_api_key: str = None,
         pinecone_host: str = None,
         top_k: int = None,
-        rag_history: list = None,
-        react_history: list = None,
+        history: list = None,
+        memory: bool = False,
         verbose: bool = False,
     ):
-        self.huggingface_token = huggingface_token or os.environ.get(
-            "HUGGINGFACE_TOKEN"
-        )
-        self.pinecone_api_key = pinecone_api_key or os.environ.get("PINECONE_API_KEY")
-        self.pinecone_host = pinecone_host or os.environ.get("PINECONE_HOST")
 
-        self.top_k = top_k or 5
+        self.huggingface_token = huggingface_token or os.getenv("HUGGINGFACE_TOKEN")
+        self.pinecone_api_key = pinecone_api_key or os.getenv("PINECONE_API_KEY")
+        self.pinecone_host = pinecone_host or os.getenv("PINECONE_HOST")
 
-        self.rag_history = (
-            rag_history[-10:]
-            if rag_history
+        self.pc = None
+        self.index = None
+        self.chat_client = None
+        self.embeddings_model = None
+
+        self.embed_model = "sentence-transformers/all-MiniLM-L6-v2"
+        self.top_k = top_k or 4
+
+        self.history = (
+            history[-10:]
+            if history
             else [
                 {"role": "assistant", "content": "Hi, I'm KTPaul! How can I help you?"}
             ]
         )
-        self.react_history = (
-            react_history[-10:]
-            if react_history
-            else [
-                {
-                    "role": "system",
-                    "content": "You are a helpful chatbot assistant. Answer questions as related to Kappa Theta Pi (KTP) using the given tools. Do not answer questions that you do not have information about.",
-                },
-                {"role": "assistant", "content": "Hi, I'm KTPaul! How can I help you?"},
-            ]
-        )
 
-        self.rag_agent = None
-        self.react_agent = None
-
+        self.memory = memory
         self.verbose = verbose
 
-    def initialize_agent(self, agent_type):
+        if self.memory:
+            self.check_memory_usage("after chatbot initialization")
 
-        assert agent_type in ["rag", "react"]
+    def check_memory_usage(self, stage: str = "Unknown stage"):
 
-        if agent_type == "rag" and self.rag_agent is None:
-            self.rag_agent = CustomRAGAgent(
-                huggingface_token=self.huggingface_token,
-                pinecone_api_key=self.pinecone_api_key,
-                pinecone_host=self.pinecone_host,
-                top_k=self.top_k,
-                history=self.rag_history,
+        process = psutil.Process()
+        memory_info = process.memory_info()
+        print(f"Memory usage {stage}: {memory_info.rss / (1024 ** 2)} MB")
+
+    def get_pc(self):
+
+        if self.pc is None:
+            self.pc = Pinecone(api_key=self.pinecone_api_key)
+
+        return self.pc
+
+    def get_index(self):
+
+        if self.index is None:
+            self.index = self.get_pc().Index(host=self.pinecone_host)
+
+        return self.index
+
+    def get_chat_client(self):
+
+        if self.chat_client is None:
+            self.chat_client = InferenceClient(
+                token=self.huggingface_token,
+                model="meta-llama/Meta-Llama-3-8B-Instruct",
             )
-        elif agent_type == "react" and self.react_agent is None:
-            self.react_agent = CustomReActAgent(
-                huggingface_token=self.huggingface_token,
-                pinecone_api_key=self.pinecone_api_key,
-                pinecone_host=self.pinecone_host,
+
+        if self.memory:
+            self.check_memory_usage("after chat client initialization")
+
+        return self.chat_client
+
+    def get_embeddings_model(self):
+
+        if self.embeddings_model is None:
+            self.embeddings_model = HuggingFaceEmbeddings(model_name=self.embed_model)
+
+        if self.memory:
+            self.check_memory_usage("after embeddings model initialization")
+
+        return self.embeddings_model
+
+    def retrieve_context(self, query: str) -> str:
+
+        try:
+            query_embedding = self.get_embeddings_model().embed_query(text=query)
+
+            results = self.get_index().query(
+                vector=query_embedding,
                 top_k=self.top_k,
-                history=self.react_history,
-                verbose=self.verbose,
+                include_metadata=True,
+            )
+
+            context = "\n".join(
+                document["metadata"]["text"] for document in results["matches"]
+            )
+
+            if self.memory:
+                self.check_memory_usage("after retrieving context")
+
+            del results, query_embedding
+
+            if self.verbose:
+                print(f"\nContext: \n{context}\n")
+
+            return context
+        except Exception as e:
+            print(f"Failed to retrieve contextual documents from Pinecone: {e}")
+            raise e
+
+    def generate_response(self, query: str, context: str) -> str:
+
+        enhanced_query = f"""Answer the following query as related to Kappa Theta Pi (KTP), \
+                            the professional technology fraternity. DO NOT INCLUDE \
+                            INFORMATION THAT IS NOT PRESENT IN THE GIVEN CONTEXT. DO NOT \
+                            INCLUDE INFORMATION NOT RELATED TO KTP. No need to cite the \
+                            context. Do not use any special formatting like bullets or \
+                            markdown. Provide the response as plain text only. PROVIDE
+                            AS MUCH DETAIL AS POSSIBLE FROM THE CONTEXT.\n \
+                            \nQUERY:\n{query}\n\nCONTEXT:\n{context}"""
+
+        prompt_history = self.history[:]
+        prompt_history.append({"role": "user", "content": enhanced_query})
+
+        response = self.get_chat_client().chat_completion(
+            messages=prompt_history, max_tokens=200
+        )
+
+        if self.memory:
+            self.check_memory_usage("after generating response")
+
+        del prompt_history
+
+        response = response.choices[0].message.content
+
+        self.history.extend(
+            [
+                {"role": "user", "content": query},
+                {"role": "assistant", "content": response},
+            ]
+        )
+        self.history = self.history[-10:]
+
+        return response
+
+    def query_agent(self, query: str) -> str:
+
+        try:
+            context = self.retrieve_context(query=query)
+            response = self.generate_response(query=query, context=context)
+
+            if self.memory:
+                self.check_memory_usage("after querying agent")
+
+            del context
+
+            return response, self.history
+        except Exception as e:
+            print(e)
+            return (
+                "I am struggling to come up with an appropriate response. Please try again.",
+                self.history,
             )
 
 
@@ -102,59 +200,14 @@ def rag_handler(req: https_fn.Request) -> https_fn.Response:
         if not isinstance(history, list):
             return https_fn.Response("Invalid history parameter", status=400)
 
-        chatbot = KTPaul(rag_history=history)
-        chatbot.initialize_agent(agent_type="rag")
-        response = chatbot.rag_agent.query_agent(query=query)
+        chatbot = KTPaul(history=history)
+        response, history = chatbot.query_agent(query=query)
 
         return https_fn.Response(
             json.dumps(
                 {
                     "response": response,
-                    "history": chatbot.rag_agent.history,
-                }
-            ),
-            content_type="application/json",
-            status=200,
-        )
-    except Exception as e:
-        return https_fn.Response(
-            json.dumps({"error": str(e)}), status=500, content_type="application/json"
-        )
-
-
-@https_fn.on_request(
-    cors=options.CorsOptions(
-        cors_origins=["*"],
-        cors_methods=["get", "post"],
-    ),
-    timeout_sec=30,
-    memory=options.MemoryOption.GB_1,
-)
-def react_handler(req: https_fn.Request) -> https_fn.Response:
-
-    try:
-        if req.method == "POST":
-            body = req.get_json()
-            query = body.get("query")
-            history = body.get("history", [])
-        else:
-            query = req.args.get("query")
-            history = req.args.get("history", [])
-
-        if query is None or not isinstance(query, str) or not query.strip():
-            return https_fn.Response("Invalid query parameter", status=400)
-        if not isinstance(history, list):
-            return https_fn.Response("Invalid history parameter", status=400)
-
-        chatbot = KTPaul(react_history=history)
-        chatbot.initialize_agent(agent_type="react")
-        response = chatbot.react_agent.query_agent(query=query)
-
-        return https_fn.Response(
-            json.dumps(
-                {
-                    "response": response,
-                    "history": chatbot.react_agent.history,
+                    "history": history,
                 }
             ),
             content_type="application/json",

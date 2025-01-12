@@ -78,12 +78,7 @@ const ChatbotDialog = (props: ChatbotDialogProps) => {
     };
 
     const downloadTranscript = () => {
-        if (state.agent === "rag") {
-            GenerateChatbotTranscript(state.rag_history);
-        } else if (state.agent === "react") {
-            GenerateChatbotTranscript(state.react_history);
-        }
-
+        GenerateChatbotTranscript(state.history);
         setDialogOpen(false);
         console.log("Downloaded chatbot transcript");
     };
