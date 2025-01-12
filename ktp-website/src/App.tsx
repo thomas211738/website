@@ -7,7 +7,6 @@ import Brothers from "./pages/Brothers";
 import Rush from "./pages/Rush";
 import Contact from "./pages/Contact";
 import Error from "./pages/Error";
-import ChatbotArchitecture from "./pages/ChatbotArchitecture";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -62,10 +61,6 @@ function App() {
                             <Route path="/brothers" element={<Brothers />} />
                             <Route path="/rush" element={<Rush />} />
                             <Route path="/contact" element={<Contact />} />
-                            <Route
-                                path="/chatbot-architecture"
-                                element={<ChatbotArchitecture />}
-                            />
                             <Route path="*" element={<Error />} />
                         </Routes>
                     </AnimatePresence>
