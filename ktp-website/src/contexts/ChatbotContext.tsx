@@ -13,24 +13,13 @@ type Message = {
 
 type State = {
     query: string;
-    agent: "rag" | "react";
-    rag_history: Message[];
-    react_history: Message[];
+    history: Message[];
     openChatbotDrawer: boolean;
 };
 
 const initialState: State = {
     query: "",
-    agent: "rag",
-    rag_history: [
-        { role: "assistant", content: "Hi, I'm KTPaul! How can I help you?" },
-    ],
-    react_history: [
-        {
-            role: "system",
-            content:
-                "You are a helpful chatbot assistant. Answer questions as related to Kappa Theta Pi (KTP) using the given tools. Do not answer questions that you do not have information about.",
-        },
+    history: [
         { role: "assistant", content: "Hi, I'm KTPaul! How can I help you?" },
     ],
     openChatbotDrawer: false,
@@ -38,9 +27,8 @@ const initialState: State = {
 
 type Action =
     | { type: "setQuery"; payload: { query: string } }
-    | { type: "setAgent"; payload: { agent: "rag" | "react" } }
-    | { type: "setRAGHistory"; payload: { history: Message[] } }
-    | { type: "setReActHistory"; payload: { history: Message[] } }
+    | { type: "setHistory"; payload: { history: Message[] } }
+    | { type: "appendHistory"; payload: { history: Message[] } }
     | { type: "openChatbotDrawer" }
     | { type: "closeChatbotDrawer" }
     | { type: "clearConversation" }
@@ -53,20 +41,15 @@ function ChatbotReducer(state: State, action: Action) {
                 ...state,
                 query: action.payload.query,
             };
-        case "setAgent":
+        case "setHistory":
             return {
                 ...state,
-                agent: action.payload.agent,
+                history: action.payload.history,
             };
-        case "setRAGHistory":
+        case "appendHistory":
             return {
                 ...state,
-                rag_history: action.payload.history,
-            };
-        case "setReActHistory":
-            return {
-                ...state,
-                react_history: action.payload.history,
+                history: [...state.history, ...action.payload.history],
             };
         case "openChatbotDrawer":
             return {
