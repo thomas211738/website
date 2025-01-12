@@ -52,15 +52,15 @@ def create_document_embeddings(info: pd.DataFrame) -> list[dict]:
         )
     ]
 
+    # Creates the vector embeddings
     embeddings_model = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-mpnet-base-v2"
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
     embeddings = embeddings_model.embed_documents([d["text"] for d in data])
 
     # Reformats the embeddings for Pinecone
     records = []
     for d, e in zip(data, embeddings):
-
         d["metadata"]["text"] = d["text"]
         records.append(
             {
@@ -69,9 +69,6 @@ def create_document_embeddings(info: pd.DataFrame) -> list[dict]:
                 "metadata": d["metadata"],
             }
         )
-    for record in records:
-        print("\n")
-        print(record["id"], record["metadata"])
 
     return records
 
