@@ -13,6 +13,12 @@ if __name__ == "__main__":
     # Initializes the script arguments
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "--top_k",
+        choices=[str(i) for i in range(1, 9)],
+        default=4,
+        help="Choose top k for semantic context vector retrieval (1-8)",
+    )
+    parser.add_argument(
         "-m", "--memory", help="Track memory usage", action="store_true"
     )
     parser.add_argument(
@@ -21,7 +27,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Initializes the chatbot
-    chatbot = KTPaul(memory=args.memory, verbose=args.verbose)
+    chatbot = KTPaul(top_k=int(args.top_k), memory=args.memory, verbose=args.verbose)
     query = input("\nHi, I'm KTPaul! How can I help you?\n\n")
 
     # Runs the RAG interaction loop

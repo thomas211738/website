@@ -18,6 +18,7 @@ class KTPaul:
         huggingface_token: str = None,
         pinecone_api_key: str = None,
         pinecone_host: str = None,
+        top_k: int = None,
         history: list = None,
         memory: bool = False,
         verbose: bool = False,
@@ -33,7 +34,7 @@ class KTPaul:
         self.embeddings_model = None
 
         self.embed_model = "sentence-transformers/all-MiniLM-L6-v2"
-        self.top_k = 4
+        self.top_k = top_k or 4
 
         self.history = (
             history[-10:]
