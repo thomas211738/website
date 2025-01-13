@@ -19,6 +19,7 @@ import { DataBaseDataContext } from "./contexts/DataBaseDataContext";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import BackToTop from "./components/ScrollTop";
+import { SnackbarProvider } from "notistack";
 
 function App() {
     //DB access for entire app
@@ -68,9 +69,11 @@ function App() {
             </main>
 
             {/* Chatbot */}
-            <ChatbotProvider>
-                <ChatWidget />
-            </ChatbotProvider>
+            <SnackbarProvider>
+                <ChatbotProvider>
+                    <ChatWidget />
+                </ChatbotProvider>
+            </SnackbarProvider>
             {/* Footer at the bottom */}
             <Footer />
         </div>

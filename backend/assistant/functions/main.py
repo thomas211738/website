@@ -181,8 +181,9 @@ class KTPaul:
         cors_origins=["*"],
         cors_methods=["get", "post"],
     ),
-    timeout_sec=30,
+    timeout_sec=15,
     memory=options.MemoryOption.GB_1,
+    min_instances=1,
 )
 def rag_handler(req: https_fn.Request) -> https_fn.Response:
 
