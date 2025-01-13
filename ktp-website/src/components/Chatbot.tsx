@@ -13,6 +13,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useSnackbar } from "notistack";
 
 import { ChatbotContext } from "../contexts/ChatbotContext";
 
@@ -25,6 +26,7 @@ const Chatbot = () => {
     }
     const [state, dispatch] = context;
     const [loading, setLoading] = useState(false);
+    const { enqueueSnackbar } = useSnackbar();
 
     /* Handles the info menu */
     const [infoMenuAnchorEl, setInfoMenuAnchorEl] =
@@ -71,6 +73,14 @@ const Chatbot = () => {
         } catch (error) {
             setLoading(false);
             console.error("Error querying the chatbot:", error);
+            if (axios.isAxiosError(error) && error.response?.status === 504) {
+                enqueueSnackbar({
+                    variant: "error",
+                    message: "Request timed out. Please try again.",
+                });
+            } else {
+                enqueueSnackbar({ variant: "error", message: String(error) });
+            }
         }
     };
 
@@ -194,24 +204,24 @@ const Chatbot = () => {
                                 Augmented Generation (RAG). At its core, the
                                 methodology follows 3 basic steps.
                             </p>
-                            <ol className="mt-4 px-3 py-2 flex flex-col text-white bg-ktp-darkblue rounded-md">
-                                <li className="my-1">
+                            <span className="mt-4 px-3 py-2 flex flex-col text-white bg-ktp-darkblue rounded-md">
+                                <p className="my-1">
                                     1. KTP information is converted into vector
                                     embeddings offline and stored in Pinecone's
                                     vector database.
-                                </li>
-                                <li className="my-1">
+                                </p>
+                                <p className="my-1">
                                     2. The user query is used to retrieve
                                     contextual information from Pinecone
                                     utilizing cosine similarity to determine
                                     semantic relevance.
-                                </li>
-                                <li className="my-1">
+                                </p>
+                                <p className="my-1">
                                     3. The retrieved context and the user query
                                     are both passed into the Llama-3-8B-Instruct
                                     model to generate the correct response.
-                                </li>
-                            </ol>
+                                </p>
+                            </span>
                         </DialogContentText>
                     </DialogContent>
                 </Dialog>
