@@ -33,7 +33,7 @@ class KTPaul:
         self.embeddings_model = None
 
         self.embed_model = "sentence-transformers/all-MiniLM-L6-v2"
-        self.top = 4
+        self.top_k = 4
 
         self.history = (
             history[-10:]
@@ -180,8 +180,9 @@ class KTPaul:
         cors_origins=["*"],
         cors_methods=["get", "post"],
     ),
-    timeout_sec=30,
+    timeout_sec=15,
     memory=options.MemoryOption.GB_1,
+    min_instances=1,
 )
 def rag_handler(req: https_fn.Request) -> https_fn.Response:
 

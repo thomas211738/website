@@ -21,7 +21,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Initializes the chatbot
-    chatbot = KTPaul(top_k=args.top_k, memory=args.memory, verbose=args.verbose)
+    chatbot = KTPaul(memory=args.memory, verbose=args.verbose)
     query = input("\nHi, I'm KTPaul! How can I help you?\n\n")
 
     # Runs the RAG interaction loop
