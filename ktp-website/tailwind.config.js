@@ -8,13 +8,13 @@ export default {
             lg: "1024px",
             xl: "1280px",
             "2xl": "1536px",
-            custom: "1220px", 
+            custom: "1220px",
         },
         extend: {
             fontFamily: {
-                sfpro: ['SF Pro', 'sans-serif'],
-                monospace: ['Monaco', 'Courier New', 'monospace'],
-                bebasneue: ['Bebas Neue']
+                sfpro: ["SF Pro", "sans-serif"],
+                monospace: ["Monaco", "Courier New", "monospace"],
+                bebasneue: ["Bebas Neue"],
             },
             colors: {
                 ktp: {
@@ -26,6 +26,10 @@ export default {
                     green: "#8dddd8",
                     lightgreen: "#baecab",
                 },
+            },
+            maxHeight: {
+                112: "448px",
+                128: "512px",
             },
             maxWidth: {
                 "4/5": "80%",

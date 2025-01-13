@@ -4,20 +4,21 @@ import { ThreeDots } from "react-loader-spinner";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { DialogActions, Popover } from "@mui/material";
+import { Popover } from "@mui/material";
 import ChatbotDialog from "./ChatbotDialog";
 import InfoIcon from "@mui/icons-material/Info";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useSnackbar } from "notistack";
+import chatbotDiagram from "../img/chatbot_diagram.png";
 
 import { ChatbotContext } from "../contexts/ChatbotContext";
 
-const rag_agent_url = import.meta.env.VITE_RAG_AGENT_FUNCTION_URL;
+const chatbotURL = import.meta.env.VITE_CHATBOT_FUNCTION_URL;
 
 const Chatbot = () => {
     const context = useContext(ChatbotContext);
@@ -54,7 +55,7 @@ const Chatbot = () => {
             setSubmitAnchorEl(null);
             setLoading(true);
 
-            const response = await axios.post(`${rag_agent_url}`, {
+            const response = await axios.post(`${chatbotURL}`, {
                 query: state.query,
                 history: state.history,
             });
@@ -193,36 +194,43 @@ const Chatbot = () => {
                     onClose={() => setArchitectureDialogOpen(false)}
                     aria-labelledby="architecture-dialog-title"
                     aria-describedby="architecture-dialog-description"
+                    className="m-auto max-h-112 sm:max-h-128"
                 >
-                    <DialogTitle id="architecture-dialog-title">
+                    <DialogTitle
+                        className="text-ktp-darkblue"
+                        id="architecture-dialog-title"
+                    >
                         Architecture
                     </DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="architecture-dialog-description">
-                            <p>
-                                This chatbot was created using Retrieval
-                                Augmented Generation (RAG). At its core, the
-                                methodology follows 3 basic steps.
+                        <p>
+                            This chatbot was created using Retrieval Augmented
+                            Generation (RAG). At its core, the implementation
+                            follows 3 basic steps.
+                        </p>
+                        <span className="mt-4 px-3 py-2 flex flex-col text-black bg-gray-200 rounded-md shadow-sm">
+                            <p className="my-1 text-sm">
+                                1. KTP information is converted into vector
+                                embeddings and stored in Pinecone's vector
+                                database (offline).
                             </p>
-                            <span className="mt-4 px-3 py-2 flex flex-col text-white bg-ktp-darkblue rounded-md">
-                                <p className="my-1">
-                                    1. KTP information is converted into vector
-                                    embeddings offline and stored in Pinecone's
-                                    vector database.
-                                </p>
-                                <p className="my-1">
-                                    2. The user query is used to retrieve
-                                    contextual information from Pinecone
-                                    utilizing cosine similarity to determine
-                                    semantic relevance.
-                                </p>
-                                <p className="my-1">
-                                    3. The retrieved context and the user query
-                                    are both passed into the Llama-3-8B-Instruct
-                                    model to generate the correct response.
-                                </p>
-                            </span>
-                        </DialogContentText>
+                            <p className="my-1 text-sm">
+                                2. The user query is used to retrieve contextual
+                                information from Pinecone utilizing cosine
+                                similarity to determine semantic relevance.
+                            </p>
+                            <p className="my-1 text-sm">
+                                3. The retrieved context and the user query are
+                                both passed into the Llama-3-8B-Instruct model
+                                to generate the correct response.
+                            </p>
+                        </span>
+
+                        <img
+                            className="w-4/5 mx-auto mt-2"
+                            src={chatbotDiagram}
+                            alt="Error displaying chatbot diagram"
+                        />
                     </DialogContent>
                 </Dialog>
 
@@ -233,19 +241,20 @@ const Chatbot = () => {
                     aria-labelledby="feedback-dialog-title"
                     aria-describedby="feedback-dialog-description"
                 >
-                    <DialogTitle id="feedback-dialog-title">
+                    <DialogTitle
+                        className="text-ktp-darkblue"
+                        id="feedback-dialog-title"
+                    >
                         Feedback
                     </DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="feedback-dialog-description">
-                            Thank you for using the chatbot assistant! Please
-                            consider leaving feedback to help improve the user
-                            experience.
-                        </DialogContentText>
+                        Thank you for using the chatbot assistant! Please
+                        consider leaving feedback to help improve the user
+                        experience.
                     </DialogContent>
                     <DialogActions>
                         <a
-                            className="mx-auto mb-4 p-2 text-white rounded-md bg-ktp-darkblue hover:bg-ktp-lightgreen"
+                            className="mx-auto mb-4 p-2 text-black rounded-md bg-gray-200 hover:bg-ktp-lightgreen"
                             href="https://docs.google.com/forms/d/e/1FAIpQLSenMJRjHgStxIEUa4k1C7q5sUo6osj7an06USiaAvmcpAUQDA/viewform?usp=header"
                             target="_blank"
                         >
