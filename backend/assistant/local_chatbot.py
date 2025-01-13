@@ -13,12 +13,6 @@ if __name__ == "__main__":
     # Initializes the script arguments
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--top_k",
-        choices=[i for i in range(1, 9)],
-        default=4,
-        help="Choose the top k similarity vectors (1-8)",
-    )
-    parser.add_argument(
         "-m", "--memory", help="Track memory usage", action="store_true"
     )
     parser.add_argument(
