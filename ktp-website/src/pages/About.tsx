@@ -104,7 +104,7 @@ function About() {
 
       {/* FIVE PILLARS */}
       <section className="mt-16 px-4 pb-12">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-ktp-appblue">
+        <h2 className="text-3xl sm:text-4xl font-black text-center mb-8 text-ktp-appblue">
           Five Pillars
         </h2>
 
@@ -182,7 +182,7 @@ function About() {
       {/* HISTORY OF KTP - TIMELINE */}
       <section className="py-12 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-ktp-appblue">
+          <h2 className="text-3xl sm:text-4xl font-black text-center mb-8 text-ktp-appblue">
             KTP History
           </h2>
           <div className="relative border-l-2 border-gray-300 ml-6">
@@ -258,7 +258,7 @@ function About() {
       {/* DEI COMMITMENT SECTION */}
       <section className="bg-white py-12 px-4">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-ktp-appblue text-center">
+          <h2 className="text-3xl sm:text-4xl font-black mb-4 text-ktp-appblue text-center">
             DEI Commitment
           </h2>
             <p className="text-gray-700 leading-relaxed mb-6 max-w-4xl mx-auto">

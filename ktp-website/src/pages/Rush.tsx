@@ -19,6 +19,23 @@ interface RushEvent {
   Description: string;
 }
 
+interface FAQItemProps {
+  question: string;
+  answer: string;
+  isOpen: boolean;
+  onClick: () => void;
+}
+
+const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onClick }) => (
+  <div className="border-b border-gray-300 py-4 cursor-pointer" onClick={onClick}>
+    <div className="flex justify-between items-center">
+      <h3 className="text-xl font-semibold">{question}</h3>
+      <span className="text-blue-700 text-2xl">{isOpen ? '-' : '+'}</span>
+    </div>
+    {isOpen && <p className="text-gray-600 mt-2">{answer}</p>}
+  </div>
+);
+
 function Rush() {
   const lenisRef = useRef<{
     lenis?: { on: (event: string, handler: (e: any) => void) => void; raf: (time: number) => void }
@@ -33,6 +50,20 @@ function Rush() {
   const vpOfRecruitmentPic = pictureData?.find(
     (pic: { _id: string }) => pic._id === vpOfRecruitment?.websitePic
   );
+
+  const [openQuestion, setOpenQuestion] = useState(null);
+  const faqs = [
+    { question: "Who can rush KTP?", answer: "Anyone is allowed to rush — we gladly accept (and encourage) rushees from all disciplines! The only requirement is that you must have at least 3 semesters left in school after your pledging semester." },
+    { question: "What is KTP looking for?", answer: "There’s no cookie cutter “ideal” rushee — if there were, Kappa Theta Pi wouldn’t be the multi-talented, interdisciplinary organization that it is! In our experience, the qualities you’re looking for are often what we’d love to have in new members. In the end, we are an org united by our love for technology, and people who are truly passionate about tech are the ones who usually fit in the best." },
+    { question: "How would I benefit from KTP?", answer: "KTP offers a supportive community of undergraduates who are all passionate about technology! Among other things, we offer mentoring in areas such as career advising, interview prep, resume development, and coursework. Additionally, we have current members and alumni working everywhere from the brightest startups to the tech giants of the corporate world. We believe that networking is far more than just professionalism — it's a process built on friendship, trust, and brotherhood." },
+    { question: "Which majors are represented in KTP?", answer: "KTP is made up of a diverse group of people from schools all across campus. Generally, our members tend to be computer science majors or in the School of Information, but we are proud to have actives with backgrounds in creative writing, philosophy, business, women’s studies, and entrepreneurship! We love (and encourage) rushees from all disciplines." },
+    { question: "What types of social events does KTP have?", answer: "KTP aims to have at minimum one sober and one non-sober event per month. In the past, we have had barn dances, bowling nights, formals, Smash tournaments, and many more events." },
+    { question: "How much of a time commitment is pledging?", answer: "As with all campus organizations, what you get out of the organization depends on what you put into it. We believe that our pledging process isn’t strenuous and could be accommodated by most schedules.\nIf you have any further questions or want to learn more about KTP before rush, feel free to send us an email at ktp-board@umich.edu or stop by our booths at Festifall and Northfest." },
+  ];
+  const toggleQuestion = (index: any) => {
+    setOpenQuestion(openQuestion === index ? null : index);
+  };
+  
 
   // 3) Use the same events state you set up
   const [events, setEvents] = useState<RushEvent[]>([]);
@@ -94,7 +125,7 @@ function Rush() {
       <div className="w-full">
         {/* Title Section */}
         <div className="flex flex-col items-center justify-center text-center">
-          <div className="mt-10 text-gray-700 text-5xl font-sfpro font-bold mb-4">
+          <div className="mt-10 text-5xl font-sfpro font-bold mb-4">
             Welcome to{" "}
             <span className="bg-ktp-appblue text-white px-2 py-1 rounded inline-block leading-relaxed">
               Spring 2025
@@ -180,12 +211,28 @@ function Rush() {
 
         {/* 4) Rush Events Timeline Section (Bottom of Page) */}
         <div className="px-4 py-10">
-          <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">
+          <h2 className="text-center text-2xl sm:text-4xl font-black text-ktp-appblue mb-10">
             Upcoming Rush Events
           </h2>
           {/* Pass your "events" state directly to RushEvents */}
           <RushEvents events={events} />
         </div>
+
+        <div className="mt-16 mb-16 relative z-10">
+          <h2 className="text-center text-2xl sm:text-4xl font-black text-ktp-appblue mb-10">Frequently Asked Questions</h2>
+          <div className="space-y-8 px-20">
+            {faqs.map((faq, index) => (
+              <FAQItem 
+                key={index}
+                question={faq.question}
+                answer={faq.answer}
+                isOpen={openQuestion === index}
+                onClick={() => toggleQuestion(index)}
+              />
+            ))}
+          </div>
+        </div>
+
       </div>
     </ReactLenis>
   );
