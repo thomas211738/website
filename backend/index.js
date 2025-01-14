@@ -17,7 +17,7 @@ const mongoDBURL = process.env.mongoDBURL;
 
 app.use("/users", usersRoute);
 app.use("/websitePics", websitePicsRoute);
-app.use("/api/email", emailRoute);
+// app.use("/api/email", emailRoute);
 
 
 app.get("/", (request, response) => {
