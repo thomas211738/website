@@ -23,7 +23,7 @@ function About() {
         if (prev < slides.length - 1) {
           return prev + 1;
         } else {
-          clearInterval(interval);
+          //clearInterval(interval);
           return 0;
         }
       });
@@ -34,6 +34,9 @@ function About() {
   const goToSlide = (index: number) => {
     setManualOverride(true);
     setCurrentIndex(index);
+    setTimeout(() => {
+      setManualOverride(false);
+    }, 2000);
   };
 
   return (
