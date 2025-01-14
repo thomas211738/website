@@ -23,6 +23,9 @@ const ChatbotInfoMenu = () => {
     /* Handles chatbot architecture dialog */
     const [architectureDialogOpen, setArchitectureDialogOpen] = useState(false);
 
+    /* Handles chatbot diagram dialog */
+    const [diagramDialogOpen, setDiagramDialogOpen] = useState(false);
+
     /* Handles chatbot feedback dialog */
     const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false);
 
@@ -58,6 +61,14 @@ const ChatbotInfoMenu = () => {
                 <MenuItem
                     onClick={() => {
                         handleInfoMenuClose();
+                        setDiagramDialogOpen(true);
+                    }}
+                >
+                    Diagram
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        handleInfoMenuClose();
                         setFeedbackDialogOpen(true);
                     }}
                 >
@@ -71,7 +82,7 @@ const ChatbotInfoMenu = () => {
                 onClose={() => setArchitectureDialogOpen(false)}
                 aria-labelledby="architecture-dialog-title"
                 aria-describedby="architecture-dialog-description"
-                className="m-auto max-h-112 sm:max-h-128"
+                className="m-auto"
             >
                 <DialogTitle
                     className="text-ktp-darkblue"
@@ -102,9 +113,26 @@ const ChatbotInfoMenu = () => {
                             generate the correct response.
                         </p>
                     </span>
+                </DialogContent>
+            </Dialog>
 
+            {/* Chatbot diagram dialog */}
+            <Dialog
+                open={diagramDialogOpen}
+                onClose={() => setDiagramDialogOpen(false)}
+                aria-labelledby="diagram-dialog-title"
+                aria-describedby="diagram-dialog-description"
+                className="m-auto"
+            >
+                <DialogTitle
+                    className="text-ktp-darkblue"
+                    id="diagram-dialog-title"
+                >
+                    Diagram
+                </DialogTitle>
+                <DialogContent>
                     <img
-                        className="w-4/5 mx-auto mt-2"
+                        className="w-4/6 mx-auto mt-2"
                         src={chatbotDiagram}
                         alt="Error displaying chatbot diagram"
                     />
