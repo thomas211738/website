@@ -28,7 +28,6 @@ const initialState: State = {
 type Action =
     | { type: "setQuery"; payload: { query: string } }
     | { type: "setHistory"; payload: { history: Message[] } }
-    | { type: "appendHistory"; payload: { history: Message[] } }
     | { type: "openChatbotDrawer" }
     | { type: "closeChatbotDrawer" }
     | { type: "clearConversation" }
@@ -45,11 +44,6 @@ function ChatbotReducer(state: State, action: Action) {
             return {
                 ...state,
                 history: action.payload.history,
-            };
-        case "appendHistory":
-            return {
-                ...state,
-                history: [...state.history, ...action.payload.history],
             };
         case "openChatbotDrawer":
             return {
