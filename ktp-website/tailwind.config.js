@@ -16,6 +16,9 @@ export default {
                 monospace: ["Monaco", "Courier New", "monospace"],
                 bebasneue: ["Bebas Neue"],
             },
+            backgroundImage: {
+                'center-green': 'radial-gradient(circle at center, rgba(240,255,244,1) 30%, rgba(255,255,255,0) 70%)',
+            },
             colors: {
                 ktp: {
                     darkblue: "#234c8b",
@@ -25,7 +28,7 @@ export default {
                     darkgreen: "#538b52",
                     green: "#8dddd8",
                     lightgreen: "#baecab",
-                },
+                },               
             },
             maxHeight: {
                 112: "448px",

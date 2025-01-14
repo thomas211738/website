@@ -105,6 +105,10 @@ function Brothers() {
       // If it already starts with https://, return as is
       return linkedIn;
     }
+    if (linkedIn.startsWith("http://")) {
+      // If it already starts with http://, return as is //edge case for griffin http
+      return linkedIn;
+    }
     if (linkedIn.startsWith("www.linkedin.com")) {
       // If it starts with www.linkedin.com, prepend https://
       return `https://${linkedIn}`;
@@ -156,7 +160,7 @@ function Brothers() {
   }, [userData, pictureData]);
 
   return (
-    <div className="w-full py-8 px-4">
+    <div className="w-full py-8 px-4 bg-center-green">
       {/* Typewriter Effect */}
       {/* Centered Header */}
       <div className="max-w-4xl mx-auto text-center">
@@ -238,14 +242,14 @@ function Brothers() {
                             <img
                               src={brother.pictureUrl ?? fallbackImage}
                               alt={`${brother.FirstName ?? "Unknown"} ${brother.LastName ?? "Brother"}`}
-                              className="w-56 h-56 object-cover object-top rounded-md"
+                              className="w-56 h-56 object-cover object-top rounded-md transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-lg"
                             />
                             {/* LinkedIn Icon - Appears on Hover */}
-                            <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:-translate-y-2">
                               <Icons.Linkedin />
                             </div>
                           </a>
-                          <span>
+                          <span className="text-lg font-bebasneue font-semibold">
                             {brother.FirstName} {brother.LastName}
                           </span>
                         </li>
@@ -268,7 +272,7 @@ function Brothers() {
                 eboardName.map((member, index) => (
                   <li
                     key={`${member._id}-${index}`}
-                    className="flex flex-col items-center justify-between text-center space-y-1 group"
+                    className="flex flex-col items-center justify-between text-center space-y-0.2 group"
                   >
                     {/* Profile Image and linkedIn */}
                     <a
@@ -280,14 +284,14 @@ function Brothers() {
                       <img
                         src={member.pictureUrl ?? fallbackImage}
                         alt={`${member.FirstName ?? "Unknown"} ${member.LastName ?? "Member"}`}
-                        className="w-56 h-56 object-cover object-top rounded-md"
+                        className="w-56 h-56 object-cover object-top rounded-md transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-lg"
                       />
                       {/* LinkedIn Icon - Appears on Hover */}
-                      <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:-translate-y-2">
                         <Icons.Linkedin />
                       </div>
                     </a>
-                    <span>
+                    <span className="text-lg font-bebasneue font-semibold">
                       {member.FirstName} {member.LastName}
                     </span>
                     {/* Display E-Board Position */}
@@ -310,7 +314,7 @@ function Brothers() {
                 alumniName.map((alumnus, index) => (
                   <li
                     key={`${alumnus._id}-${index}`}
-                    className="text-lg text-center"
+                    className="text-lg text-center font-bebasneue font-semibold"
                   >
                     {alumnus.FirstName} {alumnus.LastName}
                   </li>
