@@ -59,7 +59,7 @@ function Home() {
           </div>
         </div>
         <div className="max-w-lg text-left">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-ktp-appblue">
+          <h1 className="text-4xl sm:text-5xl font-black mb-4 text-ktp-appblue">
             Kappa Theta Pi
           </h1>
           <p className="text-gray-600 mb-6">
@@ -101,7 +101,7 @@ function Home() {
 
       {/* NETWORK SECTION */}
       <section className="py-12 px-4 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-ktp-appblue">Our Network</h2>
+        <h2 className="text-3xl sm:text-4xl font-black mb-6 text-ktp-appblue">Our Network</h2>
         
         <img src={network} alt="network" className="mb-10" />
       </section>
@@ -113,11 +113,11 @@ function Home() {
 
     <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-8">
       <div>
-      <h2 className="text-3xl sm:text-4xl font-bold mb-1 text-ktp-appblue">
+      <h2 className="text-3xl sm:text-4xl font-black mb-1 text-ktp-appblue">
       Boston Kappa Theta Pi
     </h2>
     <div className="mt-1 text-3xl text-gray-400 font-bold mb-5">
-    Your one-stop shop for everything KTP!
+    One-stop shop for everything KTP!
     </div>
       {/* Text Column */}
       <div className="px-4 md:px-0 text-center md:text-left space-y-4">
