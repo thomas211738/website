@@ -6,7 +6,8 @@ import { ReactLenis } from 'lenis/react';
 import { DataBaseDataContext } from "../contexts/DataBaseDataContext";
 import axios from 'axios';
 import { RushEvents } from '../components/Timeline';
-
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 // Define the type of your Rush Event if using TypeScript
 interface RushEvent {
@@ -137,11 +138,17 @@ function Rush() {
         <div className="flex flex-col md:flex-row items-center justify-center my-20 px-10">
           {/* Image Section */}
           <div className="mb-6 md:mb-0">
-            <img
-              src={`data:image/jpeg;base64,${vpOfRecruitmentPic?.data}`}
-              alt={`${vpOfRecruitment?.FirstName} ${vpOfRecruitment?.LastName}`}
-              className="rounded-md shadow-lg object-cover w-60 h-120"
-            />
+            {vpOfRecruitmentPic?.data ? (
+              // Once the image data is available, render the image
+              <img
+                src={`data:image/jpeg;base64,${vpOfRecruitmentPic?.data}`}
+                alt={`${vpOfRecruitment?.FirstName} ${vpOfRecruitment?.LastName}`}
+                className="rounded-md shadow-lg object-cover w-60 h-120"
+              />
+            ) : (
+              <Skeleton width={240} height={350} />
+            )}
+            
           </div>
 
           {/* Text Section */}
