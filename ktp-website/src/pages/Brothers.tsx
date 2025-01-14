@@ -31,7 +31,7 @@ interface DataBaseDataContextType {
 
 function Brothers() {
   //DB DATA
-  const dataContext = useContext<DataBaseDataContextType>(DataBaseDataContext);
+  const dataContext = useContext(DataBaseDataContext) as DataBaseDataContextType | null;
   const userData = dataContext?.userData;
   const pictureData = dataContext?.pictureData;
 
@@ -160,7 +160,7 @@ function Brothers() {
   }, [userData, pictureData]);
 
   return (
-    <div className="w-full py-8 px-4 bg-center-green">
+    <div className="w-full py-8 px-4">
       {/* Typewriter Effect */}
       {/* Centered Header */}
       <div className="max-w-4xl mx-auto text-center">
@@ -230,24 +230,27 @@ function Brothers() {
                       {brothers.map((brother, index) => (
                         <li
                           key={`${brother._id}-${index}`}
-                          className="flex flex-col items-center justify-between text-center space-y-2 group"
+                          className="flex flex-col items-center justify-between text-center space-y-2 "
                         >
                           {/* Profile Image and linkedIn */}
                           <a
                             href={errorHandlingLinkedIn(brother.LinkedIn)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="relative w-56 h-56"
+                            className="relative w-56 h-56 group"
                           >
-                            <img
-                              src={brother.pictureUrl ?? fallbackImage}
-                              alt={`${brother.FirstName ?? "Unknown"} ${brother.LastName ?? "Brother"}`}
-                              className="w-56 h-56 object-cover object-top rounded-md transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-lg"
-                            />
-                            {/* LinkedIn Icon - Appears on Hover */}
-                            <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:-translate-y-2">
-                              <Icons.Linkedin />
+                            <div className="duration-300 group-hover:-translate-y-2">
+                              <img
+                                src={brother.pictureUrl ?? fallbackImage}
+                                alt={`${brother.FirstName ?? "Unknown"} ${brother.LastName ?? "Brother"}`}
+                                className="w-56 h-56 object-cover object-top rounded-md transition-transform duration-300 group-hover:shadow-lg"
+                              />
+                              {/* LinkedIn Icon - Appears on Hover */}
+                              <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <Icons.Linkedin />
+                              </div>
                             </div>
+                            
                           </a>
                           <span className="text-lg font-bebasneue font-semibold">
                             {brother.FirstName} {brother.LastName}
@@ -272,23 +275,25 @@ function Brothers() {
                 eboardName.map((member, index) => (
                   <li
                     key={`${member._id}-${index}`}
-                    className="flex flex-col items-center justify-between text-center space-y-0.2 group"
+                    className="flex flex-col items-center justify-between text-center space-y-0.2"
                   >
                     {/* Profile Image and linkedIn */}
                     <a
                       href={errorHandlingLinkedIn(member.LinkedIn)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative w-56 h-56"
+                      className="relative w-56 h-56 group"
                     >
-                      <img
-                        src={member.pictureUrl ?? fallbackImage}
-                        alt={`${member.FirstName ?? "Unknown"} ${member.LastName ?? "Member"}`}
-                        className="w-56 h-56 object-cover object-top rounded-md transition-transform duration-300 group-hover:-translate-y-2 group-hover:shadow-lg"
-                      />
-                      {/* LinkedIn Icon - Appears on Hover */}
-                      <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:-translate-y-2">
-                        <Icons.Linkedin />
+                      <div className="duration-300 group-hover:-translate-y-2">
+                        <img
+                          src={member.pictureUrl ?? fallbackImage}
+                          alt={`${member.FirstName ?? "Unknown"} ${member.LastName ?? "Member"}`}
+                          className="w-56 h-56 object-cover object-top rounded-md transition-transform duration-300 group-hover:shadow-lg"
+                        />
+                        {/* LinkedIn Icon - Appears on Hover */}
+                        <div className="w-56 h-56 absolute inset-0 flex justify-center items-center bg-white bg-opacity-50 text-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <Icons.Linkedin />
+                        </div>
                       </div>
                     </a>
                     <span className="text-lg font-bebasneue font-semibold">
@@ -309,7 +314,7 @@ function Brothers() {
             <h2 className="text-xl items-center text-center font-semibold mb-12 underline decoration-2 underline-offset-4">
               Kappa Theta Pi Alumni
             </h2>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-4 mx-auto max-w-6xl text-gray-700">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-y-4 mx-auto max-w-6xl text-gray-700">
               {alumniName.length > 0 ? (
                 alumniName.map((alumnus, index) => (
                   <li

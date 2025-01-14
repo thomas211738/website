@@ -31,8 +31,18 @@ function Scene() {
         start: 'top top',        // when the top of the page hits the top of the viewport
         end: '100%',    // when the bottom of the page hits the bottom of the viewport
         scrub: true,             // smooth scrubbing
+        invalidateOnRefresh: true,
       },
     });
+
+    const handleVisibilityChange = () => {
+      // If the tab is now visible, refresh ScrollTrigger
+      if (!document.hidden) {
+        ScrollTrigger.refresh();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // We’ll animate a parameter called `progress` from 0 to 1 across scroll
     tl.to({ progress: 0 }, {
@@ -46,7 +56,7 @@ function Scene() {
         const startY = 20;
         const startZ = 350;
 
-        const endX = 30;
+        const endX = -100;
         const endY = 100;
         const endZ = 350;
 
@@ -57,7 +67,7 @@ function Scene() {
         // Update camera’s position and look at the building
         camera.position.set(x, y, z);
 
-        const cameray = -200 + (progress * 600);
+        const cameray = -200 + (progress * 700);
         const camerax = (progress * 50);
         camera.lookAt(camerax, cameray, 0);
 
@@ -67,6 +77,7 @@ function Scene() {
     // Cleanup on unmount if needed
     return () => {
       tl.kill();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [camera]);
 
