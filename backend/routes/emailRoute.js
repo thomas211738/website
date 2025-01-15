@@ -3,7 +3,6 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config(); 
 
-
 const router = express.Router();
 
 const transporter = nodemailer.createTransport({
@@ -32,7 +31,7 @@ router.post("/send", (req, res) => {
 
   const mailOptions = {
     from: email,
-    to: "jsmoon416@gmail.com",
+    to: process.env.EMAIL_USER,
     subject: `Contact Form Submission: ${subject}`,
     text: `Name: ${firstName} ${lastName}\nEmail: ${email}\n\nMessage:\n${message}`,
   };

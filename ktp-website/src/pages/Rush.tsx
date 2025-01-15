@@ -155,31 +155,44 @@ function Rush() {
 
         {/* Button Section */}
         <div className="mt-10 flex justify-center space-x-4">
-          <button className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded hover:bg-ktp-appblue hover:text-white transition duration-300 relative group">
-            <a
-              href="https://www.google.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Interest Form{" "}
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                &#8250;
-              </span>
-            </a>
-          </button>
-          <button className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded hover:bg-ktp-appblue hover:text-white transition duration-300 relative group">
-            <a
-              href="https://www.google.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Application Form{" "}
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                &#8250;
-              </span>
-            </a>
-          </button>
-        </div>
+  {/* Interest Form Button */}
+  <div className="flex flex-col items-center">
+    <button className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded hover:bg-ktp-appblue hover:text-white transition duration-300 relative group">
+      <a
+        href="https://forms.gle/8G1HA6TkZrZsEKH47"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Interest Form{" "}
+        <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+          &#8250;
+        </span>
+      </a>
+    </button>
+  </div>
+
+  {/* Application Form Button */}
+  <div className="flex flex-col items-center">
+    <button
+      className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded transition duration-300 relative group opacity-50 cursor-not-allowed" 
+      disabled
+    >
+      <a
+        href="https://www.google.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="pointer-events-none"
+      >
+        Application Form{" "}
+        <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+          &#8250;
+        </span>
+      </a>
+    </button>
+    <p className="text-red-500 mt-2">Application Not Open</p>
+  </div>
+</div>
+
 
         {/* VP Recruitment Section */}
         <div className="flex flex-col md:flex-row items-center justify-center my-20 px-10">
@@ -247,6 +260,7 @@ function Rush() {
               />
             ))}
           </div>
+          <h2 className='text-center text-2xl sm:text-4xl font-bold text-ktp-appblue my-10'>For more questions, ask our new chat bot, KTPaul!</h2>
         </div>
 
       </div>
