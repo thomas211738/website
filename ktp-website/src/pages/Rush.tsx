@@ -53,13 +53,32 @@ function Rush() {
 
   const [openQuestion, setOpenQuestion] = useState(null);
   const faqs = [
-    { question: "Who can rush KTP?", answer: "Anyone is allowed to rush — we gladly accept (and encourage) rushees from all disciplines! The only requirement is that you must have at least 3 semesters left in school after your pledging semester." },
-    { question: "What is KTP looking for?", answer: "There’s no cookie cutter “ideal” rushee — if there were, Kappa Theta Pi wouldn’t be the multi-talented, interdisciplinary organization that it is! In our experience, the qualities you’re looking for are often what we’d love to have in new members. In the end, we are an org united by our love for technology, and people who are truly passionate about tech are the ones who usually fit in the best." },
-    { question: "How would I benefit from KTP?", answer: "KTP offers a supportive community of undergraduates who are all passionate about technology! Among other things, we offer mentoring in areas such as career advising, interview prep, resume development, and coursework. Additionally, we have current members and alumni working everywhere from the brightest startups to the tech giants of the corporate world. We believe that networking is far more than just professionalism — it's a process built on friendship, trust, and brotherhood." },
-    { question: "Which majors are represented in KTP?", answer: "KTP is made up of a diverse group of people from schools all across campus. Generally, our members tend to be computer science majors or in the School of Information, but we are proud to have actives with backgrounds in creative writing, philosophy, business, women’s studies, and entrepreneurship! We love (and encourage) rushees from all disciplines." },
-    { question: "What types of social events does KTP have?", answer: "KTP aims to have at minimum one sober and one non-sober event per month. In the past, we have had barn dances, bowling nights, formals, Smash tournaments, and many more events." },
-    { question: "How much of a time commitment is pledging?", answer: "As with all campus organizations, what you get out of the organization depends on what you put into it. We believe that our pledging process isn’t strenuous and could be accommodated by most schedules.\nIf you have any further questions or want to learn more about KTP before rush, feel free to send us an email at ktp-board@umich.edu or stop by our booths at Festifall and Northfest." },
+    { 
+      question: "Who is eligible to rush KTP?", 
+      answer: "We welcome students from all majors and disciplines to rush! The only condition is that you should have at least three semesters remaining in school after your pledging semester." 
+    },
+    { 
+      question: "What qualities does KTP value in rushees?", 
+      answer: "There’s no single 'ideal' candidate for KTP — our organization thrives on diversity and interdisciplinarity! Generally, the traits that make you unique are exactly what we’re looking for. Above all, we value individuals who share a genuine passion for technology, as that passion unites our members." 
+    },
+    { 
+      question: "What are the benefits of joining KTP?", 
+      answer: "KTP offers a close-knit community of tech enthusiasts who support each other academically, professionally, and personally. Members gain access to career mentorship, interview preparation, resume reviews, and guidance on coursework. Our network spans from innovative startups to major tech companies, emphasizing that true networking is built on trust, camaraderie, and shared experiences." 
+    },
+    { 
+      question: "What majors are represented in KTP?", 
+      answer: "KTP is composed of members from a wide range of academic backgrounds. While many are in computer science or the School of Information, we also have members studying creative writing, philosophy, business, women’s studies, entrepreneurship, and more. We strongly encourage students from all fields to apply!" 
+    },
+    { 
+      question: "What kind of social events does KTP host?", 
+      answer: "KTP organizes a variety of events, with at least one sober and one non-sober event every month. Previous events have included barn dances, bowling nights, formal dinners, Smash Bros tournaments, and much more." 
+    },
+    { 
+      question: "How much time does the pledging process take?", 
+      answer: "The time commitment for pledging depends on your level of involvement. Our process is designed to be manageable for most schedules. If you have questions or want to learn more about KTP before rush, feel free to email us at ktp-board@umich.edu or visit us at Festifall or Northfest." 
+    },
   ];
+  
   const toggleQuestion = (index: any) => {
     setOpenQuestion(openQuestion === index ? null : index);
   };
@@ -89,7 +108,6 @@ function Rush() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Started Loading Data");
         const userResponse = await axios.get(`${backendUrl1}/events`);
         setEvents(userResponse.data.data);
       } catch (error) {
@@ -102,8 +120,7 @@ function Rush() {
   return (
     <ReactLenis root>
       {/* Existing Hero / Canvas Section */}
-      {window.innerWidth >= 1024 && (
-        <div className="w-full h-[300vh] relative">
+        <div className="w-full h-[300vh] relative xl:block hidden">
           <Canvas>
             <Scene />
           </Canvas>
@@ -120,7 +137,6 @@ function Rush() {
             LAMBDA
           </div>
         </div>
-      )}
 
       <div className="w-full">
         {/* Title Section */}

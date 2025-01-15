@@ -78,7 +78,7 @@ function Contact() {
     return isValid;
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event: { preventDefault: () => void; }) {
     event.preventDefault();
 
     if (!validateForm()) return; // Validate the form before submitting
