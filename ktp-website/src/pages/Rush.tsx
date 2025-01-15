@@ -86,7 +86,7 @@ function Rush() {
 
   // 3) Use the same events state you set up
   const [events, setEvents] = useState<RushEvent[]>([]);
-  const backendUrl1 = import.meta.env.VITE_BACKEND_URL1;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     function update(time: number) {
@@ -108,14 +108,14 @@ function Rush() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userResponse = await axios.get(`${backendUrl1}/events`);
+        const userResponse = await axios.get(`${backendUrl}/events`);
         setEvents(userResponse.data.data);
       } catch (error) {
         console.error("Error fetching data in App:", error);
       }
     };
     fetchData();
-  }, [backendUrl1]);
+  }, [backendUrl]);
 
   return (
     <ReactLenis root>
