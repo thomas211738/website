@@ -189,7 +189,7 @@ function Rush() {
         </span>
       </a>
     </button>
-    <p className="text-red-500 mt-2">Application Not Open</p>
+    <p className="text-red-500 mt-2">Applications Not Open</p>
   </div>
 </div>
 
