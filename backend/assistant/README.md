@@ -1,4 +1,4 @@
-# KTPaul Chatbot Assistant
+# KTPaul Chatbot
 
 ## Table of Contents
 
@@ -7,8 +7,7 @@
 -   [How to Run the Local Chatbot](#how-to-run-the-local-chatbot)
 -   [How to Run the Firebase Local Emulator Suite](#how-to-run-the-firebase-local-emulator-suite)
 -   [How to Update the Document Store](#how-to-update-the-document-store)
--   [Potential Improvements](#potential-improvements)
--   [Required Future Changes](#required-future-changes)
+-   [Future Improvements](#future-improvements)
 
 ## Overview
 
@@ -46,9 +45,7 @@ always be treated with caution.
 7. The final response and updated conversation history are sent back to the
    user.
 
-<div style="width: 80%; margin: 32px auto; background-color: white;">
-  <img src="../../ktp-website/src/img/chatbot_diagram.png" alt="KTPaul Architecture Diagram" />
-</div>
+<img src="../../ktp-website/src/img/chatbot_diagram.png" style="width: 80%; display: block; margin: 32px auto;"/>
 
 ## How to Run the Local Chatbot
 
@@ -66,7 +63,7 @@ following variables:
 The values for these variables can be found in the KTP Website google drive
 folder.
 
-### First-Time Steps Only
+### First Run Only
 
 1. Navigate to the directory located at `backend/assistant`.
 2. Run `python3 -m venv venv` in the terminal.
@@ -74,7 +71,7 @@ folder.
 4. Run `pip install -r requirements.txt` in the terminal.
 5. Run `python local_chatbot.py` in the terminal.
 
-### Subsequent Steps
+### Subsequent Runs
 
 1. Navigate to the directory located at `backend/assistant`.
 2. Run `source venv/bin/activate` in the terminal.
@@ -87,18 +84,17 @@ development experience.
 
 -   The `--top_k` flag must be followed by an integer between 1 and 8
     (inclusive). It specifies the number of retrieved semantic context vectors.
-    If the flag is not included, the default value is 4.
-    -   Example: `python local_chatbot.py --top_k 2`.
+    If the flag is not included, the default value is 4. An example command
+    using this flag is `python local_chatbot.py --top_k 2`.
 -   The `-m` flag is boolean. If true, the chatbot memory usage is tracked and
     output to the terminal. If the flag is not included, the default value is
-    false.
-    -   Example: `python local_chatbot.py -m`.
+    false. An example command using this flag is `python local_chatbot.py -m`.
 -   The `-v` flag is boolean. If true, the chatbot is run with increased
-    verbosity. If the flag is not included, the default value is false.
-    -   Example: `python local_chatbot.py -v`.
+    verbosity. If the flag is not included, the default value is false. An
+    example command using this flag is `python local_chatbot.py -v`.
 
-In most cases, the best way to run the local chatbot is with
-`python local_chatbot.py -v`.
+In most cases, running the local chatbot with `python local_chatbot.py -v`
+produces the most useful results.
 
 ## How to Run the Firebase Local Emulator Suite
 
@@ -115,7 +111,7 @@ must be correctly instantiated with the following variables:
 The values for these variables can be found in the KTP Website google drive
 folder.
 
-### First-Time Steps Only
+### First Run Only
 
 1. Navigate to the directory located at `backend/assistant/functions`.
 2. Run `python3 -m venv venv` in the terminal.
@@ -133,7 +129,7 @@ folder.
 11. Be sure to revert the value for `VITE_CHATBOT_FUNCTION_URL` after stopping
     the emulator.
 
-### Subsequent Steps
+### Subsequent Runs
 
 1. Navigate to the directory located at `backend/assistant`.
 2. Run `firebase emulators:start` in the terminal.
@@ -156,7 +152,7 @@ folder.
     store if there are no changes.
 -   All of the contextual information is stored at the location
     `./backend/assistant/info.json` (absolute) or `./info.json` (relative).
--   Do not change the underlying json schema - the script will not work.
+-   Do not change the underlying json schema because it will break the script.
 
 ### Setup
 
@@ -172,7 +168,7 @@ following variables:
 The values for these variables can be found in the KTP Website google drive
 folder.
 
-### First-Time Steps Only
+### First Run Only
 
 1. Navigate to the directory located at `backend/assistant`.
 2. Run `python3 -m venv venv` in the terminal.
@@ -180,12 +176,34 @@ folder.
 4. Run `pip install -r requirements.txt` in the terminal.
 5. Run `python document_store.py` in the terminal.
 
-### Subsequent Steps
+### Subsequent Runs
 
 1. Navigate to the directory located at `backend/assistant`.
 2. Run `source venv/bin/activate` in the terminal.
 3. Run `python document_store.py` in the terminal.
 
-## Potential Improvements
+## Future Improvements
 
-## Required Future Changes
+### Centralized Email Account for Services
+
+At the time of writing this, there is no centralized email that KTP Lambda
+Chapter can use to create accounts for services. The services integrated in the
+chatbot are all created using Victor's personal account, and need to be migrated
+once a centralized email is established.
+
+-   `Firebase`: Deploys the chatbot api as a serverless function.
+-   `Google Cloud`: Deploys the chatbot api as a serverless function.
+-   `HuggingFace`: Hosts the embedding model and large language model utilized
+    in the RAG pipeline.
+-   `Pinecone`: Stores the embedded context vectors.
+
+### Improved Chatbot Agent Architecture
+
+The chatbot is currently implemented following the
+`Retrieval Augmented Generation (RAG)` framework. While it works, the concept of
+the `RAG agent` is outdated and limited in what it can do. The most recent
+research indicates that `ReAct agents` and the `function calling agents` are
+more powerful because they allow the chatbot to independently complete
+miscellaneous tasks. Beyond just retrieving contextual information, these tasks
+can include making API calls and interacting with other third-party services,
+autonomously at the discretion of the chatbot.
