@@ -10,6 +10,7 @@ const pages = [
     { name: "Brothers", path: "/brothers" },
     { name: "Rush", path: "/rush" },
     { name: "Contact", path: "/contact" },
+    { name: "Database", path: "https://database.ktpbostonu.com/" }, // Changed to URL for external link
 ];
 
 const Header = () => {
