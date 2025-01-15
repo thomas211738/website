@@ -10,7 +10,7 @@ const pages = [
     { name: "Brothers", path: "/brothers" },
     { name: "Rush", path: "/rush" },
     { name: "Contact", path: "/contact" },
-    { name: "Database", path: "https://database.ktpbostonu.com/" }, // Changed to URL for external link
+    { name: "Database", path: "https://database.ktpbostonu.com/", external: true }, // Changed to URL for external link
 ];
 
 const Header = () => {
@@ -80,14 +80,27 @@ const Header = () => {
                     onClose={handleCloseNavMenu}
                 >
                     {pages.map((page, index) => (
-                        <Link
-                            key={index}
-                            className="block mx-4 my-2 text-black hover:text-ktp-appblue"
-                            to={page.path}
-                            onClick={handleCloseNavMenu}
-                        >
-                            {page.name}
-                        </Link>
+                        page.external ? (
+                            <a
+                                key={index}
+                                href={page.path}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block mx-4 my-2 text-black hover:text-ktp-appblue"
+                                onClick={handleCloseNavMenu}
+                            >
+                                {page.name}
+                            </a>
+                        ) : (
+                            <Link
+                                key={index}
+                                className="block mx-4 my-2 text-black hover:text-ktp-appblue"
+                                to={page.path}
+                                onClick={handleCloseNavMenu}
+                            >
+                                {page.name}
+                            </Link>
+                        )
                     ))}
                 </Menu>
             </div>
@@ -95,13 +108,25 @@ const Header = () => {
             {/* Regular navbar */}
             <div className="m-auto hidden sm:flex grow justify-center align-middle space-x-10">
                 {pages.map((page, index) => (
-                    <Link
-                        key={index}
-                        className="block my-2 text-base text-black hover:text-ktp-appblue"
-                        to={page.path}
-                    >
-                        {page.name}
-                    </Link>
+                    page.external ? (
+                        <a
+                            key={index}
+                            href={page.path}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block my-2 text-base text-black hover:text-ktp-appblue"
+                        >
+                            {page.name}
+                        </a>
+                    ) : (
+                        <Link
+                            key={index}
+                            className="block my-2 text-base text-black hover:text-ktp-appblue"
+                            to={page.path}
+                        >
+                            {page.name}
+                        </Link>
+                    )
                 ))}
             </div>
         </header>
