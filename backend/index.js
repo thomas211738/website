@@ -7,6 +7,7 @@ import cors from "cors";
 import usersRoute from "./routes/userRoutes.js";
 import websitePicsRoute from "./routes/websitePicsRoute.js";
 import emailRoute from "./routes/emailRoute.js";
+import eventsRoute from "./routes/eventsRoute.js";
 
 const app = express();
 app.use(express.json());
@@ -18,6 +19,7 @@ const mongoDBURL = process.env.mongoDBURL;
 app.use("/users", usersRoute);
 app.use("/websitePics", websitePicsRoute);
 app.use("/api/email", emailRoute);
+app.use("/events", eventsRoute);
 
 
 app.get("/", (request, response) => {
