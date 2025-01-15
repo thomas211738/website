@@ -21,7 +21,7 @@ function About() {
     <div className="min-h-screen flex flex-col">
 
       {/* HERO CAROUSEL */}
-      <section className="relative w-full h-[60vh] overflow-hidden">
+      <section className="relative w-full h-[75vh] overflow-hidden">
             <div className={`absolute w-full h-full top-0 left-0 transition-opacity duration-700`}
             >
             <img
