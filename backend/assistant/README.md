@@ -45,7 +45,7 @@ always be treated with caution.
 7. The final response and updated conversation history are sent back to the
    user.
 
-<img src="../../ktp-website/src/img/chatbot_diagram.png" style="width: 80%; display: block; margin: 32px auto;"/>
+![KTPaul Architecture Diagram](../../ktp-website/src/img/chatbot_diagram.png)
 
 ## How to Run the Local Chatbot
 
