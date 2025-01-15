@@ -67,7 +67,7 @@ export function RushEvents({ events }: { events: RushEvent[] }) {
                 {/* Description */}
                 <Box display="flex" justifyContent="left" gap={0}>
                   <Typography variant="body2" sx={{ textAlign: 'left' }}>
-                    {event.Description} akjdf asdkflas jds fkas fkjabiguba, gkerbgjre gklwhertnweli dngouahrtw,entk 4othqthnwe ron
+                    {event.Description}
                   </Typography>
                 </Box>
               </Paper>

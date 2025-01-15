@@ -304,7 +304,7 @@ function Brothers() {
                   </li>
                 ))
               ) : (
-                <p>Loading e-board members...</p>
+                <p className="text-center">Loading e-board members...</p>
               )}
             </ul>
           </div>

@@ -29,7 +29,6 @@ function App() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("Started Loading Data");
                 const userResponse = await axios.get(`${backendUrl}/users`);
                 const pictureResponse = await axios.get(
                     `${backendUrl}/websitePics`
@@ -37,7 +36,6 @@ function App() {
 
                 setUserData(userResponse.data.data);
                 setPictureData(pictureResponse.data.data);
-                console.log("Ended Loading Data");
             } catch (error) {
                 console.error("Error fetching data in App:", error);
             }
