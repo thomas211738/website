@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import heroImg1 from "../img/brothersmain.png";
 import heroImg2 from "../img/ktparty.png";
 import heroImg3 from "../img/resume.png";
-import walkingImg from "../img/walkingstudents.png";
-
+import heroimg4 from "../img/delta initiation.jpeg";
+import heroimg5 from "../img/golf.png"
+import heroimg6 from "../img/trio.jpeg"
+import ImageCarousel from "../components/ImageCarousel";
 /** Icon Images */
 import devIcon from "../img/profIcon.png";
 import alumniIcon from "../img/alumIcon.png";
@@ -11,66 +13,24 @@ import socialIcon from "../img/socIcon.png";
 import techIcon from "../img/techIcon.png";
 import academicIcon from "../img/acadIcon.png";
 
+const images = [heroImg2, heroImg3, heroimg4, heroimg5, heroimg6];
+
 function About() {
-  const slides = [heroImg1, heroImg2, heroImg3];
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [manualOverride, setManualOverride] = useState(false);
 
-  useEffect(() => {
-    if (manualOverride) return;
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => {
-        if (prev < slides.length - 1) {
-          return prev + 1;
-        } else {
-          //clearInterval(interval);
-          return 0;
-        }
-      });
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [slides.length, manualOverride]);
-
-  const goToSlide = (index: number) => {
-    setManualOverride(true);
-    setCurrentIndex(index);
-    setTimeout(() => {
-      setManualOverride(false);
-    }, 2000);
-  };
 
   return (
     <div className="min-h-screen flex flex-col">
 
       {/* HERO CAROUSEL */}
       <section className="relative w-full h-[60vh] overflow-hidden">
-        {slides.map((imgSrc, i) => (
-            <div
-            key={i}
-            className={`absolute w-full h-full top-0 left-0 transition-opacity duration-700 ${
-              currentIndex === i ? "opacity-100 z-10" : "opacity-0"
-            }`}
+            <div className={`absolute w-full h-full top-0 left-0 transition-opacity duration-700`}
             >
             <img
-              src={imgSrc}
-              alt={`Hero slide ${i + 1}`}
+              src={heroImg1}
+              alt={`Alpha Profesional`}
               className="w-full h-full object-cover"
             />
             </div>
-        ))}
-
-        {/* Dots (manual nav) */}
-        <div className="absolute bottom-4 w-full flex justify-center z-30">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goToSlide(i)}
-              className={`mx-1 w-3 h-3 rounded-full ${
-                currentIndex === i ? "bg-white" : "bg-gray-400"
-              }`}
-            />
-          ))}
-        </div>
       </section>
 
       {/* ABOUT TEXT */}
@@ -277,11 +237,13 @@ function About() {
             technical innovation — to make lasting change inside and outside of our
             organization.
             </p>
-          <img
-            src={walkingImg}
-            alt="Walking"
-            className="py-12 px-4"
-          />
+
+          <div className="flex justify-center py-12 px-10">
+            <div className="w-full max-w-[1200px]">
+              <ImageCarousel images={images} />
+            </div>
+          </div>
+
         </div>
       </section>
     </div>

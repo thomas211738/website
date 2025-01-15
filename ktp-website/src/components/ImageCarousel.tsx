@@ -54,7 +54,7 @@ const ImageCarousel: React.FC<CarouselProps> = ({ images, interval = 5000 }) => 
               <img
                 src={image}
                 alt={`Slide ${index + 1}`}
-                className="w-full h-auto object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
           ))}

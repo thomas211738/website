@@ -67,7 +67,7 @@ function Scene() {
         // Update camera’s position and look at the building
         camera.position.set(x, y, z);
 
-        const cameray = -200 + (progress * 700);
+        const cameray = -200 + (progress * 720);
         const camerax = (progress * 50);
         camera.lookAt(camerax, cameray, 0);
 
