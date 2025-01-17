@@ -40,7 +40,7 @@ type GLTFResult = GLTF & {
 }
 
 export function Model(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('src/img/CDS_building.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/CDS_building.glb') as GLTFResult
 
     // Modify emissive property of the glass material
     // Set the base color to yellow
