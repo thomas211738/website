@@ -151,7 +151,7 @@ folder.
     information related to KTP needs to be updated. Do not update the document
     store if there are no changes.
 -   All of the contextual information is stored at the location
-    `./backend/assistant/info.json` (absolute) or `./info.json` (relative).
+    `backend/assistant/info.json` (absolute) or `./info.json` (relative).
 -   Do not change the underlying json schema because it will break the script.
 
 ### Setup
@@ -201,9 +201,9 @@ once a centralized email is established.
 
 The chatbot is currently implemented following the
 `Retrieval Augmented Generation (RAG)` framework. While it works, the concept of
-the `RAG agent` is outdated and limited in what it can do. The most recent
-research indicates that `ReAct agents` and the `function calling agents` are
-more powerful because they allow the chatbot to independently complete
-miscellaneous tasks. Beyond just retrieving contextual information, these tasks
-can include making API calls and interacting with other third-party services,
-autonomously at the discretion of the chatbot.
+the `RAG Agent` is outdated and limited in what it can do. The most recent
+research indicates that `reasoning and acting (ReAct) agents` and
+`function calling agents` are more powerful because they allow the chatbot to
+independently complete miscellaneous tasks. Beyond just retrieving contextual
+information, these tasks can include making API calls and interacting with other
+third-party services, autonomously at the discretion of the chatbot.
