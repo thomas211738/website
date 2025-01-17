@@ -1,5 +1,5 @@
 # Website
-New BU KTP Website
+New BU KTP Website.
 
 # How to Run Locally
 1. Fork the repository (https://github.com/ktpbu/website)
