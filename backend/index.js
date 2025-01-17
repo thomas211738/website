@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({
   origin: [
-    "https://ktpbostonu.com",
+    "https://www.ktpbostonu.com",
     "website-swart-ten-95.vercel.app",
     "http://localhost:5173",
   ]
