@@ -11,7 +11,14 @@ import eventsRoute from "./routes/eventsRoute.js";
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://ktpbostonu.com",
+    "website-swart-ten-95.vercel.app",
+    "http://localhost:5173",
+  ]
+}
+));
 
 const mongoDBURL = process.env.mongoDBURL;
 
