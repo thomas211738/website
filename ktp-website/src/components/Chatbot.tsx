@@ -127,10 +127,6 @@ const Chatbot = () => {
                 <ChatbotInfoMenu />
             </div>
 
-            <p className="w-fit mx-auto mt-4 text-red-500">
-                Experimental - please double check responses.
-            </p>
-
             {/* Chatbot drawer conversation history */}
             <div className={`mx-8 ${loading ? "mt-4" : "my-4"}`}>
                 {state.history.map((message, index) => (
@@ -236,6 +232,10 @@ const Chatbot = () => {
                     </div>
                 </div>
             )}
+
+            <p className="w-fit mx-auto my-4 text-xs">
+                KTPaul can make mistakes. Check important info.
+            </p>
 
             <div ref={messagesEndRef} />
         </div>
