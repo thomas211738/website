@@ -122,7 +122,7 @@ function Rush() {
                 const userResponse = await axios.get(`${backendUrl}/events`);
                 setEvents(userResponse.data.data);
             } catch (error) {
-                console.error("Error fetching data in App:", error);
+                // console.error("Error fetching data in App:", error);
             }
         };
         fetchData();
