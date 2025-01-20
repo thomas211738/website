@@ -51,6 +51,7 @@ export function RushEvents({ events }: { events: RushEvent[] }) {
                         weekday: 'long',
                         day: 'numeric',
                         month: 'long',
+                        timeZone: 'America/New_York', // Specify Eastern Time Zone
                       })}, {event.Time}
                     </Typography>
                   </Box>
