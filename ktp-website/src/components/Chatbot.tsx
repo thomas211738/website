@@ -116,13 +116,7 @@ const Chatbot = () => {
                         fontSize="large"
                     />
                 </button>
-                <div className="flex">
-                    <h2 className="my-auto px-1 text-3xl text-white">KTPaul</h2>
-                    <span className="mt-auto px-1 text-lg text-ktp-lightgreen font-semibold uppercase rounded-lg">
-                        Beta
-                    </span>
-                </div>
-
+                <h2 className="my-auto px-1 text-3xl text-white">KTPaul</h2>
                 {/* Chatbot info menu */}
                 <ChatbotInfoMenu />
             </div>
