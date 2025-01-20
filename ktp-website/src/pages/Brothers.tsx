@@ -140,11 +140,11 @@ function Brothers() {
           pictureUrl = fallbackImage;
         }
 
-        console.log("User Data with Picture:", {
-          user,
-          userPicture,
-          pictureUrl,
-        });
+        // console.log("User Data with Picture:", {
+        //   user,
+        //   userPicture,
+        //   pictureUrl,
+        // });
         // Return a new user object with the pictureUrl field added
         return {
           ...user,
