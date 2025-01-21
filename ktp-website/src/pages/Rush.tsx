@@ -67,27 +67,27 @@ function Rush() {
     const faqs = [
         {
             question: "Who is eligible to rush KTP?",
-            answer: "We welcome students from all majors and disciplines to rush! The only condition is that you should have at least three semesters remaining in school after your pledging semester.",
+            answer: "We welcome students from all majors and disciplines to rush! The only requirements are that you should have at least three semesters remaining in school after your pledging semester, have a 2.5 GPA or higher, and are not a member of another professional fraternity on campus",
         },
         {
             question: "What qualities does KTP value in rushees?",
-            answer: "There’s no single 'ideal' candidate for KTP — our organization thrives on diversity and interdisciplinarity! Generally, the traits that make you unique are exactly what we’re looking for. Above all, we value individuals who share a genuine passion for technology, as that passion unites our members.",
+            answer: "There’s no single 'ideal' candidate for KTP — our organization thrives on diversity and interdisciplinarity! Generally, the traits that make you unique are exactly what we’re looking for. Above all, we value individuals who share a genuine passion for technology, as that passion unites our members. Just be your self!",
         },
         {
             question: "What are the benefits of joining KTP?",
-            answer: "KTP offers a close-knit community of tech enthusiasts who support each other academically, professionally, and personally. Members gain access to career mentorship, interview preparation, resume reviews, and guidance on coursework. Our network spans from innovative startups to major tech companies, emphasizing that true networking is built on trust, camaraderie, and shared experiences.",
+            answer: "KTP offers a community of tech enthusiasts who support each other academically, professionally, and socially. Members gain access to career mentorship, interview preparation, resume workshops, and guidance on coursework. Our network spans from innovative startups to major tech companies and big banks!",
         },
         {
             question: "What majors are represented in KTP?",
-            answer: "KTP is composed of members from a wide range of academic backgrounds. While many are in computer science or the School of Information, we also have members studying creative writing, philosophy, business, women’s studies, entrepreneurship, and more. We strongly encourage students from all fields to apply!",
+            answer: "KTP is composed of members from a wide range of academic backgrounds. Many of our members study data science, computer science, and engineering. However, we have members of many disciplines including business, math, statistics, economics, pre-med, and more. We all just share a passion for technology!",
         },
         {
-            question: "What kind of social events does KTP host?",
-            answer: "KTP organizes a variety of events, with at least one sober and one non-sober event every month. Previous events have included barn dances, bowling nights, formal dinners, Smash Bros tournaments, and much more.",
+            question: "What kind of events does KTP host?",
+            answer: "KTP organizes a variety of social and professional events. Previous events have included hackathons, beach visits, formals, salsa dancing, pumpkin carving, and more! ",
         },
         {
             question: "How much time does the pledging process take?",
-            answer: "The time commitment for pledging depends on your level of involvement. Our process is designed to be manageable for most schedules. If you have questions or want to learn more about KTP before rush, feel free to email us at ktp-board@umich.edu or visit us at Festifall or Northfest.",
+            answer: "The time commitment for pledging depends on your level of involvement. Our process is designed to be manageable for most schedules. If you have questions or want to learn more about KTP before rush, feel free to reach out to an e-board member.",
         },
     ];
 
