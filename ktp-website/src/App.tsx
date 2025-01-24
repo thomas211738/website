@@ -10,8 +10,8 @@ import Error from "./pages/Error";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import ChatWidget from "./components/ChatWidget";
-import ChatbotProvider from "./contexts/ChatbotContext";
+// import ChatWidget from "./components/ChatWidget";
+// import ChatbotProvider from "./contexts/ChatbotContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -19,7 +19,7 @@ import { DataBaseDataContext } from "./contexts/DataBaseDataContext";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import BackToTop from "./components/ScrollTop";
-import { SnackbarProvider } from "notistack";
+// import { SnackbarProvider } from "notistack";
 
 function App() {
     //DB access for entire app
@@ -37,7 +37,7 @@ function App() {
                 setUserData(userResponse.data.data);
                 setPictureData(pictureResponse.data.data);
             } catch (error) {
-                // console.error("Error fetching data in App:", error);
+                console.error("Error fetching data in App:", error);
             }
         };
 
@@ -67,11 +67,11 @@ function App() {
             </main>
 
             {/* Chatbot */}
-            <SnackbarProvider>
+            {/* <SnackbarProvider>
                 <ChatbotProvider>
                     <ChatWidget />
                 </ChatbotProvider>
-            </SnackbarProvider>
+            </SnackbarProvider> */}
             {/* Footer at the bottom */}
             <Footer />
         </div>
