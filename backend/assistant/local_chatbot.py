@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     # Initializes the chatbot
     chatbot = KTPaul(top_k=int(args.top_k), memory=args.memory, verbose=args.verbose)
-    query = input("\nHi, I'm KTPaul! How can I help you?\n\n")
+    query = input("\nHi, I'm KTPaul! How can I help you?\n\nQuery:\n")
 
     # Runs the RAG interaction loop
     while True:
@@ -36,4 +36,4 @@ if __name__ == "__main__":
         if args.verbose:
             print("\nResponse:")
         print(response)
-        query = input("\n")
+        query = input("\nQuery:\n")
