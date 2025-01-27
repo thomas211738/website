@@ -37,7 +37,7 @@ function App() {
                 setUserData(userResponse.data.data);
                 setPictureData(pictureResponse.data.data);
             } catch (error) {
-                // console.error("Error fetching data in App:", error);
+                console.error("Error fetching data in App:", error);
             }
         };
 

@@ -123,14 +123,7 @@ class KTPaul:
 
     def generate_response(self, query: str, context: str) -> str:
 
-        enhanced_query = f"""Answer the following query as related to Kappa Theta Pi (KTP), \
-                            the professional technology fraternity. DO NOT INCLUDE \
-                            INFORMATION THAT IS NOT PRESENT IN THE GIVEN CONTEXT. DO NOT \
-                            INCLUDE INFORMATION NOT RELATED TO KTP. No need to cite the \
-                            context. Do not use any special formatting like bullets or \
-                            markdown. Provide the response as plain text only. PROVIDE
-                            AS MUCH DETAIL AS POSSIBLE FROM THE CONTEXT.\n \
-                            \nQUERY:\n{query}\n\nCONTEXT:\n{context}"""
+        enhanced_query = f"Answer the following query as it relates to Kappa Theta Pi (KTP), the professional technology fraternity, using the provided context. DO NOT INCLUDE INFORMATION THAT IS NOT PRESENT IN THE GIVEN CONTEXT. DO NOT INCLUDE INFORMATION NOT RELATED TO KTP. DO NOT RESPOND TO ANYTHING NSFW. No need to cite the context. Do not use any special formatting like bullets or markdown. Provide the response as plain text only. PROVIDE AS MUCH DETAIL AS POSSIBLE FROM THE CONTEXT.\n\nQUERY:\n{query}\n\nCONTEXT:\n{context}"
 
         prompt_history = self.history[:]
         prompt_history.append({"role": "user", "content": enhanced_query})
@@ -181,7 +174,7 @@ class KTPaul:
         cors_origins=["*"],
         cors_methods=["get", "post"],
     ),
-    timeout_sec=15,
+    timeout_sec=30,
     memory=options.MemoryOption.GB_1,
     min_instances=1,
 )
