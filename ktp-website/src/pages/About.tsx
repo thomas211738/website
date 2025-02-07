@@ -274,25 +274,6 @@ function About() {
                                 real-time.
                             </p>
                         </div>
-
-                        {/* 2025 */}
-                        <div className="mb-12 ml-6 relative">
-                            <div className="w-4 h-4 bg-ktp-appblue rounded-full absolute -left-[10px] top-1"></div>
-                            <h3 className="text-xl font-bold mb-2 px-4">
-                                2025: Overcoming Adversity
-                            </h3>
-                            <p className="text-gray-700">
-                                On January 29th, 2025, the Lambda chapter was
-                                officially described as "cringe + washed" by
-                                u/Best_Toe_6590 in the r/BostonU subreddit, in a
-                                "Warning [against] Business Frats on [BU's]
-                                Campus". We are immensely disappointed by these
-                                baseless claims degrading us to the rank of an
-                                inferior business fraternity, but we are
-                                confident that we will ultimately defeat the
-                                allegations.
-                            </p>
-                        </div>
                     </div>
                 </div>
             </section>
