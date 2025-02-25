@@ -185,22 +185,17 @@ function Rush() {
                     {/* Application Form Button */}
                     <div className="flex flex-col items-center">
                         <button
-                            className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded hover:bg-ktp-appblue hover:text-white transition duration-300 relative group"
+                            className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded transition duration-300 relative group opacity-50 cursor-not-allowed"
+                            disabled
                         >
-                            <a
-                                href="https://forms.gle/D8gxpJQ23iWVUWHf9"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Application Form{" "}
-                                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                                    &#8250;
-                                </span>
-                            </a>
+                            Application Form{" "}
+                            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                                &#8250;
+                            </span>
                         </button>
                         <div className="flex items-center mt-2">
-                            <p className="text-green-600">
-                                Applications Now Open
+                            <p className="text-red-600">
+                                Applications not open
                             </p>
                         </div>
                     </div>
