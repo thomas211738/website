@@ -48,6 +48,14 @@ function App() {
         <div className="flex flex-col min-h-screen">
             {/* Header at the top */}
             <Header />
+            {/* Google analytics, ask KIEFER */}
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDTMQKQPZ0"></script>
+            <script>
+            (window as any).dataLayer = (window as any).dataLayer || [];
+            function gtag(){(window as any).dataLayer.push(arguments)}
+            gtag('js', new Date());
+            gtag('config', 'G-PDTMQKQPZ0');
+            </script>
             {/* Main content area (grow to fill) */}
             <main className="flex-grow">
                 {/* Wrap Routes with DataBaseDataContext.Provider */}
