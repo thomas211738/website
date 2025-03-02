@@ -1,6 +1,9 @@
 import { useState } from "react";
 
+
 function Contact() {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -91,7 +94,7 @@ function Contact() {
       message,
     };
 
-    fetch("http://localhost:3000/api/email/send", {
+    fetch(`${backendUrl}/api/email/send`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

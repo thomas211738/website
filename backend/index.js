@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors({
   origin: [
     "https://www.ktpbostonu.com",
-    "website-swart-ten-95.vercel.app",
+    "https://website-swart-ten-95.vercel.app",
     "http://localhost:5173",
   ]
 }

@@ -1,5 +1,6 @@
 import Icons from "./Icons";
 import downloadonappstore from "../img/App/Download on App Store.png";
+import BeepBop from "../img/BeepBop.png";
 
 function Footer() {
     const menuItems = [
@@ -37,7 +38,7 @@ function Footer() {
         },
     ];
     return (
-        <footer className="bg-ktp-appblue text-white py-8">
+        <footer className="bg-ktp-appblue text-white py-8 relative">
             <div className="container max-w-4/5 md:max-w-[1000] mx-auto flex flex-wrap justify-around">
                 {/* Menu Section */}
                 <div className="m-4">
@@ -91,6 +92,14 @@ function Footer() {
                         </a>
                     </div>
                 </div>
+            </div>
+             {/*Beep bop*/}
+             <div className="absolute top-10 right-5 m-3 hidden md:block">
+                <img
+                    src={BeepBop}
+                    alt="Beep"
+                    className="h-[100px] w-[100px] transform rotate-[10deg]"
+                />
             </div>
 
             <div className="w-fit mx-auto mt-4 flex flex-col text-center">

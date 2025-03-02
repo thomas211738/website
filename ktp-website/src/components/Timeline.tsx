@@ -47,7 +47,7 @@ export function RushEvents({ events }: { events: RushEvent[] }) {
                   <Box display="flex" alignItems="center" gap={1}>
                     <AccessTimeIcon fontSize="small" />
                     <Typography variant="body2" sx={{ textAlign: 'left' }}>
-                      {new Date(event.Day).toLocaleDateString('en-US', {
+                      {new Date(event.Day+'T05:00:00Z').toLocaleDateString('en-US', {
                         weekday: 'long',
                         day: 'numeric',
                         month: 'long',

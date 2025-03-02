@@ -116,20 +116,10 @@ const Chatbot = () => {
                         fontSize="large"
                     />
                 </button>
-                <div className="flex">
-                    <h2 className="my-auto px-1 text-3xl text-white">KTPaul</h2>
-                    <span className="mt-auto px-1 text-lg text-ktp-lightgreen font-semibold uppercase rounded-lg">
-                        Beta
-                    </span>
-                </div>
-
+                <h2 className="my-auto px-1 text-3xl text-white">KTPaul</h2>
                 {/* Chatbot info menu */}
                 <ChatbotInfoMenu />
             </div>
-
-            <p className="w-fit mx-auto mt-4 text-red-500">
-                Experimental - please double check responses.
-            </p>
 
             {/* Chatbot drawer conversation history */}
             <div className={`mx-8 ${loading ? "mt-4" : "my-4"}`}>
@@ -236,6 +226,10 @@ const Chatbot = () => {
                     </div>
                 </div>
             )}
+
+            <p className="w-fit mx-auto my-4 text-xs">
+                KTPaul can make mistakes. Check important info.
+            </p>
 
             <div ref={messagesEndRef} />
         </div>
