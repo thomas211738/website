@@ -176,7 +176,7 @@ class KTPaul:
     ),
     timeout_sec=30,
     memory=options.MemoryOption.GB_1,
-    min_instances=1,
+    min_instances=0,
 )
 def rag_handler(req: https_fn.Request) -> https_fn.Response:
 
