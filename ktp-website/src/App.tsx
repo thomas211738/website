@@ -49,7 +49,7 @@ function App() {
             {/* Header at the top */}
             <Header />
             {/* Google analytics, ask KIEFER */}
-            <script
+            {/* <script
                 async
                 src="https://www.googletagmanager.com/gtag/js?id=G-PDTMQKQPZ0"
             ></script>
@@ -57,7 +57,7 @@ function App() {
                 (window as any).dataLayer = (window as any).dataLayer || [];
                 function gtag(){(window as any).dataLayer.push(arguments)}
                 gtag('js', new Date()); gtag('config', 'G-PDTMQKQPZ0');
-            </script>
+            </script> */}
             {/* Main content area (grow to fill) */}
             <main className="flex-grow">
                 {/* Wrap Routes with DataBaseDataContext.Provider */}
