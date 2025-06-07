@@ -3,6 +3,7 @@
 ## Table of Contents
 
 -   [Overview](#overview)
+-   [Deploying the Chatbot](#deploying-thechatbot)
 -   [Architecture](#architecture)
 -   [How to Run the Local Chatbot](#how-to-run-the-local-chatbot)
 -   [How to Run the Firebase Local Emulator Suite](#how-to-run-the-firebase-local-emulator-suite)
@@ -15,6 +16,46 @@ The chatbot is designed to be a helper for all those interested in learning
 about KTP. It is equipped with knowledge at the fraternity level and the chapter
 level. The generated output is typically accurate, but the responses should
 always be treated with caution.
+
+## Deploying the Chatbot
+
+The chatbot service is currently disabled on Firebase. It was previously
+deployed using free credits on Victor's personal Firebase account, but these
+credits expired. Furthermore, the project was migrated to the Firebase account
+associated with `ktplambdatechdev@gmail.com`. There are free credits available
+on this account, but the deployment decision has been left up to the brothers
+that maintain this project in the future.
+
+Complete the following steps to deploy the chatbot.
+
+1. Upgrade the payment plan from `Spark` to `Blaze` in the Firebase console.
+2. Navigate to `backend/assistant` and run `firebase login` in the terminal.
+3. Log in with the `ktplambdatechdev@gmail.com` Google account.
+4. Configure the parameters in the decorator for the `rag_handler` function in
+   `./functions/main.py`. The `timeout_sec` and `memory` parameters should
+   likely remain unchanged, but for the best user experience it makes sense to
+   set `min_instances=1` (this will cost ~$10 per month, hence the usage of free
+   credits for deployment). If `min_instances=0`, the Firebase function server
+   for the project will shut down after a short period of inactivity. Once the
+   server shuts down, the next request will have to cold start the server,
+   resulting in a latency of 60+ seconds. This leads to a terrible user
+   experience, which is why `min_instances=1` would be ideal.
+
+```
+@https_fn.on_request(
+    cors=options.CorsOptions(
+        cors_origins=["*"],
+        cors_methods=["get", "post"],
+    ),
+    timeout_sec=30,
+    memory=options.MemoryOption.GB_1,
+    min_instances=0,
+)
+```
+
+5. Run `firebase deploy --only functions` in the terminal.
+6. Uncomment out the lines and imports for the chatbot in
+   `ktp-website/src/App.tsx`.
 
 ## Architecture
 
@@ -63,19 +104,11 @@ following variables:
 The values for these variables can be found in the KTP Website google drive
 folder.
 
-### First Run Only
-
 1. Navigate to the directory located at `backend/assistant`.
-2. Run `python3 -m venv venv` in the terminal.
+2. Run `python3 -m venv venv` in the terminal (first run only).
 3. Run `source venv/bin/activate` in the terminal.
-4. Run `pip install -r requirements.txt` in the terminal.
+4. Run `pip install -r requirements.txt` in the terminal (first run only).
 5. Run `python local_chatbot.py` in the terminal.
-
-### Subsequent Runs
-
-1. Navigate to the directory located at `backend/assistant`.
-2. Run `source venv/bin/activate` in the terminal.
-3. Run `python local_chatbot.py` in the terminal.
 
 ### Script Arguments
 
@@ -168,34 +201,13 @@ following variables:
 The values for these variables can be found in the KTP Website google drive
 folder.
 
-### First Run Only
-
 1. Navigate to the directory located at `backend/assistant`.
-2. Run `python3 -m venv venv` in the terminal.
+2. Run `python3 -m venv venv` in the terminal (first run only).
 3. Run `source venv/bin/activate` in the terminal.
-4. Run `pip install -r requirements.txt` in the terminal.
-5. Run `python document_store.py` in the terminal.
-
-### Subsequent Runs
-
-1. Navigate to the directory located at `backend/assistant`.
-2. Run `source venv/bin/activate` in the terminal.
-3. Run `python document_store.py` in the terminal.
+4. Run `pip install -r requirements.txt` in the terminal (first run only).
+5. Run `python update_document_store.py` in the terminal.
 
 ## Future Improvements
-
-### Centralized Email Account for Services
-
-At the time of writing this, there is no centralized email that KTP Lambda
-Chapter can use to create accounts for services. The services integrated in the
-chatbot are all created using Victor's personal account, and need to be migrated
-once a centralized email is established.
-
--   `Firebase`: Deploys the chatbot api as a serverless function.
--   `Google Cloud`: Deploys the chatbot api as a serverless function.
--   `HuggingFace`: Hosts the embedding model and large language model utilized
-    in the RAG pipeline.
--   `Pinecone`: Stores the embedded context vectors.
 
 ### Improved Chatbot Agent Architecture
 
