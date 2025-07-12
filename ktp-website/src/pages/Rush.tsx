@@ -195,7 +195,7 @@ function Rush() {
                         </button>
                         <div className="flex items-center mt-2">
                             <p className="text-red-600">
-                                Applications not open
+                                Applications closed
                             </p>
                         </div>
                     </div>
