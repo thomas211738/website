@@ -1,49 +1,47 @@
-import dotenv from "dotenv";
-dotenv.config(); 
-import express from "express";
-import { PORT } from "./config.js";
-import mongoose from "mongoose";
-import cors from "cors";
-import usersRoute from "./routes/userRoutes.js";
-import websitePicsRoute from "./routes/websitePicsRoute.js";
-import emailRoute from "./routes/emailRoute.js";
-import eventsRoute from "./routes/eventsRoute.js";
+import { config } from 'dotenv';
+config();
+import express from 'express';
+import cors from 'cors';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import usersRoute from './routes/userRoutes.js';
+import eventsRoute from './routes/eventsRoute.js';
+import websitePicsRoute from './routes/websitePicsRoute.js';
+// import emailRoute from './routes/emailRoute.js'; Not working?
+import { onRequest } from 'firebase-functions/v2/https';
+
+// Firebase configuration (replace with your own config from Firebase Console)
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+};
+
+// Initialize Firebase
+const appFirebase = initializeApp(firebaseConfig);
+const db = getFirestore(appFirebase);
 
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: [
-    "https://www.ktpbostonu.com",
-    "https://website-swart-ten-95.vercel.app",
-    "http://localhost:5173",
-  ]
-}
-));
+app.use(cors());
 
-const mongoDBURL = process.env.mongoDBURL;
+const PORT = process.env.APP_PORT;
 
+// Pass the Firestore db instance to each route
+app.use('/users', usersRoute(db));
+app.use('/events', eventsRoute(db));
+app.use('/websitePics', websitePicsRoute(db));
+// app.use('/api/email', emailRoute); // No db needed
 
-app.use("/users", usersRoute);
-app.use("/websitePics", websitePicsRoute);
-app.use("/api/email", emailRoute);
-app.use("/events", eventsRoute);
-
-
-app.get("/", (request, response) => {
-  return response.status(234).send("NEW KTP WEBSITE!");
+app.get('/', (request, response) => {
+  return response.status(234).send('Welcome To the KTP App');
 });
-
 
 app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+  console.log(`App is listening to port: ${PORT}`);
 });
 
-
-mongoose
-  .connect(mongoDBURL)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("Error connecting to MongoDB", err);
-  });
+export const api = onRequest(app);
