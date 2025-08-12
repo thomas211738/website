@@ -1,4 +1,3 @@
-import React from 'react';
 import president from '../img/RChengWelcome.jpeg'; // Adjust the path as needed
 
 const PresidentialWelcome = () => {
