@@ -155,7 +155,7 @@ function Rush() {
                     <div className="mt-10 text-5xl font-sfpro font-bold mb-4">
                         Welcome to{" "}
                         <span className="bg-ktp-appblue text-white px-2 py-1 rounded inline-block leading-relaxed">
-                            Spring 2025
+                            Fall 2025
                         </span>{" "}
                         Rush!
                     </div>
