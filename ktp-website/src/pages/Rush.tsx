@@ -185,18 +185,43 @@ function Rush() {
                     {/* Application Form Button */}
                     <div className="flex flex-col items-center">
                         <button
-                            className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded transition duration-300 relative group opacity-50 cursor-not-allowed"
-                            disabled
+                            className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded hover:bg-ktp-appblue hover:text-white transition duration-300 relative group"
+                            
                         >
+                        <a
+                                href="https://forms.gle/r7XERieHVHAqo3fw5"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                             Application Form{" "}
                             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
                                 &#8250;
                             </span>
+                            </a>
                         </button>
                         <div className="flex items-center mt-2">
-                            <p className="text-red-600">
-                                Applications closed
-                            </p>
+                            <span className="flex items-center">
+                                <span
+                                    className="mr-2 w-2 h-2 rounded-full bg-green-600 animate-fade"
+                                    style={{
+                                        animation: "fadeInOut 1.5s infinite",
+                                    }}
+                                ></span>
+                                <p className="text-green-600">
+                                    Applications now open
+                                </p>
+                            </span>
+                            <style>
+                                {`
+                                    @keyframes fadeInOut {
+                                        0%, 100% { opacity: 0; }
+                                        50% { opacity: 1; }
+                                    }
+                                    .animate-fade {
+                                        animation: fadeInOut 1.5s infinite;
+                                    }
+                                `}
+                            </style>
                         </div>
                     </div>
                 </div>
