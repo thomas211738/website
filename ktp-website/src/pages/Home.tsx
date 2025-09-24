@@ -101,7 +101,10 @@ function Home() {
           </div>
         </div>
       </div>
-
+      
+      {/* PRESIDENT WELCOME SECTION */}
+      <PresidentialWelcome />
+      
       {/* NETWORK SECTION */}
       <section className="py-12 px-4 text-center">
         <h2 className="text-3xl sm:text-4xl font-black mb-6 text-ktp-appblue">Our Network</h2>
@@ -109,8 +112,7 @@ function Home() {
         <img src={network} alt="network" className="mb-10" />
       </section>
 
-      {/* PRESIDENT WELCOME SECTION */}
-      <PresidentialWelcome />
+      
       
       {/* KTP APP SECTION */}
       <section className="py-12 px-4">

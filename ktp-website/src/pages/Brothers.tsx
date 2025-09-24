@@ -314,25 +314,40 @@ function Brothers() {
             <h2 className="text-xl items-center text-center font-semibold mb-12 underline decoration-2 underline-offset-4">
               Kappa Theta Pi Alumni
             </h2>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-y-4 mx-auto max-w-6xl text-gray-700">
-              {alumniName.length > 0 ? (
-                alumniName.map((alumnus, index) => (
-                  <li
-                    key={`${alumnus._id}-${index}`}
-                    className="text-lg text-center font-bebasneue font-semibold"
-                  >
-                    {alumnus.FirstName} {alumnus.LastName}
-                  </li>
-                ))
-              ) : (
-                <p>Loading alumni...</p>
-              )}
-            </ul>
+            {alumniName.length === 0 ? (
+              <p>Loading alumni...</p>
+            ) : (
+              Object.entries(groupByClass(alumniName))
+          .sort(([classA], [classB]) => {
+            // Sort using the custom order defined in `letters` (most recent first)
+            const indexA = letters.indexOf(classA);
+            const indexB = letters.indexOf(classB);
+            return indexA - indexB;
+          })
+          .map(([className, alumni]) => (
+            <div key={className} className="mb-12">
+              {/* Class Section Header */}
+              <h3 className="text-lg text-black items-center text-center font-semibold mb-8 underline decoration-2 underline-offset-4">
+                {className === "Co-founder" ? "Founding" : className} Class
+              </h3>
+              <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-6 gap-x-4 mx-auto max-w-6xl text-gray-700">
+                {alumni.map((alumnus, index) => (
+            <li
+              key={`${alumnus._id}-${index}`}
+              className="text-lg text-center font-bebasneue font-semibold bg-gray-50 p-4 rounded-lg border hover:shadow-md transition-shadow duration-200"
+            >
+              {alumnus.FirstName} {alumnus.LastName}
+            </li>
+                ))}
+              </ul>
+            </div>
+          ))
+            )}
           </div>
         )}
-      </div> {/* Last Div for the brothers/eboard/alumni*/}
+            </div> {/* Last Div for the brothers/eboard/alumni*/}
 
-      {/* Last Div for the entire page */}
+            {/* Last Div for the entire page */}
     </div>
   );
 }
