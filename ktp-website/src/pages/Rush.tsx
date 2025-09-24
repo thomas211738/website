@@ -45,6 +45,7 @@ const FAQItem: React.FC<FAQItemProps> = ({
 );
 
 function Rush() {
+    const RUSH_OPEN = false; 
     const lenisRef = useRef<{
         lenis?: {
             on: (event: string, handler: (e: any) => void) => void;
@@ -185,16 +186,21 @@ function Rush() {
                     {/* Application Form Button */}
                     <div className="flex flex-col items-center">
                         <button
-                            className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded hover:bg-ktp-appblue hover:text-white transition duration-300 relative group"
-                            
+                            className={`bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded transition duration-300 relative group ${
+                                RUSH_OPEN 
+                                    ? 'hover:bg-ktp-appblue hover:text-white cursor-pointer' 
+                                    : 'opacity-50 cursor-not-allowed'
+                            }`}
+                            disabled={!RUSH_OPEN}
                         >
                         <a
-                                href="https://forms.gle/r7XERieHVHAqo3fw5"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                href={RUSH_OPEN ? "https://forms.gle/r7XERieHVHAqo3fw5" : undefined}
+                                target={RUSH_OPEN ? "_blank" : undefined}
+                                rel={RUSH_OPEN ? "noopener noreferrer" : undefined}
+                                className={RUSH_OPEN ? '' : 'pointer-events-none'}
                             >
                             Application Form{" "}
-                            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                            <span className={`inline-block transition-transform duration-300 ${RUSH_OPEN ? 'group-hover:translate-x-1' : ''}`}>
                                 &#8250;
                             </span>
                             </a>
@@ -202,13 +208,10 @@ function Rush() {
                         <div className="flex items-center mt-2">
                             <span className="flex items-center">
                                 <span
-                                    className="mr-2 w-2 h-2 rounded-full bg-green-600 animate-fade"
-                                    style={{
-                                        animation: "fadeInOut 1.5s infinite",
-                                    }}
+                                    className={`mr-2 w-2 h-2 rounded-full ${RUSH_OPEN ? 'bg-green-600 animate-fade' : 'bg-red-600'}`}
                                 ></span>
-                                <p className="text-green-600">
-                                    Applications now open
+                                <p className={`${RUSH_OPEN ? 'text-green-600' : 'text-red-600'}`}>
+                                    {RUSH_OPEN ? 'Application Open' : 'Application Closed'}
                                 </p>
                             </span>
                             <style>
