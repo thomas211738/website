@@ -4,6 +4,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ktplogo from "../img/KTPLogo.jpeg";
 import { Link } from "react-router-dom";
 
+
+  
 const pages = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
@@ -79,18 +81,7 @@ const Header = () => {
                     onClose={handleCloseNavMenu}
                 >
                     {pages.map((page, index) => (
-                        page.external ? (
-                            <a
-                                key={index}
-                                href={page.path}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block mx-4 my-2 text-black hover:text-ktp-appblue"
-                                onClick={handleCloseNavMenu}
-                            >
-                                {page.name}
-                            </a>
-                        ) : (
+                        
                             <Link
                                 key={index}
                                 className="block mx-4 my-2 text-black hover:text-ktp-appblue"
@@ -99,7 +90,6 @@ const Header = () => {
                             >
                                 {page.name}
                             </Link>
-                        )
                     ))}
                 </Menu>
             </div>
@@ -107,17 +97,7 @@ const Header = () => {
             {/* Regular navbar */}
             <div className="m-auto hidden sm:flex grow justify-center align-middle space-x-10">
                 {pages.map((page, index) => (
-                    page.external ? (
-                        <a
-                            key={index}
-                            href={page.path}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block my-2 text-base text-black hover:text-ktp-appblue"
-                        >
-                            {page.name}
-                        </a>
-                    ) : (
+                    
                         <Link
                             key={index}
                             className="block my-2 text-base text-black hover:text-ktp-appblue"
@@ -125,7 +105,7 @@ const Header = () => {
                         >
                             {page.name}
                         </Link>
-                    )
+                
                 ))}
             </div>
         </header>
