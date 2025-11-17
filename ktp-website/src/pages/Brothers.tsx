@@ -6,7 +6,7 @@ import { DataBaseDataContext } from "../contexts/DataBaseDataContext";
 
 // Example interface for a single user/brother object
 interface User {
-  _id: string;
+  id: string;
   Position?: number;
   Eboard_Position?: string;    // E-Board position (if any)
   websitePic?: string;         // ID linking to a Picture document
@@ -19,7 +19,7 @@ interface User {
 
 // Example interface for a single picture document
 interface Picture {
-  _id: string;
+  id: string;
   data: string;  // Base64-encoded image string
 }
 
@@ -127,11 +127,11 @@ function Brothers() {
         [2, 3, 5].includes(user.Position ?? 0)
       );
 
-      // Join users with pictures based on `_id` and `websitePic`
+      // Join users with pictures based on `id` and `websitePic`
       const brothersWithPictures = filteredUsers.map((user) => {
         let pictureUrl: string | null = null;
         // Find the matching picture
-        const userPicture = pictureData.find((pic) => pic._id === user.websitePic);
+        const userPicture = pictureData.find((pic) => pic.id === user.websitePic);
         if (userPicture) {
           // Base64-encoded image
           pictureUrl = `data:image/jpeg;base64,${userPicture.data}`;
@@ -229,7 +229,7 @@ function Brothers() {
                     <ul className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-5 mx-auto max-w-7xl text-gray-700">
                       {brothers.map((brother, index) => (
                         <li
-                          key={`${brother._id}-${index}`}
+                          key={`${brother.id}-${index}`}
                           className="flex flex-col items-center justify-between text-center space-y-2 "
                         >
                           {/* Profile Image and linkedIn */}
@@ -274,7 +274,7 @@ function Brothers() {
               {eboardName.length > 0 ? (
                 eboardName.map((member, index) => (
                   <li
-                    key={`${member._id}-${index}`}
+                    key={`${member.id}-${index}`}
                     className="flex flex-col items-center justify-between text-center space-y-0.2"
                   >
                     {/* Profile Image and linkedIn */}
@@ -314,40 +314,25 @@ function Brothers() {
             <h2 className="text-xl items-center text-center font-semibold mb-12 underline decoration-2 underline-offset-4">
               Kappa Theta Pi Alumni
             </h2>
-            {alumniName.length === 0 ? (
-              <p>Loading alumni...</p>
-            ) : (
-              Object.entries(groupByClass(alumniName))
-          .sort(([classA], [classB]) => {
-            // Sort using the custom order defined in `letters` (most recent first)
-            const indexA = letters.indexOf(classA);
-            const indexB = letters.indexOf(classB);
-            return indexA - indexB;
-          })
-          .map(([className, alumni]) => (
-            <div key={className} className="mb-12">
-              {/* Class Section Header */}
-              <h3 className="text-lg text-black items-center text-center font-semibold mb-8 underline decoration-2 underline-offset-4">
-                {className === "Co-founder" ? "Founding" : className} Class
-              </h3>
-              <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-6 gap-x-4 mx-auto max-w-6xl text-gray-700">
-                {alumni.map((alumnus, index) => (
-            <li
-              key={`${alumnus._id}-${index}`}
-              className="text-lg text-center font-bebasneue font-semibold bg-gray-50 p-4 rounded-lg border hover:shadow-md transition-shadow duration-200"
-            >
-              {alumnus.FirstName} {alumnus.LastName}
-            </li>
-                ))}
-              </ul>
-            </div>
-          ))
-            )}
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-y-4 mx-auto max-w-6xl text-gray-700">
+              {alumniName.length > 0 ? (
+                alumniName.map((alumnus, index) => (
+                  <li
+                    key={`${alumnus.id}-${index}`}
+                    className="text-lg text-center font-bebasneue font-semibold"
+                  >
+                    {alumnus.FirstName} {alumnus.LastName}
+                  </li>
+                ))
+              ) : (
+                <p>Loading alumni...</p>
+              )}
+            </ul>
           </div>
         )}
-            </div> {/* Last Div for the brothers/eboard/alumni*/}
+      </div> {/* Last Div for the brothers/eboard/alumni*/}
 
-            {/* Last Div for the entire page */}
+      {/* Last Div for the entire page */}
     </div>
   );
 }
