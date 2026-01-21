@@ -6,6 +6,7 @@ import { DataBaseDataContext } from "../contexts/DataBaseDataContext";
 
 // Example interface for a single user/brother object
 interface User {
+  WebsitePhotoURL: string;
   id: string;
   Position?: number;
   Eboard_Position?: string;    // E-Board position (if any)
